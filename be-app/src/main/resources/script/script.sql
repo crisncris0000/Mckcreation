@@ -1,3 +1,8 @@
+DROP TABLE IF EXISTS "history";
+DROP TABLE IF EXISTS "order";
+DROP TABLE IF EXISTS "category";
+DROP TABLE IF EXISTS "user";
+
 CREATE TABLE "user" (
 	id SERIAL PRIMARY KEY,
 	first_name VARCHAR(100) NOT NULL,
@@ -9,7 +14,7 @@ CREATE TABLE "user" (
 	updated_at TIMESTAMP NOT NULL
 );
 
-CREATE TABLE category (
+CREATE TABLE "category" (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(100) NOT NULL,
 	image BYTEA NOT NULL
@@ -32,7 +37,7 @@ CREATE TABLE "order" (
 			REFERENCES "order"(id)
 );
 
-CREATE TABLE history(
+CREATE TABLE "history"(
 	id SERIAL NOT NULL,
 	details TEXT NOT NULL,
 	total FLOAT NOT NULL,
