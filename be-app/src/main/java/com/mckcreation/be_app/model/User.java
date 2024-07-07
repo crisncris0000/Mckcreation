@@ -1,4 +1,4 @@
-package com.mckcreation.be_app.Model;
+package com.mckcreation.be_app.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "user")
+@Table(name = "\"user\"")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -30,6 +30,9 @@ public class User {
 
     @Column(name = "password")
     String password;
+
+    @Column(name = "is_admin")
+    Boolean isAdmin;
 
     @Column(name = "created_at")
     Date createdAt;
