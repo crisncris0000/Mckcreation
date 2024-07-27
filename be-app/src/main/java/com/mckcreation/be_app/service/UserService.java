@@ -14,11 +14,11 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    void saveUser(UserDTO userDTO);
+    User createUser(UserDTO userDTO);
 
-    void updateUser(int id, UserDTO userDTO);
+    User updateUser(int id, UserDTO userDTO);
 
-    void updateUserPassword(int id, UserDTO userDTO) throws Exception;
+    User updateUserPassword(int id, UserDTO userDTO) throws Exception;
 
     boolean userExists(String email);
 }

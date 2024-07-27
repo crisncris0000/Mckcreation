@@ -10,8 +10,6 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.net.PasswordAuthentication;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -46,7 +44,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-    public void saveUser(UserDTO userDTO) {
+    public User createUser(UserDTO userDTO) {
 
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
@@ -64,10 +62,12 @@ public class UserServiceImpl implements UserService {
                         .build();
 
         userRepository.save(user);
+
+        return user;
     }
 
     @Override
-    public void updateUser(int id, UserDTO userDTO) {
+    public User updateUser(int id, UserDTO userDTO) {
         Optional<User> optionalUser = userRepository.findById(id);
 
         User user = optionalUser.orElseThrow(() -> new EntityNotFoundException("User not found"));
@@ -82,15 +82,14 @@ public class UserServiceImpl implements UserService {
         user.setUpdatedAt(timestamp);
 
         userRepository.save(user);
+        return user;
     }
 
     @Override
-    public void updateUserPassword(int id, UserDTO userDTO) throws Exception {
+    public User updateUserPassword(int id, UserDTO userDTO) throws Exception {
         Optional<User> optionalUser = userRepository.findById(id);
 
         User user = optionalUser.orElseThrow(() -> new EntityNotFoundException("User not found"));
-
-        System.out.println(userDTO.getOldPassword());
 
         boolean matches = BCrypt.checkpw(userDTO.getOldPassword(), user.getPassword());
 
@@ -101,10 +100,12 @@ public class UserServiceImpl implements UserService {
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
 
-        user.setPassword(userDTO.getPassword());
+        String hashedPassword = BCrypt.hashpw(userDTO.getPassword(), BCrypt.gensalt());
+
+        user.setPassword(hashedPassword);
         user.setUpdatedAt(timestamp);
 
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public boolean userExists(String email) {

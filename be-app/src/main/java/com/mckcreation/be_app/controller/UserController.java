@@ -31,7 +31,7 @@ public class UserController {
             return new ResponseEntity<>("User already exists",HttpStatus.NOT_ACCEPTABLE);
         }
 
-        userService.saveUser(userDTO);
+        userService.createUser(userDTO);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

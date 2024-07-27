@@ -1,4 +1,5 @@
-DROP TABLE IF EXISTS "history";
+DROP TABLE IF EXISTS "placed_orders";
+DROP TABLE IF EXISTS "shipping";
 DROP TABLE IF EXISTS "order";
 DROP TABLE IF EXISTS "category";
 DROP TABLE IF EXISTS "user";
@@ -37,11 +38,24 @@ CREATE TABLE "order" (
 			REFERENCES "order"(id)
 );
 
-CREATE TABLE "history"(
+CREATE TABLE "shipping" (
+	id SERIAL PRIMARY KEY,
+	address VARCHAR(255) NOT NULL,
+	state VARCHAR(255) NOT NULL,
+	city VARCHAR(255) NOT NULL,
+	zip_code VARCHAR(10)
+);
+
+CREATE TABLE "placed_orders" (
 	id SERIAL NOT NULL,
-	details TEXT NOT NULL,
+	order_details TEXT NOT NULL,
 	total FLOAT NOT NULL,
 	status VARCHAR(100) NOT NULL,
+	shipping_id INT NOT NULL,
 	created_at TIMESTAMP NOT NULL,
-	updated_at TIMESTAMP NOT NULL
+	updated_at TIMESTAMP NOT NULL,
+
+	CONSTRAINT fk_shipping
+		FOREIGN KEY (shipping_id)
+			REFERENCES "shipping"(id)
 );
