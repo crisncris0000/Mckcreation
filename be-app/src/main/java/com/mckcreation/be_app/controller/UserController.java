@@ -33,7 +33,7 @@ public class UserController {
 
         userService.createUser(userDTO);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -52,11 +52,11 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> updateUser(@PathVariable int id, @RequestBody UserDTO userDTO) {
 
         userService.updateUser(id, userDTO);
 
-        return new ResponseEntity<>("Updated User", HttpStatus.OK);
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
     @PutMapping("/update-password/{id}")

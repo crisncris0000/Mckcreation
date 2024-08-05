@@ -61,9 +61,7 @@ public class UserServiceImpl implements UserService {
                         .updatedAt(timestamp)
                         .build();
 
-        userRepository.save(user);
-
-        return user;
+       return userRepository.save(user);
     }
 
     @Override
@@ -81,8 +79,7 @@ public class UserServiceImpl implements UserService {
         user.setIsAdmin(userDTO.getIsAdmin());
         user.setUpdatedAt(timestamp);
 
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user);
     }
 
     @Override
