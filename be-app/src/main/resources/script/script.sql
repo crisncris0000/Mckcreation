@@ -34,7 +34,7 @@ CREATE TABLE "order" (
 	CONSTRAINT fk_user 
 		FOREIGN KEY(user_id)
 			REFERENCES "user"(id),
-	CONSTRAINT fk_catrgory
+	CONSTRAINT fk_category
 		FOREIGN KEY(category_id)
 			REFERENCES "order"(id)
 );
