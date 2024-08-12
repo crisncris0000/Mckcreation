@@ -19,7 +19,7 @@ CREATE TABLE "category" (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(100) NOT NULL,
     image_data BYTEA NOT NULL,
-    mime_type VARCHAR(255) NOT NULL,
+    mime_type VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE "order" (

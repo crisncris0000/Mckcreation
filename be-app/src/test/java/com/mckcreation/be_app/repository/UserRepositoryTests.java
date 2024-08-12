@@ -30,7 +30,7 @@ public class UserRepositoryTests {
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
 
-        User savedUser = User.builder()
+        User user = User.builder()
                 .email(email)
                 .firstName("Christopher")
                 .lastName("Rivera")
@@ -40,10 +40,10 @@ public class UserRepositoryTests {
                 .updatedAt(timestamp)
                 .build();
 
-        User user = userRepository.save(savedUser);
+        User savedUser = userRepository.save(user);
 
-        Assertions.assertThat(user).isNotNull();
-        Assertions.assertThat(user.getEmail()).isEqualTo(email);
+        Assertions.assertThat(savedUser).isNotNull();
+        Assertions.assertThat(savedUser.getEmail()).isEqualTo(email);
     }
 
     @Test

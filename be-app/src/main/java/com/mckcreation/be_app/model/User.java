@@ -15,8 +15,8 @@ import java.util.Date;
 public class User {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     int id;
 
     @Column(name = "first_name")
