@@ -2,16 +2,19 @@ package com.mckcreation.be_app.dto;
 
 import lombok.*;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class CategoryDTO {
+public class OrderDTO {
 
-    String name;
+    String customize;
 
-    private byte[] imageData;
+    float price;
 
-    private String mimeType;
+    int categoryID;
+
+    int userID;
 }
