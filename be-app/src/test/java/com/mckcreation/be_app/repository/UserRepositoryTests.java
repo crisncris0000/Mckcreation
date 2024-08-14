@@ -92,7 +92,7 @@ public class UserRepositoryTests {
         userRepository.save(savedUser);
         userRepository.delete(savedUser);
 
-        Optional<User> optionalUser = userRepository.findById(savedUser.getId());
+        Optional<User> optionalUser = userRepository.findById((int) savedUser.getId());
 
         Assertions.assertThat(optionalUser).isEmpty();
 

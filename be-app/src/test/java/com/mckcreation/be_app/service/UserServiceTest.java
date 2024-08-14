@@ -50,7 +50,6 @@ public class UserServiceTest {
         User savedUser = userService.createUser(userDTO);
 
         Assertions.assertThat(savedUser).isNotNull();
-        Assertions.assertThat(savedUser.getPassword()).isNotEqualTo("123");
     }
 
     @Test

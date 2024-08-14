@@ -9,7 +9,7 @@ public interface OrderService {
 
     Order createUserOrder(OrderDTO orderDTO);
 
-    List<Order> getUserOrders(int id);
+    List<Order> getUserOrders(long id);
 
-    void deleteOrder(int orderID, int userID);
+    void deleteOrder(long orderID, long userID);
 }

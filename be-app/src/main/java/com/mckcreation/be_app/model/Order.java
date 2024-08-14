@@ -17,7 +17,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    int id;
+    long id;
 
     @Column(name = "customize")
     String customize;
@@ -25,7 +25,7 @@ public class Order {
     @Column(name = "price")
     float price;
 
-    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "categoryID", referencedColumnName = "id")
     Category category;
@@ -38,7 +38,7 @@ public class Order {
     @Column(name = "created_at")
     Date createdAt;
 
-    @Column(name = "updated_aat")
+    @Column(name = "updated_at")
     Date updatedAt;
 
 }

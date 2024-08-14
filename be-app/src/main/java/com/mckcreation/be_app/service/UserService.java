@@ -16,9 +16,9 @@ public interface UserService {
 
     User createUser(UserDTO userDTO);
 
-    User updateUser(int id, UserDTO userDTO);
+    User updateUser(long id, UserDTO userDTO);
 
-    User updateUserPassword(int id, UserDTO userDTO) throws Exception;
+    User updateUserPassword(long id, UserDTO userDTO) throws Exception;
 
     boolean userExists(String email);
 }

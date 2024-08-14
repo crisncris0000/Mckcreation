@@ -17,7 +17,7 @@ public class PlacedOrders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    int id;
+    long id;
 
     @Column(name = "order_details")
     String orderDetails;

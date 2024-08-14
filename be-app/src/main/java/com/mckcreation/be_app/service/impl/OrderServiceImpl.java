@@ -35,11 +35,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order createUserOrder(OrderDTO orderDTO) {
 
-        Optional<User> optionalUser = userRepository.findById(orderDTO.getUserID());
+        Optional<User> optionalUser = userRepository.findById((int) orderDTO.getUserID());
 
         User user = optionalUser.orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        Optional<Category> optionalCategory = categoryRepository.findById(orderDTO.getCategoryID());
+        Optional<Category> optionalCategory = categoryRepository.findById((int) orderDTO.getCategoryID());
 
         Category category = optionalCategory.orElseThrow(() -> new EntityNotFoundException("Category not found"));
 
@@ -59,12 +59,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getUserOrders(int id) {
-        return orderRepository.getUserOrders(id);
+    public List<Order> getUserOrders(long id) {
+        return orderRepository.getUserOrders((int) id);
     }
 
     @Override
-    public void deleteOrder(int orderID, int userID) {
-        orderRepository.deleteOrder(orderID, userID);
+    public void deleteOrder(long orderID, long userID) {
+        orderRepository.deleteOrder((int) orderID, (int) userID);
     }
 }

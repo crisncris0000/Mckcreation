@@ -65,8 +65,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(int id, UserDTO userDTO) {
-        Optional<User> optionalUser = userRepository.findById(id);
+    public User updateUser(long id, UserDTO userDTO) {
+        Optional<User> optionalUser = userRepository.findById((int) id);
 
         User user = optionalUser.orElseThrow(() -> new EntityNotFoundException("User not found"));
 
@@ -83,8 +83,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUserPassword(int id, UserDTO userDTO) throws Exception {
-        Optional<User> optionalUser = userRepository.findById(id);
+    public User updateUserPassword(long id, UserDTO userDTO) throws Exception {
+        Optional<User> optionalUser = userRepository.findById((int) id);
 
         User user = optionalUser.orElseThrow(() -> new EntityNotFoundException("User not found"));
 

@@ -14,7 +14,7 @@ public class OrderDTO {
 
     float price;
 
-    int categoryID;
+    long categoryID;
 
-    int userID;
+    long userID;
 }
