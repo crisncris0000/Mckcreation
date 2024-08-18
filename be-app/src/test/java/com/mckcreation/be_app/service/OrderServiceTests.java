@@ -26,7 +26,7 @@ import java.util.Optional;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class OrderServiceTest {
+public class OrderServiceTests {
 
     @Mock
     OrderRepository orderRepository;

@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-public class OrderRepositoryTest {
+public class OrderRepositoryTests {
 
     OrderRepository orderRepository;
     UserRepository userRepository;
@@ -34,7 +34,7 @@ public class OrderRepositoryTest {
 
 
     @Autowired
-    public OrderRepositoryTest(OrderRepository orderRepository, UserRepository userRepository,
+    public OrderRepositoryTests(OrderRepository orderRepository, UserRepository userRepository,
                                CategoryRepository categoryRepository, EntityManager entityManager) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;

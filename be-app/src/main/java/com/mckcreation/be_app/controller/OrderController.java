@@ -21,6 +21,14 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    @PostMapping("/create")
+    public ResponseEntity<?> createOrder(@RequestBody OrderDTO orderDTO) {
+
+       Order order = orderService.createUserOrder(orderDTO);
+
+        return new ResponseEntity<>(order, HttpStatus.CREATED);
+    }
+
     @GetMapping("/get-orders/{id}")
     public ResponseEntity<?> getUserOrders(@PathVariable int id) {
 

@@ -33,17 +33,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 public class UserControllerTests {
 
     @Autowired
-    private MockMvc mockMvc;
+    MockMvc mockMvc;
 
     @MockBean
     UserService userService;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    ObjectMapper objectMapper;
 
-    private UserDTO userDTO;
+    UserDTO userDTO;
 
-    private User user;
+    User user;
 
     @BeforeEach
     public void init() {
