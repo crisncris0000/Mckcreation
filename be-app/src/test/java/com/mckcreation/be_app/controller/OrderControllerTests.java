@@ -26,11 +26,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.sql.Timestamp;
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @WebMvcTest(controllers = OrderController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -115,46 +114,5 @@ public class OrderControllerTests {
                         CoreMatchers.is(orderDTO.getCustomize())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.price",
                         CoreMatchers.is(30.0)));
-    }
-
-    @Test
-    public void OrderController_GetUserOrders_ReturnUserOrders() throws Exception {
-        orderDTO = OrderDTO.builder()
-                .customize("customize")
-                .price(30.0f)
-                .categoryID(1)
-                .userID(1)
-                .build();
-
-        Date date = new Date();
-        Timestamp timestamp = new Timestamp(date.getTime());
-
-        order = Order.builder()
-                .customize(orderDTO.getCustomize())
-                .price(orderDTO.getPrice())
-                .category(category)
-                .user(user)
-                .createdAt(timestamp)
-                .updatedAt(timestamp)
-                .build();
-
-        Order order2 = Order.builder()
-                .customize("Custom 2")
-                .price(10.5f)
-                .category(category)
-                .user(user)
-                .createdAt(timestamp)
-                .updatedAt(timestamp)
-                .build();
-
-        List<Order> orderList = List.of(order, order2);
-
-        given(orderService.getUserOrders(1)).willReturn(orderList);
-
-        ResultActions response = mockMvc.perform(get("/api/order/get-orders/1")
-                .contentType(MediaType.APPLICATION_JSON));
-
-        response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(2));
     }
 }

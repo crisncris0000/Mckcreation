@@ -39,4 +39,5 @@ public class User {
 
     @Column(name = "updated_at")
     Date updatedAt;
+
 }

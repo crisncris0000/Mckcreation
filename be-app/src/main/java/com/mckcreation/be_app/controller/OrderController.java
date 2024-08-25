@@ -37,10 +37,10 @@ public class OrderController {
         return new ResponseEntity<>(orderList, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete-order")
-    public ResponseEntity<?> deleteUserOrder(@RequestBody OrderDTO orderDTO) {
+    @DeleteMapping("/delete-order/{orderID}/{userID}")
+    public ResponseEntity<?> deleteUserOrder(@PathVariable int orderID, @PathVariable int userID) {
 
-        orderService.deleteOrder(orderDTO.getCategoryID(), orderDTO.getUserID());
+        orderService.deleteOrder(orderID, userID);
 
         return new ResponseEntity<>("Deleted order", HttpStatus.OK);
     }
