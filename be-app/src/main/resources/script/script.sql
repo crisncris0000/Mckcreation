@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS "placed_orders";
+DROP TABLE IF EXISTS "placed_order";
 DROP TABLE IF EXISTS "shipping";
 DROP TABLE IF EXISTS "order";
 DROP TABLE IF EXISTS "category";
@@ -47,7 +47,7 @@ CREATE TABLE "shipping" (
 	zip_code VARCHAR(10)
 );
 
-CREATE TABLE "placed_orders" (
+CREATE TABLE "placed_order" (
 	id SERIAL NOT NULL,
 	order_details TEXT NOT NULL,
 	total FLOAT NOT NULL,
