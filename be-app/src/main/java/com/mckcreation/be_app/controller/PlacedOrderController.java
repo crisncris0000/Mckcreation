@@ -28,7 +28,7 @@ public class PlacedOrderController {
         return new ResponseEntity<>(placedOrders, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get-placed-orders/{id}")
     public ResponseEntity<?> getUserPlacedOrders(@PathVariable int id) {
         List<PlacedOrder> placedOrders = placedOrderService.getUserPlacedOrders(id);
 
