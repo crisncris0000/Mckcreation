@@ -18,17 +18,17 @@ public class ShippingController {
         this.shippingService = shippingService;
     }
 
-    @GetMapping("/get-user-shipping/{id}}")
+    @GetMapping("/get-user-shipping/{id}")
     public ResponseEntity<?> getUserShipping(@PathVariable("id") int id) {
         Shipping shipping = shippingService.getUserShipping(id);
 
         return new ResponseEntity<>(shipping, HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateUserShipping(@PathVariable("id") int id, @RequestBody ShippingDTO shippingDTO) {
+    @PostMapping("/create")
+    public ResponseEntity<?> saveOrUpdateShipping(@RequestBody ShippingDTO shippingDTO) {
 
-        Shipping shipping = shippingService.updateUserShipping(id, shippingDTO);
+        Shipping shipping = shippingService.saveOrUpdateUserShipping(shippingDTO);
 
         return new ResponseEntity<>(shipping, HttpStatus.OK);
     }

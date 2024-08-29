@@ -7,5 +7,5 @@ public interface ShippingService {
 
     Shipping getUserShipping(int userID);
 
-    Shipping updateUserShipping(int id, ShippingDTO shippingDTO);
+    Shipping saveOrUpdateUserShipping(ShippingDTO shippingDTO);
 }

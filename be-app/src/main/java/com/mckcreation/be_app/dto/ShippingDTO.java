@@ -17,4 +17,6 @@ public class ShippingDTO {
     String city;
 
     int zipCode;
+
+    int userID;
 }
