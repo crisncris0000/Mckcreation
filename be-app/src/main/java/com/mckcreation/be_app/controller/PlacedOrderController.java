@@ -1,14 +1,14 @@
 package com.mckcreation.be_app.controller;
 
+import com.mckcreation.be_app.dto.PlacedOrderDTO;
 import com.mckcreation.be_app.model.PlacedOrder;
+import com.mckcreation.be_app.model.Shipping;
 import com.mckcreation.be_app.service.PlacedOrderService;
+import com.mckcreation.be_app.service.ShippingService;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,9 +17,11 @@ import java.util.List;
 public class PlacedOrderController {
 
     PlacedOrderService placedOrderService;
+    ShippingService shippingService;
 
-    public PlacedOrderController(PlacedOrderService placedOrderService) {
+    public PlacedOrderController(PlacedOrderService placedOrderService, ShippingService shippingService) {
         this.placedOrderService = placedOrderService;
+        this.shippingService = shippingService;
     }
 
     @GetMapping("/get-all")
@@ -33,6 +35,18 @@ public class PlacedOrderController {
         List<PlacedOrder> placedOrders = placedOrderService.getUserPlacedOrders(id);
 
         return new ResponseEntity<>(placedOrders, HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createPlacedOrder(@RequestBody PlacedOrderDTO placedOrderDTO) {
+
+        Shipping shipping = shippingService.saveOrUpdateUserShipping(placedOrderDTO.getShippingDTO());
+
+        placedOrderDTO.setShipping(shipping);
+
+        PlacedOrder placedOrder = placedOrderService.createPlacedOrder(placedOrderDTO);
+
+        return new ResponseEntity<>(placedOrder,HttpStatus.CREATED);
     }
 
 }
