@@ -122,7 +122,7 @@ public class OrderRepositoryTests {
         entityManager.clear();
 
 
-        List<Order> orders = orderRepository.getUserOrders((int) user.getId());
+        List<Order> orders = orderRepository.findUserOrders((int) user.getId());
 
         Assertions.assertThat(orders.size()).isEqualTo(2);
     }

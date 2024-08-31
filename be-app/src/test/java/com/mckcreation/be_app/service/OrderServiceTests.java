@@ -132,7 +132,7 @@ public class OrderServiceTests {
         List<Order> orderList = List.of(order, order2);
 
 
-        when(orderRepository.getUserOrders(1)).thenReturn(orderList);
+        when(orderRepository.findUserOrders(1)).thenReturn(orderList);
 
         List<Order> orders = orderService.getUserOrders(1);
 

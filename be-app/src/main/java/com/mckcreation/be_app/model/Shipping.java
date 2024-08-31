@@ -29,4 +29,9 @@ public class Shipping {
     @Column(name = "zip_code")
     int zipCode;
 
+    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "userID", referencedColumnName = "id")
+    User user;
+
 }

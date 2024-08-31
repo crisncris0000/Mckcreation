@@ -51,10 +51,12 @@ public class UserServiceImpl implements UserService {
 
         String hashed = BCrypt.hashpw(userDTO.getPassword(), BCrypt.gensalt());
 
+        String email = userDTO.getEmail().toLowerCase();
+
         User user = User.builder()
                         .firstName(userDTO.getFirstName())
                         .lastName(userDTO.getLastName())
-                        .email(userDTO.getEmail())
+                        .email(email)
                         .password(hashed)
                         .isAdmin(false)
                         .createdAt(timestamp)

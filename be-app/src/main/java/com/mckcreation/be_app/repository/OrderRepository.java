@@ -13,8 +13,8 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer> {
 
-    @Query("SELECT order FROM Order order WHERE order.user.id = :id")
-    List<Order> getUserOrders(@Param("id") int id);
+    @Query("SELECT order FROM Order order WHERE order.user.id = :userID")
+    List<Order> findUserOrders(@Param("userID") int userID);
 
     @Transactional
     @Modifying
