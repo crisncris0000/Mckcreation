@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS "placed_orders";
+DROP TABLE IF EXISTS "placed_order";
 DROP TABLE IF EXISTS "shipping";
 DROP TABLE IF EXISTS "order";
 DROP TABLE IF EXISTS "category";
@@ -44,10 +44,15 @@ CREATE TABLE "shipping" (
 	address VARCHAR(255) NOT NULL,
 	state VARCHAR(255) NOT NULL,
 	city VARCHAR(255) NOT NULL,
-	zip_code VARCHAR(10)
+	zip_code VARCHAR(10) NOT NULL,
+	user_id INT,
+	
+	CONSTRAINT fk_user 
+		FOREIGN KEY(user_id)
+			REFERENCES "user"(id)
 );
 
-CREATE TABLE "placed_orders" (
+CREATE TABLE "placed_order" (
 	id SERIAL NOT NULL,
 	order_details TEXT NOT NULL,
 	total FLOAT NOT NULL,

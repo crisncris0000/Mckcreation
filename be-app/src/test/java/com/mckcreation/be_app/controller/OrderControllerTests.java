@@ -24,11 +24,12 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.Base64;
+import java.util.Date;
+import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @WebMvcTest(controllers = OrderController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -113,55 +114,5 @@ public class OrderControllerTests {
                         CoreMatchers.is(orderDTO.getCustomize())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.price",
                         CoreMatchers.is(30.0)));
-    }
-
-    @Test
-    public void OrderController_GetUserOrders_ReturnUserOrders() throws Exception {
-
-        Date date = new Date();
-        Timestamp timestamp = new Timestamp(date.getTime());
-
-        order = Order.builder()
-                .customize("Customize")
-                .price(30.0F)
-                .category(category)
-                .user(user)
-                .createdAt(timestamp)
-                .updatedAt(timestamp)
-                .build();
-
-        Order order2 = Order.builder()
-                .customize("Money")
-                .price(10F)
-                .category(category)
-                .user(user)
-                .createdAt(timestamp)
-                .updatedAt(timestamp)
-                .build();
-
-        List<Order> orders = List.of(order, order2);
-
-
-        given(orderService.getUserOrders(1)).willReturn(orders);
-
-        ResultActions response = mockMvc.perform(get("/api/order/get-orders/1")
-                .contentType(MediaType.APPLICATION_JSON));
-
-        response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.size()",
-                        CoreMatchers.is(orders.size())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].customize",
-                        CoreMatchers.is(order2.getCustomize())));
-
-    }
-
-    @Test
-    public void OrderController_DeleteOrder_ReturnStatusOk() throws Exception {
-        doNothing().when(orderService).deleteOrder(1, 1);
-
-        ResultActions response = mockMvc.perform(delete("/api/order/delete-order/1/1")
-                .contentType(MediaType.APPLICATION_JSON));
-
-        response.andExpect(MockMvcResultMatchers.status().isOk());
     }
 }

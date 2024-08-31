@@ -31,7 +31,6 @@ public class Shipping {
 
     @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "userID", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     User user;
-
 }

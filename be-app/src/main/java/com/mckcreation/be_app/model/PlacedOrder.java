@@ -6,13 +6,13 @@ import lombok.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "placed_orders")
+@Table(name = "placed_order")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class PlacedOrders {
+public class PlacedOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
