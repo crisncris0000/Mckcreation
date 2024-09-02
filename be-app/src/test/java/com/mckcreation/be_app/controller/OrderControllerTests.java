@@ -42,12 +42,6 @@ public class OrderControllerTests {
     @MockBean
     OrderService orderService;
 
-    @Mock
-    UserRepository userRepository;
-
-    @Mock
-    CategoryRepository categoryRepository;
-
     @Autowired
     ObjectMapper objectMapper;
 

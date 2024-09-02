@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
@@ -32,9 +33,6 @@ public class PlacedOrderServiceTests {
     @Mock
     UserRepository userRepository;
 
-    @Mock
-    ShippingRepository shippingRepository;
-
     @InjectMocks
     PlacedOrderServiceImpl placedOrderService;
 
@@ -46,11 +44,15 @@ public class PlacedOrderServiceTests {
 
     PlacedOrderDTO placedOrderDTO;
 
+    Date date;
+
+    Timestamp timestamp;
+
     @BeforeEach
     public void init() {
 
-        Date date = new Date();
-        Timestamp timestamp = new Timestamp(date.getTime());
+        date = new Date();
+        timestamp = new Timestamp(date.getTime());
 
         user = User.builder()
                 .email("Christopherrivera384@gmail.com")
@@ -73,8 +75,6 @@ public class PlacedOrderServiceTests {
 
     @Test
     public void PlacedOrderService_CreatePlacedOrder_ReturnPlacedOrder() {
-        Date date = new Date();
-        Timestamp timestamp = new Timestamp(date.getTime());
 
         placedOrderDTO = PlacedOrderDTO.builder()
                 .details("order details")
@@ -90,6 +90,8 @@ public class PlacedOrderServiceTests {
                 .status("Shipping")
                 .user(user)
                 .shipping(shipping)
+                .createdAt(timestamp)
+                .updatedAt(timestamp)
                 .build();
 
         when(userRepository.findById(1)).thenReturn(Optional.ofNullable(user));
@@ -98,5 +100,70 @@ public class PlacedOrderServiceTests {
         placedOrder = placedOrderService.createPlacedOrder(placedOrderDTO);
 
         Assertions.assertThat(placedOrder).isNotNull();
+        Assertions.assertThat(placedOrder.getTotal()).isEqualTo(placedOrderDTO.getTotal());
+    }
+
+    @Test
+    public void PlacedOrderService_GetPlacedOrder_ReturnPlacedOrder() {
+
+        placedOrder = PlacedOrder.builder()
+                .orderDetails("Details")
+                .total(159.5f)
+                .status("Shipping")
+                .user(user)
+                .shipping(shipping)
+                .createdAt(timestamp)
+                .updatedAt(timestamp)
+                .build();
+
+        PlacedOrder placedOrder2 = PlacedOrder.builder()
+                .orderDetails("More details")
+                .total(159.5f)
+                .status("Completed")
+                .user(user)
+                .shipping(shipping)
+                .createdAt(timestamp)
+                .updatedAt(timestamp)
+                .build();
+
+        when(placedOrderRepository.findAll()).thenReturn(List.of(placedOrder, placedOrder2));
+
+
+        List<PlacedOrder> placedOrders = placedOrderService.getPlacedOrders();
+
+        Assertions.assertThat(placedOrders).isNotNull();
+        Assertions.assertThat(placedOrders.size()).isEqualTo(2);
+
+    }
+
+    @Test
+    public void PlacedOrderService_GetUserPlacedOrder_ReturnUserPlacedOrder() {
+        placedOrder = PlacedOrder.builder()
+                .orderDetails("Details")
+                .total(159.5f)
+                .status("Shipping")
+                .user(user)
+                .shipping(shipping)
+                .createdAt(timestamp)
+                .updatedAt(timestamp)
+                .build();
+
+        PlacedOrder placedOrder2 = PlacedOrder.builder()
+                .orderDetails("More details")
+                .total(159.5f)
+                .status("Completed")
+                .user(user)
+                .shipping(shipping)
+                .createdAt(timestamp)
+                .updatedAt(timestamp)
+                .build();
+
+        when(placedOrderRepository.getUserPlacedOrders(1)).thenReturn(List.of(placedOrder, placedOrder2));
+
+
+        List<PlacedOrder> placedOrders = placedOrderService.getUserPlacedOrders(1);
+
+        Assertions.assertThat(placedOrders).isNotNull();
+        Assertions.assertThat(placedOrders.size()).isEqualTo(2);
     }
 }

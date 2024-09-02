@@ -5,6 +5,7 @@ import com.mckcreation.be_app.model.PlacedOrder;
 import com.mckcreation.be_app.model.Shipping;
 import com.mckcreation.be_app.service.PlacedOrderService;
 import com.mckcreation.be_app.service.ShippingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class PlacedOrderController {
     PlacedOrderService placedOrderService;
     ShippingService shippingService;
 
+    @Autowired
     public PlacedOrderController(PlacedOrderService placedOrderService, ShippingService shippingService) {
         this.placedOrderService = placedOrderService;
         this.shippingService = shippingService;
