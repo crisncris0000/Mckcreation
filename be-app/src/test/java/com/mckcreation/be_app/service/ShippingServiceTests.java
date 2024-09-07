@@ -49,7 +49,7 @@ public class ShippingServiceTests {
                 .firstName("Christopher")
                 .lastName("Rivera")
                 .password("123")
-                .isAdmin(false)
+                .role("USER")
                 .createdAt(timestamp)
                 .updatedAt(timestamp)
                 .build();

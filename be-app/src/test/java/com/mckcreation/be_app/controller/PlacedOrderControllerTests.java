@@ -1,29 +1,33 @@
 package com.mckcreation.be_app.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.mckcreation.be_app.dto.PlacedOrderDTO;
 import com.mckcreation.be_app.model.PlacedOrder;
 import com.mckcreation.be_app.model.Shipping;
 import com.mckcreation.be_app.model.User;
-import com.mckcreation.be_app.service.OrderService;
+import com.mckcreation.be_app.security.service.JwtService;
 import com.mckcreation.be_app.service.PlacedOrderService;
+import com.mckcreation.be_app.service.ShippingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
-@WebMvcTest(controllers = PlacedOrder.class)
+@WebMvcTest(controllers = PlacedOrderController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
 public class PlacedOrderControllerTests {
@@ -34,8 +38,11 @@ public class PlacedOrderControllerTests {
     @MockBean
     PlacedOrderService placedOrderService;
 
-    @Autowired
-    ObjectMapper objectMapper;
+    @MockBean
+    ShippingService shippingService;
+
+    @MockBean
+    JwtService jwtService;
 
     PlacedOrderDTO placedOrderDTO;
 
@@ -59,7 +66,7 @@ public class PlacedOrderControllerTests {
                 .firstName("Christopher")
                 .lastName("Rivera")
                 .password("123")
-                .isAdmin(false)
+                .role("USER")
                 .createdAt(timestamp)
                 .updatedAt(timestamp)
                 .build();
@@ -82,7 +89,7 @@ public class PlacedOrderControllerTests {
     }
 
     @Test
-    public void PlacedOrderController_GetPlacedOrders_ReturnPlacedOrders() {
+    public void PlacedOrderController_GetPlacedOrders_ReturnPlacedOrders() throws Exception {
         placedOrder = PlacedOrder.builder()
                 .orderDetails("Details")
                 .total(159.5f)
@@ -104,6 +111,10 @@ public class PlacedOrderControllerTests {
                 .build();
 
         given(placedOrderService.getPlacedOrders()).willReturn(List.of(placedOrder, placedOrder2));
+
+        mockMvc.perform(get("/api/placed-order/get-all"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(2));
     }
 
 

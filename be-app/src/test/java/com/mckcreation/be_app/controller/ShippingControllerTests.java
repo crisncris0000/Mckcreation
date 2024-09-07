@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mckcreation.be_app.dto.ShippingDTO;
 import com.mckcreation.be_app.model.Shipping;
 import com.mckcreation.be_app.model.User;
+import com.mckcreation.be_app.security.service.JwtService;
 import com.mckcreation.be_app.service.ShippingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,6 +43,9 @@ public class ShippingControllerTests {
     @MockBean
     ShippingService shippingService;
 
+    @MockBean
+    JwtService jwtService;
+
     Shipping shipping;
 
     ShippingDTO shippingDTO;
@@ -75,7 +79,7 @@ public class ShippingControllerTests {
                 .firstName("Christopher")
                 .lastName("Rivera")
                 .password("123")
-                .isAdmin(false)
+                .role("USER")
                 .createdAt(timestamp)
                 .updatedAt(timestamp)
                 .build();

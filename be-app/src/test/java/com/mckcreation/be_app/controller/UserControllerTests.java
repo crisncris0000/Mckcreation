@@ -3,6 +3,7 @@ package com.mckcreation.be_app.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mckcreation.be_app.dto.UserDTO;
 import com.mckcreation.be_app.model.User;
+import com.mckcreation.be_app.security.service.JwtService;
 import com.mckcreation.be_app.service.UserService;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,6 +39,9 @@ public class UserControllerTests {
     @MockBean
     UserService userService;
 
+    @MockBean
+    JwtService jwtService;
+
     @Autowired
     ObjectMapper objectMapper;
 
@@ -63,21 +67,6 @@ public class UserControllerTests {
     }
 
     @Test
-    public void UserController_CreateUser_ReturnCreated() throws Exception {
-       given(userService.createUser(ArgumentMatchers.any(UserDTO.class))).willReturn(user);
-
-        ResultActions response = mockMvc.perform(post("/api/user/new")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(userDTO)));
-
-        response.andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName",
-                        CoreMatchers.is(userDTO.getFirstName())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName",
-                        CoreMatchers.is(userDTO.getLastName())));
-    }
-
-    @Test
     public void UserController_GetUsers_ReturnUsers() throws Exception {
         User user1 = User.builder()
                 .email("sanchez@gmail.com")
@@ -93,7 +82,7 @@ public class UserControllerTests {
                 .password("1234")
                 .build();
 
-        List<User> userList = Arrays.asList(user1, user2);
+        List<User> userList = List.of(user1, user2);
 
 
         when(userService.getAllUsers()).thenReturn(userList);
@@ -114,7 +103,7 @@ public class UserControllerTests {
 
         when(userService.getUserByID(userID)).thenReturn(user);
 
-        ResultActions response = mockMvc.perform(get("/api/user/1")
+        ResultActions response = mockMvc.perform(get("/api/user/" + userID)
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
@@ -128,7 +117,7 @@ public class UserControllerTests {
 
         when(userService.updateUser(userID, userDTO)).thenReturn(user);
 
-        ResultActions response = mockMvc.perform(put("/api/user/update/1")
+        ResultActions response = mockMvc.perform(put("/api/user/update/" + userID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(userDTO)));
 

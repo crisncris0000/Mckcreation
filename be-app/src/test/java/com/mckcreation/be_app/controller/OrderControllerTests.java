@@ -6,6 +6,7 @@ import com.mckcreation.be_app.model.Order;
 import com.mckcreation.be_app.model.User;
 import com.mckcreation.be_app.repository.CategoryRepository;
 import com.mckcreation.be_app.repository.UserRepository;
+import com.mckcreation.be_app.security.service.JwtService;
 import com.mckcreation.be_app.service.OrderService;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,6 +43,9 @@ public class OrderControllerTests {
     @MockBean
     OrderService orderService;
 
+    @MockBean
+    JwtService jwtService;
+
     @Autowired
     ObjectMapper objectMapper;
 
@@ -69,7 +73,7 @@ public class OrderControllerTests {
                 .firstName("Christopher")
                 .lastName("Rivera")
                 .password("123")
-                .isAdmin(false)
+                .role("USER")
                 .createdAt(timestamp)
                 .updatedAt(timestamp)
                 .build();

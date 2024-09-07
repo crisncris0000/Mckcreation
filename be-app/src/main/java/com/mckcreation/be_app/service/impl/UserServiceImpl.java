@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
                         .lastName(userDTO.getLastName())
                         .email(email)
                         .password(hashed)
-                        .isAdmin(false)
+                        .role("USER")
                         .createdAt(timestamp)
                         .updatedAt(timestamp)
                         .build();
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());
-        user.setIsAdmin(userDTO.getIsAdmin());
+        user.setRole("USER");
         user.setUpdatedAt(timestamp);
 
         return userRepository.save(user);

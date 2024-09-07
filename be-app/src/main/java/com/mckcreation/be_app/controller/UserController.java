@@ -24,18 +24,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/new")
-    public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
-
-        if(userService.userExists(userDTO.getEmail())) {
-            return new ResponseEntity<>("User already exists",HttpStatus.NOT_ACCEPTABLE);
-        }
-
-        userService.createUser(userDTO);
-
-        return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserByID(@PathVariable int id) {
 
@@ -45,8 +33,10 @@ public class UserController {
     }
 
     @GetMapping("/get-all")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<?> getAllUsers() {
         List<User> users = userService.getAllUsers();
+
+        System.out.println(users);
 
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
