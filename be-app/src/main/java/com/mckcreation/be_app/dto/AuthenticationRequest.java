@@ -9,7 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class LoginRequest {
+public class AuthenticationRequest {
 
     String email;
 

@@ -1,8 +1,7 @@
 package com.mckcreation.be_app.controller;
 
-import com.mckcreation.be_app.dto.LoginRequest;
+import com.mckcreation.be_app.dto.AuthenticationRequest;
 import com.mckcreation.be_app.dto.UserDTO;
-import com.mckcreation.be_app.repository.UserRepository;
 import com.mckcreation.be_app.security.service.JwtService;
 import com.mckcreation.be_app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +27,11 @@ public class AuthController {
     UserDetailsService userDetailsService;
 
     @Autowired
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService, AuthenticationManager authenticationManager,
+                          JwtService jwtService) {
         this.userService = userService;
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
     }
 
     @PostMapping("/register")
@@ -45,19 +47,20 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> loginUser(@RequestBody AuthenticationRequest authRequest) {
 
         String jwtToken = null;
         try {
 
             Authentication auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+                    new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword())
             );
 
             UserDetails user = (UserDetails) auth.getPrincipal();
             jwtToken = jwtService.generateToken(user);
 
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>("Invalid credentials",HttpStatus.NOT_ACCEPTABLE);
         }
 
