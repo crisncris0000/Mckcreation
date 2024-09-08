@@ -1,12 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const LoginForm = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const loginForm = async (e) => {
+    e.preventDefault()
+
+    const loginRequest = {
+      email, 
+      password
+    }
+
+    try{
+      const res = await fetch(`http://localhost:8080/api/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginRequest)
+      })
+
+      const jsonRes = await res.json()
+
+      console.log(jsonRes)
+      
+    } catch(error) {
+    }
+  }
+
+
   return (
     <section className="flex justify-center items-center min-h-screen">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-        <form className="space-y-4">
+        <form 
+          className="space-y-4"
+          onSubmit={loginForm}
+        >
           {/* Email Field */}
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
@@ -15,6 +47,7 @@ const LoginForm = () => {
               id="email"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Your Email"
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           {/* Password Field */}
@@ -25,6 +58,7 @@ const LoginForm = () => {
               id="password"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Your Password"
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           {/* Submit Button */}

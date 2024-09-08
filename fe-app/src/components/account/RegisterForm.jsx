@@ -26,18 +26,18 @@ const RegisterForm = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:8080/api/auth/register`,{
+      const res = await fetch(`http://localhost:8080/api/auth/register`,{
         method: 'POST', 
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
         },
         body: JSON.stringify(user)
       })
 
-      const jsonResponse = await response.json()
+      const jsonRes = await res.json()
 
-      console.log(jsonResponse)
+      console.log(jsonRes)
+
     } catch(error) {
       console.log(error)
     }

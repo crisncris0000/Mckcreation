@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -61,10 +63,10 @@ public class AuthController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Invalid credentials", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(Map.of("message","Invalid credentials"), HttpStatus.NOT_ACCEPTABLE);
         }
 
-        return new ResponseEntity<>(jwtToken, HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("token", jwtToken), HttpStatus.OK);
     }
 
 }
