@@ -10,7 +10,7 @@ const RegisterForm = () => {
   const [confirmedPassword, setConfirmedPassword] = useState('')
   const [match, setMatch] = useState(true)
 
-  const registerUser = (e) => {
+  const registerUser = async (e) => {
     e.preventDefault()
 
     if(password !==  confirmedPassword) {
@@ -25,7 +25,22 @@ const RegisterForm = () => {
       password
     }
 
-    console.log(user)
+    try {
+      const response = await fetch(`http://localhost:8080/api/auth/register`,{
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(user)
+      })
+
+      const jsonResponse = await response.json()
+
+      console.log(jsonResponse)
+    } catch(error) {
+      console.log(error)
+    }
   }
 
   return (

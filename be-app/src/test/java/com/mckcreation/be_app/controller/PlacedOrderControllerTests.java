@@ -117,5 +117,34 @@ public class PlacedOrderControllerTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(2));
     }
 
+    @Test
+    public void PlacedOrderController_GetUserPlacedOrders_ReturnUserPlacedOrders() throws Exception {
+        placedOrder = PlacedOrder.builder()
+                .orderDetails("Details")
+                .total(159.5f)
+                .status("Shipping")
+                .user(user)
+                .shipping(shipping)
+                .createdAt(timestamp)
+                .updatedAt(timestamp)
+                .build();
+
+        PlacedOrder placedOrder2 = PlacedOrder.builder()
+                .orderDetails("More details")
+                .total(189.5f)
+                .status("Completed")
+                .user(user)
+                .shipping(shipping)
+                .createdAt(timestamp)
+                .updatedAt(timestamp)
+                .build();
+
+        given(placedOrderService.getUserPlacedOrders(1)).willReturn(List.of(placedOrder, placedOrder2));
+
+        mockMvc.perform(get("/api/placed-order/get-user-order/1"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(2));
+    }
+
 
 }

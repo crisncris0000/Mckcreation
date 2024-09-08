@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     UserService userService;
@@ -37,7 +37,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
 
-        if(userService.userExists(userDTO.getEmail())) {
+        if(userService.userExists(userDTO.getEmail().toLowerCase())) {
             return new ResponseEntity<>("User already exists", HttpStatus.NOT_ACCEPTABLE);
         }
 
@@ -61,7 +61,7 @@ public class AuthController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Invalid credentials",HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>("Invalid credentials", HttpStatus.NOT_ACCEPTABLE);
         }
 
         return new ResponseEntity<>(jwtToken, HttpStatus.OK);
