@@ -2,6 +2,7 @@ package com.mckcreation.be_app.controller;
 
 import com.mckcreation.be_app.dto.AuthenticationRequest;
 import com.mckcreation.be_app.dto.UserDTO;
+import com.mckcreation.be_app.model.User;
 import com.mckcreation.be_app.security.service.JwtService;
 import com.mckcreation.be_app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,11 +55,16 @@ public class AuthController {
         try {
 
             Authentication auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword())
+                    new UsernamePasswordAuthenticationToken(authRequest.getEmail().toLowerCase(), authRequest.getPassword())
             );
 
-            UserDetails user = (UserDetails) auth.getPrincipal();
-            jwtToken = jwtService.generateToken(user);
+            User user = (User) auth.getPrincipal();
+
+            jwtToken = jwtService.generateToken(Map.of(
+                    "id", user.getId(),
+                    "firstName", user.getFirstName(),
+                    "lastName", user.getLastName()
+            ), user);
 
         } catch (Exception e) {
             e.printStackTrace();

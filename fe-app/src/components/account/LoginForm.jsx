@@ -1,3 +1,4 @@
+import { jwtDecode } from 'jwt-decode';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -24,9 +25,12 @@ const LoginForm = () => {
 
       const jsonRes = await res.json()
 
-      console.log(jsonRes)
-      
+      const user = jwtDecode(jsonRes.token)
+
+      console.log(user)
+
     } catch(error) {
+      console.log(error)
     }
   }
 
