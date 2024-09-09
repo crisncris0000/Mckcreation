@@ -1,13 +1,17 @@
 import { jwtDecode } from 'jwt-decode';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ColorRing } from 'react-loader-spinner';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const loginForm = async (e) => {
     e.preventDefault()
+    
+    setIsLoading(true)
 
     const loginRequest = {
       email, 
@@ -27,10 +31,12 @@ const LoginForm = () => {
 
       const user = jwtDecode(jsonRes.token)
 
-      console.log(user)
+      localStorage.setItem("jwt", user)
 
     } catch(error) {
       console.log(error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -67,12 +73,24 @@ const LoginForm = () => {
           </div>
           {/* Submit Button */}
           <div className="flex justify-center">
-            <button
-              type="submit"
-              className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Login
-            </button>
+            { isLoading ?
+                <ColorRing
+                  visible={true}
+                  height="80"
+                  width="80"
+                  ariaLabel="color-ring-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="color-ring-wrapper"
+                  colors={['#d614e0', '#bf60c4', '#5140a8', '#271e54']}
+                />
+                :
+                <button
+                  type="submit"
+                  className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Login
+                </button>
+            }
           </div>
         </form>
         <p className="mt-4 text-center text-sm text-gray-600">

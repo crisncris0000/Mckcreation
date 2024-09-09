@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ColorRing } from 'react-loader-spinner';
 
 const RegisterForm = () => {
 
@@ -10,8 +11,12 @@ const RegisterForm = () => {
   const [confirmedPassword, setConfirmedPassword] = useState('')
   const [match, setMatch] = useState(true)
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const registerUser = async (e) => {
     e.preventDefault()
+
+    setIsLoading(true)
 
     if(password !==  confirmedPassword) {
       setMatch(false)
@@ -40,6 +45,8 @@ const RegisterForm = () => {
 
     } catch(error) {
       console.log(error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -108,6 +115,17 @@ const RegisterForm = () => {
           </div>
           {/* Submit Button */}
           <div className="flex justify-center">
+            { isLoading ? 
+                <ColorRing
+                visible={true}
+                height="80"
+                width="80"
+                ariaLabel="color-ring-loading"
+                wrapperStyle={{}}
+                wrapperClass="color-ring-wrapper"
+                colors={['#d614e0', '#bf60c4', '#5140a8', '#271e54']}
+              />
+              :            
             <button
               type="submit"
               className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium 
@@ -115,6 +133,7 @@ const RegisterForm = () => {
             >
               Register
             </button>
+            }
           </div>
         </form>
         <p className="mt-4 text-center text-sm text-gray-600">
