@@ -26,7 +26,6 @@ public class AuthController {
     UserService userService;
     AuthenticationManager authenticationManager;
     JwtService jwtService;
-    UserDetailsService userDetailsService;
 
     @Autowired
     public AuthController(UserService userService, AuthenticationManager authenticationManager,
@@ -40,7 +39,7 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
 
         if(userService.userExists(userDTO.getEmail().toLowerCase())) {
-            return new ResponseEntity<>("User already exists", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(Map.of("message", "User already exists"), HttpStatus.NOT_ACCEPTABLE);
         }
 
         userService.createUser(userDTO);

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ColorRing } from 'react-loader-spinner';
+import Message from '../message/Message';
 
 const RegisterForm = () => {
 
@@ -10,6 +11,8 @@ const RegisterForm = () => {
   const [password, setPassword] = useState('')
   const [confirmedPassword, setConfirmedPassword] = useState('')
   const [match, setMatch] = useState(true)
+  const [isVisible, setIsVisible] = useState(false)
+  const [message, setMessage] = useState('')
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -41,10 +44,16 @@ const RegisterForm = () => {
 
       const jsonRes = await res.json()
 
-      console.log(jsonRes)
+      if(res.status != 201) {
+        setMessage('Error has occured please register later')
+        setIsVisible(true)
+        setMessage(jsonRes.message)
+      }
 
     } catch(error) {
       console.log(error)
+      setMessage('Error has occured please register later')
+      setIsVisible(true)
     } finally {
       setIsLoading(false)
     }
@@ -52,6 +61,12 @@ const RegisterForm = () => {
 
   return (
     <section className="flex justify-center items-center min-h-screen">
+      <Message 
+        isError={true}
+        message={message}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+      />
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
         <form className="space-y-4" onSubmit={registerUser}>
