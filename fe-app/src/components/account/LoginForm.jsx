@@ -2,11 +2,14 @@ import { jwtDecode } from 'jwt-decode';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ColorRing } from 'react-loader-spinner';
+import Message from '../message/Message';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
+  const [message, setMessage] = useState('')
 
   const loginForm = async (e) => {
     e.preventDefault()
@@ -29,12 +32,19 @@ const LoginForm = () => {
 
       const jsonRes = await res.json()
 
+      if(res.status != 200) {
+        console.log(jsonRes)
+        return
+      }
+
       const user = jwtDecode(jsonRes.token)
 
       localStorage.setItem("jwt", user)
 
     } catch(error) {
       console.log(error)
+      setMessage('An error has occured please try again later')
+      setIsVisible(true)
     } finally {
       setIsLoading(false)
     }
@@ -43,6 +53,12 @@ const LoginForm = () => {
 
   return (
     <section className="flex justify-center items-center min-h-screen">
+      <Message 
+        isError={true}
+        message={message}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+      />
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
         <form 
