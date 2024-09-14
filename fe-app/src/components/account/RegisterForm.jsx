@@ -64,6 +64,7 @@ const RegisterForm = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="First Name"
               onChange={(e) => setFirstName(e.target.value)}
+              required
             />
           </div>
           {/* Last Name Field */}
@@ -75,6 +76,7 @@ const RegisterForm = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Last Name"
               onChange={(e) => setLastName(e.target.value)}
+              required
             />
           </div>                   
           {/* Email Field */}
@@ -86,6 +88,7 @@ const RegisterForm = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Your Email"
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
           {/* Password Field */}
@@ -97,6 +100,7 @@ const RegisterForm = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Your Password"
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
           {/* Confrim Password Field */}
@@ -108,6 +112,7 @@ const RegisterForm = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Your Password"
               onChange={(e) => setConfirmedPassword(e.target.value)}
+              required
             />
             {
             !match ? <p className='text-red-500'>Passwords must match!</p> : ''
