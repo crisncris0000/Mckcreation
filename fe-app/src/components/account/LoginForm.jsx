@@ -1,12 +1,20 @@
+import { jwtDecode } from 'jwt-decode';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ColorRing } from 'react-loader-spinner';
+import Message from '../message/Message';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
+  const [message, setMessage] = useState('')
 
   const loginForm = async (e) => {
     e.preventDefault()
+    
+    setIsLoading(true)
 
     const loginRequest = {
       email, 
@@ -24,15 +32,33 @@ const LoginForm = () => {
 
       const jsonRes = await res.json()
 
-      console.log(jsonRes)
-      
+      if(res.status != 200) {
+        console.log(jsonRes)
+        return
+      }
+
+      const user = jwtDecode(jsonRes.token)
+
+      localStorage.setItem("jwt", user)
+
     } catch(error) {
+      console.log(error)
+      setMessage('An error has occured please try again later')
+      setIsVisible(true)
+    } finally {
+      setIsLoading(false)
     }
   }
 
 
   return (
     <section className="flex justify-center items-center min-h-screen">
+      <Message 
+        isError={true}
+        message={message}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+      />
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
         <form 
@@ -48,6 +74,7 @@ const LoginForm = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Your Email"
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
           {/* Password Field */}
@@ -59,16 +86,29 @@ const LoginForm = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Your Password"
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
           {/* Submit Button */}
           <div className="flex justify-center">
-            <button
-              type="submit"
-              className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Login
-            </button>
+            { isLoading ?
+                <ColorRing
+                  visible={true}
+                  height="80"
+                  width="80"
+                  ariaLabel="color-ring-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="color-ring-wrapper"
+                  colors={['#d614e0', '#bf60c4', '#5140a8', '#271e54']}
+                />
+                :
+                <button
+                  type="submit"
+                  className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Login
+                </button>
+            }
           </div>
         </form>
         <p className="mt-4 text-center text-sm text-gray-600">

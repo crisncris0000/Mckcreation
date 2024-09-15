@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ColorRing } from 'react-loader-spinner';
+import Message from '../message/Message';
 
 const RegisterForm = () => {
 
@@ -9,9 +11,15 @@ const RegisterForm = () => {
   const [password, setPassword] = useState('')
   const [confirmedPassword, setConfirmedPassword] = useState('')
   const [match, setMatch] = useState(true)
+  const [isVisible, setIsVisible] = useState(false)
+  const [message, setMessage] = useState('')
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const registerUser = async (e) => {
     e.preventDefault()
+
+    setIsLoading(true)
 
     if(password !==  confirmedPassword) {
       setMatch(false)
@@ -36,15 +44,29 @@ const RegisterForm = () => {
 
       const jsonRes = await res.json()
 
-      console.log(jsonRes)
+      if(res.status != 201) {
+        setMessage('Error has occured please register later')
+        setIsVisible(true)
+        setMessage(jsonRes.message)
+      }
 
     } catch(error) {
       console.log(error)
+      setMessage('Error has occured please register later')
+      setIsVisible(true)
+    } finally {
+      setIsLoading(false)
     }
   }
 
   return (
     <section className="flex justify-center items-center min-h-screen">
+      <Message 
+        isError={true}
+        message={message}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+      />
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
         <form className="space-y-4" onSubmit={registerUser}>
@@ -57,6 +79,7 @@ const RegisterForm = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="First Name"
               onChange={(e) => setFirstName(e.target.value)}
+              required
             />
           </div>
           {/* Last Name Field */}
@@ -68,6 +91,7 @@ const RegisterForm = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Last Name"
               onChange={(e) => setLastName(e.target.value)}
+              required
             />
           </div>                   
           {/* Email Field */}
@@ -79,6 +103,7 @@ const RegisterForm = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Your Email"
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
           {/* Password Field */}
@@ -90,6 +115,7 @@ const RegisterForm = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Your Password"
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
           {/* Confrim Password Field */}
@@ -101,6 +127,7 @@ const RegisterForm = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Your Password"
               onChange={(e) => setConfirmedPassword(e.target.value)}
+              required
             />
             {
             !match ? <p className='text-red-500'>Passwords must match!</p> : ''
@@ -108,6 +135,17 @@ const RegisterForm = () => {
           </div>
           {/* Submit Button */}
           <div className="flex justify-center">
+            { isLoading ? 
+                <ColorRing
+                visible={true}
+                height="80"
+                width="80"
+                ariaLabel="color-ring-loading"
+                wrapperStyle={{}}
+                wrapperClass="color-ring-wrapper"
+                colors={['#d614e0', '#bf60c4', '#5140a8', '#271e54']}
+              />
+              :            
             <button
               type="submit"
               className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium 
@@ -115,6 +153,7 @@ const RegisterForm = () => {
             >
               Register
             </button>
+            }
           </div>
         </form>
         <p className="mt-4 text-center text-sm text-gray-600">
