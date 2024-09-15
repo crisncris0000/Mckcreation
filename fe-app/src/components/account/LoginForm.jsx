@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ColorRing } from 'react-loader-spinner';
 import Message from '../message/Message';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('')
@@ -10,6 +11,8 @@ const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [message, setMessage] = useState('')
+
+  const navigate = new useNavigate()
 
   const loginForm = async (e) => {
     e.preventDefault()
@@ -39,8 +42,10 @@ const LoginForm = () => {
 
       const user = jwtDecode(jsonRes.token)
 
-      localStorage.setItem("jwt", user)
+      localStorage.setItem("jwt", jsonRes.token)
 
+      navigate('/')
+      window.location.reload()
     } catch(error) {
       console.log(error)
       setMessage('An error has occured please try again later')

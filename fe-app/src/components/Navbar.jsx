@@ -10,7 +10,13 @@ const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
-    const jwt = localStorage.getItem('token')
+    const jwt = localStorage.getItem('jwt')
+
+    if(jwt !== null) {
+      setIsLoggedIn(true)
+    } else if(jwt === null) {
+      setIsLoggedIn(false)
+    }
   }, [])
 
 
@@ -26,8 +32,12 @@ const Navbar = () => {
         <Link to="/shop" className='hover:underline active:text-red-500'>Shop</Link>
         <Link to="#" className='hover:underline active:text-red-500'>Portfolio</Link>
         <Link to="/contact" className='hover:underline active:text-red-500'>Contact</Link>
+        {!isLoggedIn ?
         <Link to='/account' className='hover:underline active:text-red-500'>Login</Link>
-        <DropDownProfile />
+        :
+        null
+        }
+        {isLoggedIn ? <DropDownProfile /> : null}
       </nav>
     </>
   )
