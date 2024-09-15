@@ -2,21 +2,20 @@ import React, { useEffect, useState } from 'react'
 import logo from '../assets/mckcreation.png'
 import { Link } from 'react-router-dom'
 import useCheckScreenSize from '../hooks/useCheckScreenSize'
-import DropDownProfile from './DropDownProfile'
+import { jwtDecode } from 'jwt-decode'
 
 const Navbar = () => {
   const isTabletSize = useCheckScreenSize()
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     const jwt = localStorage.getItem('jwt')
 
     if(jwt !== null) {
-      setIsLoggedIn(true)
-    } else if(jwt === null) {
-      setIsLoggedIn(false)
+      setUser(jwtDecode(jwt))
     }
+
   }, [])
 
 
@@ -32,12 +31,13 @@ const Navbar = () => {
         <Link to="/shop" className='hover:underline active:text-red-500'>Shop</Link>
         <Link to="#" className='hover:underline active:text-red-500'>Portfolio</Link>
         <Link to="/contact" className='hover:underline active:text-red-500'>Contact</Link>
-        {!isLoggedIn ?
-        <Link to='/account' className='hover:underline active:text-red-500'>Login</Link>
-        :
-        null
+        {!user ?
+          <Link to='/account' className='hover:underline active:text-red-500'>Login</Link>
+          :
+          <Link to='/account/settings' className='hover:underline active:text-red-500'>
+            {`${user.firstName} ${user.lastName}`}
+          </Link>
         }
-        {isLoggedIn ? <DropDownProfile /> : null}
       </nav>
     </>
   )

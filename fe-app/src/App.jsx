@@ -15,8 +15,8 @@ import CustomCakeTopperPage from './pages/CustomCakeTopperPage'
 import ContactPage from './pages/ContactPage'
 import AccountPage from './pages/AccountPage'
 import RegisterForm from './components/account/RegisterForm'
-import AdminLayout from './layouts/AdminLayout'
-import SalesSummaryPage from './pages/SalesSummaryPage'
+import AccountLayout from './layouts/AccountLayout'
+import AccountSettings from './components/account/AccountSettings'
 
 function App() {
 
@@ -34,8 +34,8 @@ function App() {
         <Route path='/shop/custom-tray' element={<CustomTrayPage />} />
         <Route path='/shop/custom-topper' element={<CustomCakeTopperPage />} />
 
-        <Route path="account/admin" element={<AdminLayout />}>
-          <Route index element={<SalesSummaryPage />} />
+        <Route path="/account" element={<AccountLayout />}>
+          <Route path='/account/settings' element={<AccountSettings />} />
         </Route>
       </Route>
     )

@@ -40,8 +40,6 @@ const LoginForm = () => {
         return
       }
 
-      const user = jwtDecode(jsonRes.token)
-
       localStorage.setItem("jwt", jsonRes.token)
 
       navigate('/')

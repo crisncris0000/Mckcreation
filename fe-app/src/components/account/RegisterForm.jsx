@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ColorRing } from 'react-loader-spinner';
 import Message from '../message/Message';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
 
@@ -13,8 +14,10 @@ const RegisterForm = () => {
   const [match, setMatch] = useState(true)
   const [isVisible, setIsVisible] = useState(false)
   const [message, setMessage] = useState('')
-
   const [isLoading, setIsLoading] = useState(false)
+
+  const navigate = new useNavigate()
+  
 
   const registerUser = async (e) => {
     e.preventDefault()
@@ -50,6 +53,7 @@ const RegisterForm = () => {
         setMessage(jsonRes.message)
       }
 
+      navigate('/login')
     } catch(error) {
       console.log(error)
       setMessage('Error has occured please register later')
