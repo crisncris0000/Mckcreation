@@ -1,10 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import logo from '../assets/mckcreation.png'
 import { Link } from 'react-router-dom'
 import useCheckScreenSize from '../hooks/useCheckScreenSize'
+import DropDownProfile from './DropDownProfile'
 
 const Navbar = () => {
   const isTabletSize = useCheckScreenSize()
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    const jwt = localStorage.getItem('token')
+  }, [])
+
+
   return (
     <>
       <img src={logo} className='h-28 w-28 m-auto'/>
@@ -17,7 +26,8 @@ const Navbar = () => {
         <Link to="/shop" className='hover:underline active:text-red-500'>Shop</Link>
         <Link to="#" className='hover:underline active:text-red-500'>Portfolio</Link>
         <Link to="/contact" className='hover:underline active:text-red-500'>Contact</Link>
-        <Link to='/account' className='hover:underline active:text-red-500'>Account</Link>
+        <Link to='/account' className='hover:underline active:text-red-500'>Login</Link>
+        <DropDownProfile />
       </nav>
     </>
   )
