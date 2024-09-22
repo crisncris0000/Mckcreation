@@ -17,12 +17,14 @@ import AccountPage from './pages/AccountPage'
 import RegisterForm from './components/account/RegisterForm'
 import AccountLayout from './layouts/AccountLayout'
 import AccountSettings from './components/account/AccountSettings'
+import NotFoundPage from './pages/NotFoundPage'
 
 function App() {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path='/' element={<MainLayout />}>
+        <Route path='*' element={<NotFoundPage />} />
         <Route index element={<HomePage />} />
         <Route path='/shop' element={<ShoppingPage />} />
         <Route path='/contact' element={<ContactPage />} />
