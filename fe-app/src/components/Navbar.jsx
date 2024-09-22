@@ -32,7 +32,7 @@ const Navbar = () => {
         <Link to="#" className='hover:underline active:text-red-500'>Portfolio</Link>
         <Link to="/contact" className='hover:underline active:text-red-500'>Contact</Link>
         {!user ?
-          <Link to='/account' className='hover:underline active:text-red-500'>Login</Link>
+          <Link to='/account/login' className='hover:underline active:text-red-500'>Login</Link>
           :
           <Link to='/account/settings' className='hover:underline active:text-red-500'>
             {`${user.firstName} ${user.lastName}`}

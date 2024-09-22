@@ -1,4 +1,3 @@
-import { jwtDecode } from 'jwt-decode';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ColorRing } from 'react-loader-spinner';

@@ -26,7 +26,7 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path='/shop' element={<ShoppingPage />} />
         <Route path='/contact' element={<ContactPage />} />
-        <Route path='/account' element={<AccountPage />} />
+        <Route path='/account/login' element={<AccountPage />} />
         <Route path='/account/register' element={<RegisterForm />} />
         <Route path='/shop/custom-shirt' element={<CustomShirtPage />} />
         <Route path='/shop/custom-tray' element={<CustomTrayPage />} />

@@ -53,7 +53,7 @@ const RegisterForm = () => {
         setMessage(jsonRes.message)
       }
 
-      navigate('/login')
+      navigate('/account/login')
     } catch(error) {
       console.log(error)
       setMessage('Error has occured please register later')

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -25,7 +26,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserByID(@PathVariable int id) {
+    public ResponseEntity<?> getUserByID(@PathVariable int id) {
 
         User user = userService.getUserByID(id);
 
@@ -50,16 +51,17 @@ public class UserController {
     }
 
     @PutMapping("/update-password/{id}")
-    public ResponseEntity<String> updateUserPassword(@PathVariable int id, @RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> updateUserPassword(@PathVariable int id, @RequestBody UserDTO userDTO) {
 
         try{
             userService.updateUserPassword(id, userDTO);
         } catch (Exception e) {
-            return new ResponseEntity<>("Old password does not match", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(Map.of("error", "Old password does not match"), HttpStatus.UNAUTHORIZED);
         }
 
-        return new ResponseEntity<>("Updated User", HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message", "Updated successfully!"), HttpStatus.OK);
     }
+
 
 
 }
