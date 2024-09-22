@@ -1,7 +1,8 @@
 import { jwtDecode } from 'jwt-decode';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Message from '../message/Message';
 import { ColorRing } from 'react-loader-spinner';
+import { useNavigate } from 'react-router-dom';
 
 const AccountSettings = () => {
   const [firstName, setFirstName] = useState('')
@@ -14,14 +15,21 @@ const AccountSettings = () => {
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
+  const jwt = localStorage.getItem('jwt')
+  const nav = useNavigate()
+
+  useEffect(() => {
+    if(!jwt) {
+      nav('account/login')
+    } else {
+      const user = jwtDecode(jwt)
+      setFirstName(user.firstName)
+      setLastName(user.lastName)
+    }
+  },[jwt, nav])
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const jwt = localStorage.getItem('jwt')
-
-    if(jwt == null) {
-      return
-    }
 
     const user = jwtDecode(jwt) 
 
@@ -71,6 +79,10 @@ const AccountSettings = () => {
 
 
   };
+
+  if(jwt === null) {
+    nav
+  }
 
   return (
     <div className="m-10 max-w-md mx-auto bg-white p-8 border border-gray-300 rounded-lg shadow-md">
