@@ -46,7 +46,8 @@ const AccountSettings = () => {
       const res = await fetch(`http://localhost:8080/api/user/update-password/${user.id}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Authorization': `Bearer ${jwt}`,
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(updateUser)
       })
@@ -65,6 +66,8 @@ const AccountSettings = () => {
         setMessage(jsonRes.message)
       }
 
+      if(res.status == 401) console.log('JWT expired')
+
       console.log(jsonRes)
     } catch (error) {
       
@@ -76,8 +79,6 @@ const AccountSettings = () => {
     } finally {
       setIsLoading(false)
     }
-
-
   };
 
   if(jwt === null) {
