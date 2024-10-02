@@ -54,8 +54,6 @@ const AccountSettings = () => {
 
       const jsonRes = await res.json()
 
-      console.log(res.status)
-
       if(res.status != 200) {
         setMessage(jsonRes.error)
         setError(true)
@@ -68,22 +66,15 @@ const AccountSettings = () => {
 
       if(res.status == 401) console.log('JWT expired')
 
-      console.log(jsonRes)
     } catch (error) {
-      
       setMessage('An error has occured please try again later')
       setError(true)
       setIsVisible(true)
       console.log(error)
-
     } finally {
       setIsLoading(false)
     }
   };
-
-  if(jwt === null) {
-    nav
-  }
 
   return (
     <div className="m-10 max-w-md mx-auto bg-white p-8 border border-gray-300 rounded-lg shadow-md">
