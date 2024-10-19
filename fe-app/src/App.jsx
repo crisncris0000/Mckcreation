@@ -32,7 +32,7 @@ function App() {
     }
 
     const decodedToken = jwtDecode(jwt)
-    const currentTime = Date.now() / 1000; // convert to seconds
+    const currentTime = Date.now() / 1000;
 
     if(decodedToken.exp < currentTime) {
       localStorage.removeItem('jwt')
