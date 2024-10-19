@@ -16,9 +16,10 @@ import ContactPage from './pages/ContactPage'
 import AccountPage from './pages/AccountPage'
 import RegisterForm from './components/account/RegisterForm'
 import AccountLayout from './layouts/AccountLayout'
-import AccountSettingsPage from './pages/AccountPage'
+import AccountSettingsPage from './pages/AccountSettingsPage'
 import NotFoundPage from './pages/NotFoundPage'
 import PaymentHistoryPage from './pages/PaymentHistoryPage'
+import ShoppingCartPage from './pages/ShoppingCartPage'
 import { useEffect } from 'react'
 import { jwtDecode } from 'jwt-decode'
 
@@ -55,6 +56,7 @@ function App() {
         <Route path='/shop/custom-cup' element={<CustomCupsPagee />} />
         <Route path='/shop/custom-tray' element={<CustomTrayPage />} />
         <Route path='/shop/custom-topper' element={<CustomCakeTopperPage />} />
+        <Route path='/account/cart' element={<ShoppingCartPage />} />
 
         <Route path="/account" element={<AccountLayout />}>
           <Route path='/account/settings' element={<AccountSettingsPage />} />

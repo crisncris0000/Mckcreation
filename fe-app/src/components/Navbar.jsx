@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import logo from '../assets/mckcreation.png'
 import { Link } from 'react-router-dom'
+import { FaShoppingCart } from "react-icons/fa";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const jwt = localStorage.getItem('jwt')
+
   return (
     <>
       <header className='flex justify-between items-center text-black py-6 px-8 md:px-32 bg-pink-200 drop-shadow-md relative z-50'>
@@ -37,12 +40,27 @@ const Navbar = () => {
             </Link>
           </li>
 
-          <li className='p-3 hover:bg-sky-400 hover:text-white rounded-md transition-all cursor-pointer'>
-            <Link to='/account/login'>
-              Login
+          { !jwt ? 
+            <li className='p-3 hover:bg-sky-400 hover:text-white rounded-md transition-all cursor-pointer'>
+              <Link to='/account/login'>
+                Login
+              </Link>
+            </li> 
+            :
+            <li className='p-3 hover:bg-sky-400 hover:text-white rounded-md transition-all cursor-pointer'>
+              <Link to='/account/settings'>
+                Account
+              </Link>
+            </li>
+          }
+          {
+            !jwt ? 
+            null
+            :
+            <Link to='account/cart'>
+              <FaShoppingCart className='h-6 w-6'/>
             </Link>
-          </li>
-
+          }
         </ul>
 
         <i className='bx bx-menu xl:hidden block text-5xl cursor-pointer'
@@ -73,10 +91,24 @@ const Navbar = () => {
             Contact
           </Link>
           
-          <Link to='/account/login' 
-          className='list-none w-full text-center p-4 hover:bg-sky-400 hover:text-white transition-all cursor-pointer'>
-            Login
-          </Link>
+          { !jwt ? 
+            <Link to='/account/login'>
+              Login
+            </Link> 
+              :
+              
+            <Link to='/account/settings'>
+              Account
+            </Link>
+          }
+
+          { !jwt ? 
+            null
+            :
+            <Link to='account/cart'>
+              <FaShoppingCart className='h-6 w-6'/>
+            </Link>
+          }
         </div>
       </header>
     </>

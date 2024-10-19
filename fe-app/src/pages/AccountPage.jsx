@@ -4,23 +4,14 @@ import AccountSettings from '../components/account/AccountSettings'
 
 const AccountPage = () => {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-  useEffect(() => {
-    const jwt = localStorage.getItem('jwt')
-
-    if(jwt != null) {
-      setIsLoggedIn(true)
-    }
-
-  }, [])
+  const jwt = localStorage.getItem('jwt')
 
   return (
     <>
-    {!isLoggedIn ?
+    {!jwt ?
       <LoginForm />
       :
-      <AccountSettings />
+      <AccountSettingsPage />
     }
     </>
   )

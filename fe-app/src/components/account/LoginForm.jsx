@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ColorRing } from 'react-loader-spinner';
 import Message from '../message/Message';
@@ -10,8 +10,16 @@ const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [message, setMessage] = useState('')
+  
+  const jwt = localStorage.getItem('jwt')
 
   const navigate = new useNavigate()
+
+  useEffect(() => {
+    if(jwt) {
+      navigate('/account/settings')
+    }
+  }, jwt)
 
   const loginForm = async (e) => {
     e.preventDefault()

@@ -20,7 +20,7 @@ const AccountSettings = () => {
 
   useEffect(() => {
     if(!jwt) {
-      nav('account/login')
+      nav('/account/login')
     } else {
       const user = jwtDecode(jwt)
       setFirstName(user.firstName)
