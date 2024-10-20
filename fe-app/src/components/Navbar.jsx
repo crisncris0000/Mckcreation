@@ -15,43 +15,42 @@ const Navbar = () => {
         </Link>
 
         <ul className='hidden xl:flex items-center gap-12 font-semibold text-base'>
-          
-          <li className='p-3 hover:bg-sky-400 hover:text-white rounded-md transition-all cursor-pointer'>
-            <Link to='/'>
+          <Link to='/'>
+            <li className='p-3 hover:bg-sky-400 hover:text-white rounded-md transition-all cursor-pointer'>
               Home
-            </Link>
-          </li>
+            </li>
+          </Link>
 
-          <li className='p-3 hover:bg-sky-400 hover:text-white rounded-md transition-all cursor-pointer'>
-            <Link to='/shop'>
+          <Link to='/shop'>
+            <li className='p-3 hover:bg-sky-400 hover:text-white rounded-md transition-all cursor-pointer'>
               Shop
-            </Link>
-          </li>
+            </li>
+          </Link>
 
-          <li className='p-3 hover:bg-sky-400 hover:text-white rounded-md transition-all cursor-pointer'>
-            <Link to='#'>
+          <Link to='/portfolio'>
+            <li className='p-3 hover:bg-sky-400 hover:text-white rounded-md transition-all cursor-pointer'>
               Portfolio
-            </Link>
-          </li>
+            </li>
+          </Link>
 
-          <li className='p-3 hover:bg-sky-400 hover:text-white rounded-md transition-all cursor-pointer'>
-            <Link to='/contact'>
+          <Link to='/contact'>
+            <li className='p-3 hover:bg-sky-400 hover:text-white rounded-md transition-all cursor-pointer'>
               Contact
-            </Link>
-          </li>
+            </li>
+          </Link>
 
           { !jwt ? 
+          <Link to='/account/login'>
             <li className='p-3 hover:bg-sky-400 hover:text-white rounded-md transition-all cursor-pointer'>
-              <Link to='/account/login'>
-                Login
-              </Link>
-            </li> 
-            :
-            <li className='p-3 hover:bg-sky-400 hover:text-white rounded-md transition-all cursor-pointer'>
-              <Link to='/account/settings'>
-                Account
-              </Link>
+              Login
             </li>
+          </Link>
+            :
+          <Link to='/account/settings'>
+            <li className='p-3 hover:bg-sky-400 hover:text-white rounded-md transition-all cursor-pointer'>
+              Account
+            </li>
+          </Link>
           }
           {
             !jwt ? 
