@@ -1,14 +1,12 @@
-// ShoppingCart.js
 import React, { useEffect, useState } from 'react';
 
 const ShoppingCart = () => {
   const [orders, setOrders] = useState([]);
 
-  // Fetch orders (replace with your actual API endpoint)
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch('/api/orders'); // Replace with actual API endpoint
+        const response = await fetch('/api/orders');
         const data = await response.json();
         setOrders(data);
       } catch (error) {
