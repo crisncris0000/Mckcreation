@@ -18,6 +18,7 @@ import PaymentHistoryPage from './pages/PaymentHistoryPage'
 import ShoppingCartPage from './pages/ShoppingCartPage'
 import { useEffect } from 'react'
 import { jwtDecode } from 'jwt-decode'
+import ItemFormPage from './pages/ItemFormPage'
 
 function App() {
 
@@ -44,10 +45,12 @@ function App() {
         <Route path='*' element={<NotFoundPage />} />
         <Route index element={<HomePage />} />
         <Route path='/shop' element={<ShoppingPage />} />
+        <Route path='/shop/item/add' element={<ItemFormPage />} />
         <Route path='/contact' element={<ContactPage />} />
         <Route path='/account/login' element={<AccountPage />} />
         <Route path='/account/register' element={<RegisterForm />} />
         <Route path='/account/cart' element={<ShoppingCartPage />} />
+       
 
         <Route path="/account" element={<AccountLayout />}>
           <Route path='/account/settings' element={<AccountSettingsPage />} />
