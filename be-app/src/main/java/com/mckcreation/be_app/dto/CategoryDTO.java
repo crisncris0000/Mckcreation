@@ -10,8 +10,4 @@ import lombok.*;
 public class CategoryDTO {
 
     String name;
-
-    private byte[] imageData;
-
-    private String mimeType;
 }

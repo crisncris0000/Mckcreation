@@ -21,10 +21,4 @@ public class Category {
 
     @Column(name = "name")
     String name;
-
-    @Column(name = "image_data")
-    byte[] imageData;
-
-    @Column(name = "mime_type")
-    String mimeType;
 }

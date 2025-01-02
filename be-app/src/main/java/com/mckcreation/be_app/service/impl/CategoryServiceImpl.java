@@ -25,6 +25,14 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findAll();
     }
 
+    public Category createCategory(CategoryDTO categoryDTO) {
+        Category category = new Category();
+
+        category.setName(categoryDTO.getName());
+
+        return categoryRepository.save(category);
+    }
+
     @Override
     public Category updateCategory(int id, CategoryDTO categoryDTO) {
 
@@ -34,8 +42,6 @@ public class CategoryServiceImpl implements CategoryService {
                 new EntityNotFoundException("Category not found"));
 
         category.setName(categoryDTO.getName());
-        category.setImageData(categoryDTO.getImageData());
-        category.setMimeType(categoryDTO.getMimeType());
 
         return categoryRepository.save(category);
     }
