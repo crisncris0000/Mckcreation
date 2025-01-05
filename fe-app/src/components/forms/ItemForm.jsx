@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Product from '../Product';
 import { MdKeyboardArrowDown } from "react-icons/md";
-
 
 
 const ItemForm = () => {
@@ -9,11 +8,55 @@ const ItemForm = () => {
   const [price, setPrice] = useState(0.0);
   const [file, setFile] = useState(null);
 
+  const [categoryName, setCategoryName] = useState('');
+
+  const [categories, setCategories] = useState('');
+
   const product = {
     title,
     price,
     file,
   };
+
+  useEffect(() => {
+
+    fetch('http://localhost:8080/api/category/get-all')
+      .then(res => {
+        return res.json()
+      }).then(data => {
+        setCategories(data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+
+  }, [])
+
+  const addNewCategory = async (e) => {
+    
+    e.preventDefault()
+
+    try {
+      const res = await fetch("http://localhost:8080/api/category/create", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({'name': categoryName})
+      })
+
+      const jsonRes = res.json()
+
+      if(res.status != 200) {
+        console.log(jsonRes)
+        return
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
 
   return (
     <div className="flex flex-row justify-center gap-10 flex-wrap mt-20 mb-20">
@@ -58,15 +101,15 @@ const ItemForm = () => {
           />
         </div>
 
-      <div class="relative inline-block w-full space-y-4">
+      <div className="relative inline-block w-full space-y-4">
 
-        <div class="relative">
-          <label for="dropdown" class="block text-gray-700 font-medium mb-2">
+        <div className="relative">
+          <label htmlFor="dropdown" className="block text-gray-700 font-medium mb-2">
             Select Category
           </label>
           <select
             id="dropdown"
-            class="block w-60 sm:w-60 appearance-none rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="block w-60 sm:w-60 appearance-none rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="N/A">Category</option>
             <option value="1">1</option>
@@ -79,21 +122,22 @@ const ItemForm = () => {
         </div>
 
         <div>
-          <label for="new-category" class="block text-gray-700 font-medium mb-2">
+          <label htmlFor="new-category" className="block text-gray-700 font-medium mb-2">
             Add New Category
           </label>
           <input
             type="text"
             id="new-category"
             name="new-category"
-            value={title}
-            onChange="(e) => setTitle(e.target.value)"
+            value={categoryName}
+            onChange={(e) => setCategoryName(e.target.value)}
             placeholder="Enter category name"
-            class="w-full sm:w-48 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full sm:w-48 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
         <button
-          class="block w-full sm:w-auto px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1 mt-4"
+          className="block w-full sm:w-auto px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1 mt-4"
+          onClick={addNewCategory}
         >
           Add Category
         </button>
