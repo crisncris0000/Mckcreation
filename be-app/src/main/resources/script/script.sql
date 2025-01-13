@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS "placed_order";
 DROP TABLE IF EXISTS "shipping";
 DROP TABLE IF EXISTS "order";
+DROP TABLE IF EXISTS "item",
 DROP TABLE IF EXISTS "category";
 DROP TABLE IF EXISTS "user";
 
@@ -20,12 +21,23 @@ CREATE TABLE "category" (
 	name VARCHAR(100) NOT NULL
 );
 
+CREATE TABLE "item" (
+	id SERIAL PRIMARY KEY,
+	title VARCHAR(255) NOT NULL,
+	image_data BYTEA NOT NULL,
+	price FLOAT NOT NULL,
+    mime_type VARCHAR(255) NOT NULL,
+	category_id INT NOT NULL,
+
+	CONSTRAINT fk_category 
+		FOREIGN KEY (category_id)
+			REFERENCES "category"(id)
+);
+
 CREATE TABLE "order" (
 	id SERIAL PRIMARY KEY,
 	customize TEXT NOT NULL,
 	price FLOAT NOT NULL,
-	image_data BYTEA NOT NULL,
-    mime_type VARCHAR(255) NOT NULL,
 	category_id INT NOT NULL,
 	user_id INT NOT NULL,
 	created_at TIMESTAMP NOT NULL,
@@ -36,7 +48,7 @@ CREATE TABLE "order" (
 			REFERENCES "user"(id),
 	CONSTRAINT fk_category
 		FOREIGN KEY(category_id)
-			REFERENCES "order"(id)
+			REFERENCES "category"(id)
 );
 
 CREATE TABLE "shipping" (

@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Product from '../Product';
 import { MdKeyboardArrowDown } from "react-icons/md";
+import Message from '../message/Message';
 
 
 const ItemForm = () => {
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState(0.0);
   const [file, setFile] = useState(null);
-
   const [categoryName, setCategoryName] = useState('');
+  const [categories, setCategories] = useState([]);
+  const [isVisible, setIsVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const [categories, setCategories] = useState('');
 
   const product = {
     title,
@@ -45,10 +47,11 @@ const ItemForm = () => {
         body: JSON.stringify({'name': categoryName})
       })
 
-      const jsonRes = res.json()
+      const jsonRes = await res.json()
 
       if(res.status != 200) {
-        console.log(jsonRes)
+        setIsVisible(true)
+        setErrorMessage(jsonRes.message)
         return
       }
 
@@ -112,10 +115,9 @@ const ItemForm = () => {
             className="block w-60 sm:w-60 appearance-none rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="N/A">Category</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
+            {categories ? categories.map((category) => (
+                          <option value={category.name} id={category.id}>{category.name}</option>
+            )) : ''}
           </select>
           <MdKeyboardArrowDown className='absolute top-11 left-52'/>
 
@@ -135,6 +137,9 @@ const ItemForm = () => {
             className="w-full sm:w-48 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
+        
+        <Message isError={true} isVisible={isVisible} setIsVisible={setIsVisible} message={errorMessage}/>
+
         <button
           className="block w-full sm:w-auto px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1 mt-4"
           onClick={addNewCategory}
