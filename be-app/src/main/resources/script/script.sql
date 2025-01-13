@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS "placed_order";
 DROP TABLE IF EXISTS "shipping";
 DROP TABLE IF EXISTS "order";
-DROP TABLE IF EXISTS "item",
+DROP TABLE IF EXISTS "item";
 DROP TABLE IF EXISTS "category";
 DROP TABLE IF EXISTS "user";
 
@@ -28,6 +28,8 @@ CREATE TABLE "item" (
 	price FLOAT NOT NULL,
     mime_type VARCHAR(255) NOT NULL,
 	category_id INT NOT NULL,
+	created_at TIMESTAMP NOT NULL,
+	updated_at TIMESTAMP NOT NULL,
 
 	CONSTRAINT fk_category 
 		FOREIGN KEY (category_id)
