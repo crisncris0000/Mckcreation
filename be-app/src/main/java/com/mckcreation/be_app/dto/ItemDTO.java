@@ -1,6 +1,7 @@
 package com.mckcreation.be_app.dto;
 import jakarta.persistence.Column;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -9,13 +10,15 @@ import lombok.*;
 @Builder
 public class ItemDTO {
 
-    int id;
+    long id;
 
     String title;
 
-    byte[] imageData;
+    MultipartFile imageData;
 
     String mimeType;
 
     float price;
+
+    String selectedCategory;
 }

@@ -15,7 +15,7 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    int id;
+    long id;
 
     @Column(name = "title")
     String title;
@@ -23,9 +23,14 @@ public class Item {
     @Column(name = "image_data")
     byte[] imageData;
 
-    @Column(name = "price")
-    float price;
-
     @Column(name = "mime_type")
     String mimeType;
+
+    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    Category category;
+
+    @Column(name = "price")
+    float price;
 }

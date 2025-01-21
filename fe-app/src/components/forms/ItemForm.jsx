@@ -5,10 +5,15 @@ import Message from '../message/Message';
 
 
 const ItemForm = () => {
+
+  const [prevImg, setPrevImg] = useState(null);
+
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState(0.0);
-  const [file, setFile] = useState(null);
+  const [imageData, setImageData] = useState(null);
+  const [mimeType, setMimeType] = useState('');
   const [categoryName, setCategoryName] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [categories, setCategories] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -17,7 +22,7 @@ const ItemForm = () => {
   const product = {
     title,
     price,
-    file,
+    "file": prevImg,
   };
 
   useEffect(() => {
@@ -32,7 +37,30 @@ const ItemForm = () => {
         console.log(error)
       })
 
-  }, [])
+  }, [categories, setCategories])
+
+  const onSubmit = async (e) => {
+    e.preventDefault()
+
+    const formData = new FormData()
+
+    formData.append('title', title)
+    formData.append('imageData', imageData)
+    formData.append('mimeType', mimeType)
+    formData.append('price', price)
+    formData.append('selectedCategory', selectedCategory)
+
+    try{
+      const res = await fetch("http://localhost:8080/api/item/create", {
+        method: 'POST',
+        body: formData
+      })
+    } catch(error) {
+      setErrorMessage('Internal server error, please try again later')
+      setIsVisible(true)
+    }
+
+  }
 
   const addNewCategory = async (e) => {
     
@@ -61,11 +89,17 @@ const ItemForm = () => {
 
   }
 
+  const handleFileChange = (e) => {
+    setPrevImg(URL.createObjectURL(e.target.files[0]))
+    setImageData(e.target.files[0])
+    setMimeType(e.target.files[0].type)
+  }
+
   return (
     <div className="flex flex-row justify-center gap-10 flex-wrap mt-20 mb-20">
       {/* Form Section */}
       <form
-        onSubmit={null}
+        onSubmit={onSubmit}
         className="w-full max-w-md bg-white p-6 rounded-lg shadow-md"
       >
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">Add Item</h2>
@@ -78,11 +112,12 @@ const ItemForm = () => {
             Upload Image:
           </label>
           <input
+            required
             type="file"
             id="image"
             name="image"
             accept="image/*"
-            onChange={(e) => setFile(URL.createObjectURL(e.target.files[0]))}
+            onChange={handleFileChange}
             className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -95,6 +130,7 @@ const ItemForm = () => {
             Title
           </label>
           <input
+            required
             type="text"
             id="title"
             name="title"
@@ -113,10 +149,11 @@ const ItemForm = () => {
           <select
             id="dropdown"
             className="block w-60 sm:w-60 appearance-none rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={(e) => setSelectedCategory(e.target.value)}
           >
             <option value="N/A">Category</option>
             {categories ? categories.map((category) => (
-                          <option value={category.name} id={category.id}>{category.name}</option>
+              <option value={category.name} key={category.id}>{category.name}</option>
             )) : ''}
           </select>
           <MdKeyboardArrowDown className='absolute top-11 left-52'/>
@@ -158,6 +195,7 @@ const ItemForm = () => {
             Price:
           </label>
           <input
+            required
             type="number"
             step="0.01"
             id="price"
