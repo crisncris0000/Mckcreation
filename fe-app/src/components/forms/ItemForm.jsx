@@ -1,29 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import Product from '../Product';
+import React, { useState, useEffect} from 'react';
 import { MdKeyboardArrowDown } from "react-icons/md";
 import Message from '../message/Message';
 
-
 const ItemForm = () => {
 
-  const [prevImg, setPrevImg] = useState(null);
-
   const [title, setTitle] = useState('');
-  const [price, setPrice] = useState(0.0);
-  const [imageData, setImageData] = useState(null);
+  const [price, setPrice] = useState('');
+  const [imageData, setImageData] = useState('');
   const [mimeType, setMimeType] = useState('');
   const [categoryName, setCategoryName] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [categories, setCategories] = useState([]);
+
+  const [isError, setIsError] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-
-
-  const product = {
-    title,
-    price,
-    "file": prevImg,
-  };
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
 
@@ -55,11 +46,23 @@ const ItemForm = () => {
         method: 'POST',
         body: formData
       })
-    } catch(error) {
-      setErrorMessage('Internal server error, please try again later')
-      setIsVisible(true)
-    }
 
+      if(res.status == 200) {
+        setIsError(false)
+        setMessage('Created item successfully')
+        setIsVisible(true)
+      } else {
+        setIsError(true)
+        setMessage('Error creating item')
+        setIsVisible(true)
+      }
+
+    } catch(error) {
+      console.log(error)
+      setMessage('Internal server error, please try again later')
+      setIsVisible(true)
+      setIsError(false)
+    }
   }
 
   const addNewCategory = async (e) => {
@@ -79,25 +82,26 @@ const ItemForm = () => {
 
       if(res.status != 200) {
         setIsVisible(true)
-        setErrorMessage(jsonRes.message)
-        return
+        setMessage(jsonRes.message)
+        setIsError(true)
       }
 
     } catch (error) {
       console.log(error)
+      setIsVisible(true)
+      setMessage('Internal Server Error')
+      setIsError(true)
     }
 
   }
 
   const handleFileChange = (e) => {
-    setPrevImg(URL.createObjectURL(e.target.files[0]))
     setImageData(e.target.files[0])
     setMimeType(e.target.files[0].type)
   }
 
   return (
     <div className="flex flex-row justify-center gap-10 flex-wrap mt-20 mb-20">
-      {/* Form Section */}
       <form
         onSubmit={onSubmit}
         className="w-full max-w-md bg-white p-6 rounded-lg shadow-md"
@@ -175,7 +179,7 @@ const ItemForm = () => {
           />
         </div>
         
-        <Message isError={true} isVisible={isVisible} setIsVisible={setIsVisible} message={errorMessage}/>
+        <Message isError={isError} isVisible={isVisible} setIsVisible={setIsVisible} message={message}/>
 
         <button
           className="block w-full sm:w-auto px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1 mt-4"
@@ -213,10 +217,6 @@ const ItemForm = () => {
           Add Item
         </button>
       </form>
-
-      <div className="w-full max-w-sm p-6 rounded-lg shadow-md">
-        <Product product={product} />
-      </div>
     </div>
   );
 };

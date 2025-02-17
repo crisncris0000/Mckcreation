@@ -31,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         categoryDTO.setName(categoryDTO.getName().toLowerCase());
 
-        boolean exists = findCategoryByName(categoryDTO.getName());
+        boolean exists = categoryExists(categoryDTO.getName());
 
         if(exists) {
             throw new EntityExistsException("Category already exists");
@@ -66,7 +66,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.delete(category);
     }
 
-    private boolean findCategoryByName(String name) {
+    private boolean categoryExists(String name) {
         Optional<Category> optionalCategory = categoryRepository.findCategoryByName(name);
 
         return optionalCategory.isPresent();

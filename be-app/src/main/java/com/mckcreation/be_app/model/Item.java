@@ -3,6 +3,8 @@ package com.mckcreation.be_app.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "item")
 @AllArgsConstructor
@@ -33,4 +35,10 @@ public class Item {
 
     @Column(name = "price")
     float price;
+
+    @Column(name = "created_at")
+    Date createdAt;
+
+    @Column(name = "updated_at")
+    Date updatedAt;
 }

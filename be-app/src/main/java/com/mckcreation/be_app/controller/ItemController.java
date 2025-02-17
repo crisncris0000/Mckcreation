@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -35,6 +36,15 @@ public class ItemController {
         List<Item> itemList = itemService.getItems();
 
         return new ResponseEntity<>(itemList, HttpStatus.OK);
+    }
+
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateItem(@PathVariable int id, @ModelAttribute ItemDTO itemDTO) throws IOException {
+
+        Item item = itemService.updateItem(id, itemDTO);
+
+        return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

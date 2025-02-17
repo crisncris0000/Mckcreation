@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS "order";
 DROP TABLE IF EXISTS "item";
 DROP TABLE IF EXISTS "category";
 DROP TABLE IF EXISTS "user";
+DROP TABLE IF EXISTS "post";
 
 CREATE TABLE "user" (
 	id SERIAL PRIMARY KEY,
@@ -26,7 +27,7 @@ CREATE TABLE "item" (
 	title VARCHAR(255) NOT NULL,
 	image_data BYTEA NOT NULL,
 	price FLOAT NOT NULL,
-    mime_type VARCHAR(255) NOT NULL,
+    mime_type VARCHAR(100) NOT NULL,
 	category_id INT NOT NULL,
 	created_at TIMESTAMP NOT NULL,
 	updated_at TIMESTAMP NOT NULL,
@@ -79,3 +80,16 @@ CREATE TABLE "placed_order" (
 		FOREIGN KEY (shipping_id)
 			REFERENCES "shipping"(id)
 );
+
+CREATE TABLE "post" (
+	id SERIAL NOT NULL,
+	image_data BYTEA NOT NULL,
+	mime_type VARCHAR(100) NOT NULL
+);
+
+INSERT INTO "user" (first_name, last_name, email, password, role, created_at, updated_at)
+VALUES
+('Christopher', 'Rivera', 'christopherrivera384@gmail.com', '$2a$12$nO2pGKMBVEgVP58KK8OsMu5Y8G.wn6wuH7OfgyBPyrX2ZdmAFhmUu', 
+'ADMIN', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+SELECT * FROM "post";

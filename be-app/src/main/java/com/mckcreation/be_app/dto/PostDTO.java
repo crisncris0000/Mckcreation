@@ -7,19 +7,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 @Builder
-public class ItemDTO {
-
-    long id;
-
-    String title;
+public class PostDTO {
 
     MultipartFile imageData;
 
-    byte[] prevImageData;
-
     String mimeType;
 
-    float price;
-
-    String selectedCategory;
 }

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import LoginForm from '../components/account/LoginForm'
-import AccountSettings from '../components/account/AccountSettings'
 
 const AccountPage = () => {
 
