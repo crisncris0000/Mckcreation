@@ -1,5 +1,6 @@
 package com.mckcreation.be_app.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
@@ -10,6 +11,7 @@ public class EmailService {
 
     private final JavaMailSender javaMailSender;
 
+    @Autowired
     public EmailService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
@@ -20,8 +22,10 @@ public class EmailService {
         SimpleMailMessage message = new SimpleMailMessage();
 
         message.setTo(to);
-        message.setFrom("Carol@Mckcreation.com");
+        message.setFrom("Christopherrivera384@gmail.com");
         message.setSubject(subject);
         message.setText(body);
+
+        javaMailSender.send(message);
     }
 }

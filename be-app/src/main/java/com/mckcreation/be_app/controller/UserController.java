@@ -1,7 +1,9 @@
 package com.mckcreation.be_app.controller;
 
+import com.mckcreation.be_app.dto.MailDTO;
 import com.mckcreation.be_app.dto.UserDTO;
 import com.mckcreation.be_app.model.User;
+import com.mckcreation.be_app.service.EmailService;
 import com.mckcreation.be_app.service.UserService;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +22,12 @@ public class UserController {
 
     UserService userService;
 
+    EmailService emailService;
+
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, EmailService emailService) {
         this.userService = userService;
+        this.emailService = emailService;
     }
 
     @GetMapping("/{id}")
@@ -62,6 +67,11 @@ public class UserController {
         return new ResponseEntity<>(Map.of("message", "Updated successfully!"), HttpStatus.OK);
     }
 
+    @PostMapping("/send-email")
+    public ResponseEntity<?> sendEmail(@RequestBody MailDTO mailDTO) {
 
+        emailService.sendEmail(mailDTO.getEmail(), mailDTO.getSubject(), mailDTO.getBody());
 
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
