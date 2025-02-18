@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
+import { ColorRing } from 'react-loader-spinner';
 
 const ContactForm = () => {
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [subject, setSubject] = useState('')
   const [body, setBody] = useState('')
+  
 
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     
     e.preventDefault()
+
+    setIsLoading(true)
     
     const newEmail = {
       name,
@@ -19,19 +25,28 @@ const ContactForm = () => {
       body
     }
     
-    fetch('http://localhost:8080/api/user/send-email', {
-      method: 'POST',
-      body: JSON.stringify(newEmail),
-      headers: {
-        'Content-Type': 'application/json'
+    try {
+      const res = await fetch('http://localhost:8080/api/user/send-email', {
+        method: 'POST',
+        body: JSON.stringify(newEmail),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      
+      const jsonRes = await res.json()
+
+      if(res.status != 200) {
+        console.log(jsonRes)
+        return
       }
-    }).then(response => {
-      return response.json()
-    }).then(data => {
-      console.log(data)
-    }).catch(error => {
+
+    } catch(error) {
       console.log(error)
-    })
+    } finally {
+      setIsLoading(false)
+    }
+    
   }
 
   return (
@@ -88,14 +103,25 @@ const ContactForm = () => {
             />
           </div>
           {/* Submit Button */}
-          <div className="flex justify-center">
-            <button
-              type="submit"
-              className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
+          {isLoading ? 
+            <ColorRing
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="color-ring-loading"
+              wrapperStyle={{}}
+              wrapperClass="color-ring-wrapper"
+              colors={['#d614e0', '#bf60c4', '#5140a8', '#271e54']}
+            /> :
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
               Send Message
-            </button>
-          </div>
+              </button>
+            </div>
+            }
         </form>
       </div>
     </section>

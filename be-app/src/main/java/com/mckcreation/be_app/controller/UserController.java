@@ -42,8 +42,6 @@ public class UserController {
     public ResponseEntity<?> getAllUsers() {
         List<User> users = userService.getAllUsers();
 
-        System.out.println(users);
-
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
