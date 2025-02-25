@@ -5,6 +5,7 @@ import com.mckcreation.be_app.dto.UserDTO;
 import com.mckcreation.be_app.model.User;
 import com.mckcreation.be_app.service.EmailService;
 import com.mckcreation.be_app.service.UserService;
+import org.apache.coyote.Response;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,13 @@ public class UserController {
         List<User> users = userService.getAllUsers();
 
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
+        User user = userService.getUserByEmail(email);
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")

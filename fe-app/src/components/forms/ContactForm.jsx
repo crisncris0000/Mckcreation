@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { ColorRing } from 'react-loader-spinner';
+import Message from '../message/Message'
 
 const ContactForm = () => {
 
   const [isLoading, setIsLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  const [isError, setIsError] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -33,15 +37,29 @@ const ContactForm = () => {
           'Content-Type': 'application/json'
         }
       })
-      
-      const jsonRes = await res.json()
 
-      if(res.status != 200) {
-        console.log(jsonRes)
+      console.log(res)
+
+      if(res.status == 200) {
+        setMessage("Email sent successfully")
+        setIsVisible(true)
+        setIsError(false)
+
+        setName('')
+        setEmail('')
+        setSubject('')
+        setBody('')
         return
+      } else {
+        setMessage("Error sending the email")
+        setIsVisible(true)
+        setIsError(true)
       }
-
+      
     } catch(error) {
+      setMessage("Internal Server error")
+      setIsVisible(true)
+      setIsError(true)
       console.log(error)
     } finally {
       setIsLoading(false)
@@ -51,6 +69,9 @@ const ContactForm = () => {
 
   return (
     <section className="flex justify-center items-center min-h-screen">
+
+    <Message isError={isError} isVisible={isVisible} setIsVisible={setIsVisible} message={message}/>
+
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Contact Me</h2>
         <form className="space-y-4" onSubmit={handleOnSubmit}>
@@ -103,7 +124,9 @@ const ContactForm = () => {
             />
           </div>
           {/* Submit Button */}
-          {isLoading ? 
+          
+          <div className="flex justify-center">
+          {isLoading ?
             <ColorRing
               visible={true}
               height="80"
@@ -113,15 +136,15 @@ const ContactForm = () => {
               wrapperClass="color-ring-wrapper"
               colors={['#d614e0', '#bf60c4', '#5140a8', '#271e54']}
             /> :
-            <div className="flex justify-center">
-              <button
-                type="submit"
-                className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
+          
+            <button
+              type="submit"
+              className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
               Send Message
               </button>
-            </div>
             }
+          </div>
         </form>
       </div>
     </section>

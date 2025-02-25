@@ -33,7 +33,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public User getUserByEmail(String email) {
-        Optional<User> user = userRepository.findUserByEmail(email);
+        
+        Optional<User> user = userRepository.findUserByEmail(email.toLowerCase());
 
         return user.orElseThrow(() ->
                 new EntityNotFoundException("User not found by email: " + email));

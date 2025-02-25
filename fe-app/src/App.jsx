@@ -10,7 +10,6 @@ import HomePage from './pages/HomePage'
 import ShoppingPage from './pages/ShoppingPage'
 import ContactPage from './pages/ContactPage'
 import AccountPage from './pages/AccountPage'
-import RegisterForm from './components/account/RegisterForm'
 import AccountLayout from './layouts/AccountLayout'
 import AccountSettingsPage from './pages/AccountSettingsPage'
 import NotFoundPage from './pages/NotFoundPage'
@@ -21,6 +20,7 @@ import { jwtDecode } from 'jwt-decode'
 import ItemFormPage from './pages/ItemFormPage'
 import UpdateItemForm from './components/forms/UpdateItemForm'
 import PortfolioPage from './pages/PortfolioPage'
+import RegisterUserPage from './pages/RegisterUserPage'
 
 function App() {
 
@@ -51,7 +51,7 @@ function App() {
         <Route path='shop/item/update-form' element={<UpdateItemForm />} />
         <Route path='/contact' element={<ContactPage />} />
         <Route path='/account/login' element={<AccountPage />} />
-        <Route path='/account/register' element={<RegisterForm />} />
+        <Route path='/account/register' element={<RegisterUserPage />} />
         <Route path='/account/cart' element={<ShoppingCartPage />} />
         <Route path='/portfolio' element={<PortfolioPage />} />
        
