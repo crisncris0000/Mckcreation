@@ -74,6 +74,15 @@ public class UserController {
         return new ResponseEntity<>(Map.of("message", "Updated successfully!"), HttpStatus.OK);
     }
 
+    @PutMapping("/reset-password")
+    public ResponseEntity<?> updateUserPassword(@RequestBody UserDTO userDTO) {
+
+        userService.updateUserPassword(userDTO);
+
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("/send-email")
     public ResponseEntity<?> sendEmail(@RequestBody MailDTO mailDTO) {
 

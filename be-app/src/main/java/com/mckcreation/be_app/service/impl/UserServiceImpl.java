@@ -108,6 +108,23 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    @Override
+    public void updateUserPassword(UserDTO userDTO) {
+        Optional<User> optionalUser = userRepository.findUserByEmail(userDTO.getEmail().toLowerCase());
+
+        User user = optionalUser.orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        Date date = new Date();
+        Timestamp timestamp = new Timestamp(date.getTime());
+
+        String hashedPassword = BCrypt.hashpw(userDTO.getPassword(), BCrypt.gensalt());
+
+        user.setPassword(hashedPassword);
+        user.setUpdatedAt(timestamp);
+
+        userRepository.save(user);
+    }
+
     public boolean userExists(String email) {
         Optional<User> user = userRepository.findUserByEmail(email);
         return user.isPresent();

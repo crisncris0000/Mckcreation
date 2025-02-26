@@ -20,5 +20,7 @@ public interface UserService {
 
     User updateUserPassword(long id, UserDTO userDTO) throws Exception;
 
+    void updateUserPassword(UserDTO userDTO);
+
     boolean userExists(String email);
 }
