@@ -33,7 +33,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public User getUserByEmail(String email) {
-        Optional<User> user = userRepository.findUserByEmail(email);
+        
+        Optional<User> user = userRepository.findUserByEmail(email.toLowerCase());
 
         return user.orElseThrow(() ->
                 new EntityNotFoundException("User not found by email: " + email));
@@ -105,6 +106,23 @@ public class UserServiceImpl implements UserService {
         user.setUpdatedAt(timestamp);
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public void updateUserPassword(UserDTO userDTO) {
+        Optional<User> optionalUser = userRepository.findUserByEmail(userDTO.getEmail().toLowerCase());
+
+        User user = optionalUser.orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        Date date = new Date();
+        Timestamp timestamp = new Timestamp(date.getTime());
+
+        String hashedPassword = BCrypt.hashpw(userDTO.getPassword(), BCrypt.gensalt());
+
+        user.setPassword(hashedPassword);
+        user.setUpdatedAt(timestamp);
+
+        userRepository.save(user);
     }
 
     public boolean userExists(String email) {

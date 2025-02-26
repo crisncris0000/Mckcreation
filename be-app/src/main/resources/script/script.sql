@@ -1,8 +1,10 @@
 DROP TABLE IF EXISTS "placed_order";
 DROP TABLE IF EXISTS "shipping";
 DROP TABLE IF EXISTS "order";
+DROP TABLE IF EXISTS "item";
 DROP TABLE IF EXISTS "category";
 DROP TABLE IF EXISTS "user";
+DROP TABLE IF EXISTS "post";
 
 CREATE TABLE "user" (
 	id SERIAL PRIMARY KEY,
@@ -17,9 +19,22 @@ CREATE TABLE "user" (
 
 CREATE TABLE "category" (
 	id SERIAL PRIMARY KEY,
-	name VARCHAR(100) NOT NULL,
-    image_data BYTEA NOT NULL,
-    mime_type VARCHAR(255) NOT NULL
+	name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE "item" (
+	id SERIAL PRIMARY KEY,
+	title VARCHAR(255) NOT NULL,
+	image_data BYTEA NOT NULL,
+	price FLOAT NOT NULL,
+    mime_type VARCHAR(100) NOT NULL,
+	category_id INT NOT NULL,
+	created_at TIMESTAMP NOT NULL,
+	updated_at TIMESTAMP NOT NULL,
+
+	CONSTRAINT fk_category 
+		FOREIGN KEY (category_id)
+			REFERENCES "category"(id)
 );
 
 CREATE TABLE "order" (
@@ -36,7 +51,7 @@ CREATE TABLE "order" (
 			REFERENCES "user"(id),
 	CONSTRAINT fk_category
 		FOREIGN KEY(category_id)
-			REFERENCES "order"(id)
+			REFERENCES "category"(id)
 );
 
 CREATE TABLE "shipping" (
@@ -65,3 +80,11 @@ CREATE TABLE "placed_order" (
 		FOREIGN KEY (shipping_id)
 			REFERENCES "shipping"(id)
 );
+
+CREATE TABLE "post" (
+	id SERIAL NOT NULL,
+	image_data BYTEA NOT NULL,
+	mime_type VARCHAR(100) NOT NULL
+);
+
+SELECT * FROM "post";

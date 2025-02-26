@@ -21,6 +21,14 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
+    @PostMapping("/create")
+    public ResponseEntity<?> createCategory(@RequestBody CategoryDTO categoryDTO) {
+
+        Category category = categoryService.createCategory(categoryDTO);
+
+        return new ResponseEntity<>(category, HttpStatus.OK);
+    }
+
     @GetMapping("/get-all")
     public ResponseEntity<?> getCategories() {
         List<Category> categories = categoryService.getCategories();

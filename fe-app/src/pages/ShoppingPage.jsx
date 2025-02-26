@@ -1,9 +1,11 @@
 import React from 'react'
-import Categories from '../components/Categories'
+import Products from '../components/Products'
 
 const ShoppingPage = () => {
   return (
-    <Categories />
+    <>
+      <Products />
+    </>
   )
 }
 

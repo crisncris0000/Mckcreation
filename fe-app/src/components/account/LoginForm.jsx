@@ -10,6 +10,9 @@ const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [message, setMessage] = useState('')
+
+  const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   
   const jwt = localStorage.getItem('jwt')
 
@@ -43,7 +46,8 @@ const LoginForm = () => {
       const jsonRes = await res.json()
 
       if(res.status != 200) {
-        console.log(jsonRes)
+        setError(true)
+        setErrorMessage(jsonRes.message)
         return
       }
 
@@ -120,9 +124,13 @@ const LoginForm = () => {
                 </button>
             }
           </div>
+          {error && <p className="text-red-500 text-lg">{errorMessage}</p>}
         </form>
         <p className="mt-4 text-center text-sm text-gray-600">
           Don't have an account? <Link to="/account/register" className="text-indigo-600 hover:underline">Sign Up</Link>
+        </p>
+        <p className="mt-4 text-center text-sm text-gray-600">
+          Forgot your password? <Link to="/account/reset" className="text-indigo-600 hover:underline">Reset password</Link>
         </p>
       </div>
     </section>

@@ -65,53 +65,56 @@ const Navbar = () => {
         <i className='bx bx-menu xl:hidden block text-5xl cursor-pointer'
           onClick={() => setIsMenuOpen(!isMenuOpen)}></i>
 
-        <div
-          className={`absolute xl:hidden top-32 left-0 w-full bg-white flex flex-col items-center gap-6 font-semibold text-lg
-          transition-transform transform ${isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[-20px]'} z-50`}
-          style={{ transition: 'transform 0.3s ease, opacity 0.3s ease' }}
-        >
-          <Link to='/'
-          className='list-none w-full text-center p-4 hover:bg-sky-400 hover:text-white transition-all cursor-pointer'>
-            Home
-          </Link>
+        {isMenuOpen ?
+          <div
+            className={`absolute xl:hidden top-32 left-0 w-full bg-white flex flex-col items-center gap-6 font-semibold text-lg
+            transition-transform transform ${isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[-20px]'} z-50`}
+            style={{ transition: 'transform 0.3s ease, opacity 0.3s ease' }}
+          >
+            <Link to='/'
+            className='list-none w-full text-center p-4 hover:bg-sky-400 hover:text-white transition-all cursor-pointer'>
+              Home
+            </Link>
 
-          <Link to='/shop'
-          className='list-none w-full text-center p-4 hover:bg-sky-400 hover:text-white transition-all cursor-pointer'>
-            Shop
-          </Link>
+            <Link to='/shop'
+            className='list-none w-full text-center p-4 hover:bg-sky-400 hover:text-white transition-all cursor-pointer'>
+              Shop
+            </Link>
 
-          <Link to='#'
-          className='list-none w-full text-center p-4 hover:bg-sky-400 hover:text-white transition-all cursor-pointer'>
-            Portfolio
-          </Link>
+            <Link to='#'
+            className='list-none w-full text-center p-4 hover:bg-sky-400 hover:text-white transition-all cursor-pointer'>
+              Portfolio
+            </Link>
 
-          <Link to='/contact'
-          className='list-none w-full text-center p-4 hover:bg-sky-400 hover:text-white transition-all cursor-pointer'>
-            Contact
-          </Link>
-          
-          { !jwt ? 
-            <Link to='/account/login'>
-              Login
-            </Link> 
+            <Link to='/contact'
+            className='list-none w-full text-center p-4 hover:bg-sky-400 hover:text-white transition-all cursor-pointer'>
+              Contact
+            </Link>
+            
+            { !jwt ? 
+              <Link to='/account/login'>
+                Login
+              </Link> 
+                :
+                
+              <Link to='/account/settings'>
+                Account
+              </Link>
+            }
+
+            { !jwt ? 
+              null
               :
-              
-            <Link to='/account/settings'>
-              Account
-            </Link>
-          }
-
-          { !jwt ? 
-            null
-            :
-            <Link to='account/cart'>
-              <FaShoppingCart className='h-6 w-6'/>
-            </Link>
-          }
-        </div>
+              <Link to='account/cart'>
+                <FaShoppingCart className='h-6 w-6'/>
+              </Link>
+            }
+          </div>
+          : null
+        }
       </header>
     </>
   )
 }
 
-export default Navbar
+export default Navbar;

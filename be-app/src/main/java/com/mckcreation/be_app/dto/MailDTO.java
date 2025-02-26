@@ -7,7 +7,14 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class CategoryDTO {
+public class MailDTO {
 
     String name;
+
+    String email;
+
+    String subject;
+
+    String body;
+
 }
