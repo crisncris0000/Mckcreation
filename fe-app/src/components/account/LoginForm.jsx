@@ -129,6 +129,9 @@ const LoginForm = () => {
         <p className="mt-4 text-center text-sm text-gray-600">
           Don't have an account? <Link to="/account/register" className="text-indigo-600 hover:underline">Sign Up</Link>
         </p>
+        <p className="mt-4 text-center text-sm text-gray-600">
+          Forgot your password? <Link to="/account/reset" className="text-indigo-600 hover:underline">Reset password</Link>
+        </p>
       </div>
     </section>
   );

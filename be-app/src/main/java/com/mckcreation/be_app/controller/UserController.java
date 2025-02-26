@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/api/user")
@@ -79,5 +80,24 @@ public class UserController {
         emailService.sendEmail(mailDTO.getEmail(), mailDTO.getSubject(), mailDTO.getBody());
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/reset/{email}")
+    public ResponseEntity<?> sendResetPassword(@PathVariable String email) {
+
+        User user = userService.getUserByEmail(email);
+
+        if(user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Random random = new Random();
+
+        int randomCode = random.nextInt(999999) + 100000;
+
+        emailService.sendEmail(email, "Reset Request",
+                "Here is your 6 digit code to reset your password: " + randomCode);
+
+        return new ResponseEntity<>(randomCode, HttpStatus.OK);
     }
 }
