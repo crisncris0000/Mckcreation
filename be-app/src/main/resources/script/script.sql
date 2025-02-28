@@ -87,4 +87,10 @@ CREATE TABLE "post" (
 	mime_type VARCHAR(100) NOT NULL
 );
 
-SELECT * FROM "post";
+INSERT INTO "user" (first_name, last_name, email, password, role, created_at, updated_at)
+VALUES('Christopher', 'Rivera', 
+'christopherrivera384@gmail.com',
+'$2y$10$0Fezfh9eKeoaQyr58QcN0.pcQdh8/VZhlGRsPHNg9/NzLF3trZ13a',
+'ADMIN',
+CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);

@@ -21,8 +21,8 @@ import ItemFormPage from './pages/ItemFormPage'
 import UpdateItemForm from './components/forms/UpdateItemForm'
 import PortfolioPage from './pages/PortfolioPage'
 import RegisterUserPage from './pages/RegisterUserPage'
-import ResetPasswordForm from './components/account/ResetPasswordForm'
 import ResetPasswordPage from './pages/ResetPasswordPage'
+import AdminDashboard from './components/admin/AdminDashboard'
 
 function App() {
 
@@ -57,7 +57,8 @@ function App() {
         <Route path='/account/reset' element={<ResetPasswordPage /> } />
         <Route path='/account/cart' element={<ShoppingCartPage />} />
         <Route path='/portfolio' element={<PortfolioPage />} />
-       
+
+        <Route path='/dashboard' element={<AdminDashboard />} />
 
         <Route path="/account" element={<AccountLayout />}>
           <Route path='/account/settings' element={<AccountSettingsPage />} />

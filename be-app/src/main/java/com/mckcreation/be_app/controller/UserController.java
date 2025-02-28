@@ -78,8 +78,6 @@ public class UserController {
     public ResponseEntity<?> updateUserPassword(@RequestBody UserDTO userDTO) {
 
         userService.updateUserPassword(userDTO);
-
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
