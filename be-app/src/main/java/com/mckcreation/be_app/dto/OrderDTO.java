@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 public class OrderDTO {
 
-    String customize;
+    String customization;
 
     float price;
 

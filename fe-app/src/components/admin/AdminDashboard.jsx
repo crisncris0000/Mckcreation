@@ -1,16 +1,11 @@
-import React from 'react';
-import BarChart from './BarChart';
+import React, { useEffect, useState } from 'react';
 import StatsSection from './StatsSection';
 import UsersTable from './UsersTable';
 import RecentTransactions from './RecentTransactions';
 
 const AdminDashboard = () => {
 
-  const users = [
-    { id: 1, name: 'John Doe', email: 'john@example.com', joined: '2023-10-01' },
-    { id: 2, name: 'Jane Smith', email: 'jane@example.com', joined: '2023-10-02' },
-    { id: 3, name: 'Alice Johnson', email: 'alice@example.com', joined: '2023-10-03' },
-  ];
+  const [users, setUsers] = useState([])
 
   const totalIncome = 12500;
   const popularItems = [
@@ -25,6 +20,19 @@ const AdminDashboard = () => {
     { id: 3, user: 'Alice Johnson', amount: 300, date: '2023-10-03' },
   ];
 
+  useEffect(() => {
+    fetch('http://localhost:8080/api/user/recent/5').then((response) => {
+      return response.json()
+    }).then((data) => {
+      console.log(data)
+      setUsers(data)
+    }).catch((error) => {
+      console.log(error)
+    })
+
+    
+  }, [])
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-gray-50 to-gray-100 p-8">
       <h1 className="text-4xl font-bold text-gray-800 mb-8">Admin Dashboard</h1>
@@ -34,8 +42,6 @@ const AdminDashboard = () => {
       <UsersTable users={users} />
 
       <RecentTransactions recentTransactions={recentTransactions} />
-
-      <BarChart />
     </div>
   );
 };

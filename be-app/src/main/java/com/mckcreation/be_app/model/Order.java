@@ -19,8 +19,8 @@ public class Order {
     @Column(name = "id")
     long id;
 
-    @Column(name = "customize")
-    String customize;
+    @Column(name = "customization")
+    String customization;
 
     @Column(name = "price")
     float price;

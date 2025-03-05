@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { IoIosAdd } from "react-icons/io";
+import { FaPlus } from "react-icons/fa";
 import Product from './Product';
 import { jwtDecode } from 'jwt-decode';
 
@@ -37,10 +37,15 @@ const Products = () => {
             </div>
             
             {jwt && user.role === 'ADMIN' ?
-                <Link to="/shop/item/form">
-                    <IoIosAdd className='h-32 w-32 fixed right-16 bottom-28'/>
-                </Link>
-            : null}
+            <Link to={"/shop/item/form"}>
+                <button
+                    className="fixed bottom-8 right-8 bg-pink-500 text-white p-5 rounded-full shadow-lg hover:bg-pink-700 transition transform hover:scale-110"
+                >
+                    <FaPlus size={28} />
+                </button> 
+            </Link>: null
+            
+        }
         </div>
     );
 }

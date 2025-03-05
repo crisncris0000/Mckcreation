@@ -14,6 +14,8 @@ public interface UserService {
 
     List<User> getAllUsers();
 
+    List<User> getRecentUsers(int num);
+
     User createUser(UserDTO userDTO);
 
     User updateUser(long id, UserDTO userDTO);

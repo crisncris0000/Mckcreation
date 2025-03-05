@@ -8,6 +8,7 @@ import com.mckcreation.be_app.service.UserService;
 import org.apache.coyote.Response;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +46,11 @@ public class UserController {
         List<User> users = userService.getAllUsers();
 
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @GetMapping("/recent/{count}")
+    public ResponseEntity<?> getRecentUsers(@PathVariable int count) {
+        return new ResponseEntity<>(userService.getRecentUsers(count), HttpStatus.OK);
     }
 
     @GetMapping("/email/{email}")

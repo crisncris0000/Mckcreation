@@ -23,6 +23,7 @@ import PortfolioPage from './pages/PortfolioPage'
 import RegisterUserPage from './pages/RegisterUserPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import AdminDashboard from './components/admin/AdminDashboard'
+import CustomItemFormPage from './pages/CustomItemFormPage'
 
 function App() {
 
@@ -50,7 +51,8 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path='/shop' element={<ShoppingPage />} />
         <Route path='/shop/item/form' element={<ItemFormPage />} />
-        <Route path='shop/item/update-form' element={<UpdateItemForm />} />
+        <Route path='/shop/custom-form' element={<CustomItemFormPage />} />
+        <Route path='/shop/item/update-form' element={<UpdateItemForm />} />
         <Route path='/contact' element={<ContactPage />} />
         <Route path='/account/login' element={<AccountPage />} />
         <Route path='/account/register' element={<RegisterUserPage />} />

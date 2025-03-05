@@ -1,6 +1,7 @@
 import React from 'react'
 
 const StatsSection = ({totalIncome, popularItems, users}) => {
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 rounded-lg shadow-lg text-white hover:shadow-xl transition-shadow duration-300">
@@ -37,4 +38,4 @@ const StatsSection = ({totalIncome, popularItems, users}) => {
     )
 }
 
-export default StatsSection
+export default StatsSection;

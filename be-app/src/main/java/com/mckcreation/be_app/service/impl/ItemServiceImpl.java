@@ -57,6 +57,7 @@ public class ItemServiceImpl implements ItemService {
                 .mimeType(itemDTO.getMimeType())
                 .category(category)
                 .price(itemDTO.getPrice())
+                .sold(0)
                 .createdAt(timestamp)
                 .updatedAt(timestamp)
                 .build();

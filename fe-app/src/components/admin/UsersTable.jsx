@@ -3,7 +3,7 @@ import React from 'react'
 const UsersTable = ({ users, onPrevious, onNext }) => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg mb-8 hover:shadow-xl transition-shadow duration-300">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">Users</h2>
+      <h2 className="text-2xl font-semibold text-gray-800 mb-6">Recent User Sign Ups</h2>
       <table className="w-full text-left">
         <thead>
           <tr className="border-b border-gray-200">
@@ -15,9 +15,9 @@ const UsersTable = ({ users, onPrevious, onNext }) => {
         <tbody>
           {users.map((user) => (
             <tr key={user.id} className="border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
-              <td className="py-3 text-gray-700">{user.name}</td>
+              <td className="py-3 text-gray-700">{`${user.firstName} ${user.lastName}`}</td>
               <td className="py-3 text-gray-700">{user.email}</td>
-              <td className="py-3 text-gray-700">{user.joined}</td>
+              <td className="py-3 text-gray-700">{user.createdAt}</td>
             </tr>
           ))}
         </tbody>

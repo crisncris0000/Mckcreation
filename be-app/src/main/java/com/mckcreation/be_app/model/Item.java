@@ -36,6 +36,9 @@ public class Item {
     @Column(name = "price")
     float price;
 
+    @Column(name = "sold")
+    long sold;
+
     @Column(name = "created_at")
     Date createdAt;
 

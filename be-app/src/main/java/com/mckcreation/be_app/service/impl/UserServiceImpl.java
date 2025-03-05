@@ -9,7 +9,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +24,28 @@ public class UserServiceImpl implements UserService {
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    public User createUser(UserDTO userDTO) {
+
+        Date date = new Date();
+        Timestamp timestamp = new Timestamp(date.getTime());
+
+        String hashed = BCrypt.hashpw(userDTO.getPassword(), BCrypt.gensalt());
+
+        String email = userDTO.getEmail().toLowerCase();
+
+        User user = User.builder()
+                .firstName(userDTO.getFirstName())
+                .lastName(userDTO.getLastName())
+                .email(email)
+                .password(hashed)
+                .role("USER")
+                .createdAt(timestamp)
+                .updatedAt(timestamp)
+                .build();
+
+        return userRepository.save(user);
     }
 
     public User getUserByID(int id) {
@@ -45,26 +68,15 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-    public User createUser(UserDTO userDTO) {
+    @Override
+    public List<User> getRecentUsers(int num) {
+        List<User> users = userRepository.getRecentUsers(PageRequest.of(0, num));
 
-        Date date = new Date();
-        Timestamp timestamp = new Timestamp(date.getTime());
+        if (users.isEmpty()) {
+            throw new EntityNotFoundException("Users not able to be retrieved");
+        }
 
-        String hashed = BCrypt.hashpw(userDTO.getPassword(), BCrypt.gensalt());
-
-        String email = userDTO.getEmail().toLowerCase();
-
-        User user = User.builder()
-                        .firstName(userDTO.getFirstName())
-                        .lastName(userDTO.getLastName())
-                        .email(email)
-                        .password(hashed)
-                        .role("USER")
-                        .createdAt(timestamp)
-                        .updatedAt(timestamp)
-                        .build();
-
-       return userRepository.save(user);
+        return users;
     }
 
     @Override

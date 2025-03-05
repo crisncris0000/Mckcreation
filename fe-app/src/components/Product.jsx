@@ -1,5 +1,5 @@
 import { jwtDecode } from 'jwt-decode';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Product = ({ item }) => {
@@ -7,6 +7,14 @@ const Product = ({ item }) => {
   const nav = new useNavigate();
   const jwt = localStorage.getItem('jwt');
   const [user, setUser] = useState('');
+
+  useEffect(() => {
+    if(jwt) {
+      setUser(jwtDecode(jwt))
+    } else {
+      setUser('')
+    }
+  }, [])
 
   const handleDelete = (id) => {
     fetch(`http://localhost:8080/api/item/delete/${id}`, {
@@ -45,11 +53,13 @@ const Product = ({ item }) => {
         <h1 className="text-xl font-bold">{item.title}</h1>
         <p className="text-gray-700 mt-2">${item.price}</p>
       </div>
-      <button
-        className="mt-5 bg-pink-400 text-white px-4 py-2 rounded hover:bg-pink-500 transition-colors w-full"
-      >
-        <Link to="/shop/item-form">Add to Cart</Link>
-      </button>
+      <Link to="/shop/custom-form" state={item}>Add to Cart
+        <button
+          className="mt-5 bg-pink-400 text-white px-4 py-2 rounded hover:bg-pink-500 transition-colors w-full"
+        >
+          Add to cart
+        </button>
+      </Link>
 
       {jwt && user.role === 'ADMIN' ?
         <button
