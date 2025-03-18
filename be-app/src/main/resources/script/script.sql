@@ -63,7 +63,7 @@ CREATE TABLE "shipping" (
 	zip_code VARCHAR(10) NOT NULL,
 	user_id INT,
 	
-	CONSTRAINT fk_user 
+	CONSTRAINT fk_user
 		FOREIGN KEY(user_id)
 			REFERENCES "user"(id)
 );
@@ -74,12 +74,17 @@ CREATE TABLE "placed_order" (
 	total FLOAT NOT NULL,
 	status VARCHAR(100) NOT NULL,
 	shipping_id INT NOT NULL,
+	user_id INT NOT NULL,
 	created_at TIMESTAMP NOT NULL,
 	updated_at TIMESTAMP NOT NULL,
 
 	CONSTRAINT fk_shipping
 		FOREIGN KEY (shipping_id)
-			REFERENCES "shipping"(id)
+			REFERENCES "shipping"(id),
+
+	CONSTRAINT fk_user
+		FOREIGN KEY (user_id)
+			REFERENCES "user"(id)
 );
 
 CREATE TABLE "post" (

@@ -10,7 +10,11 @@ const RegisterUserPage = () => {
         lastName: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        address: '',
+        city: '',
+        state: '',
+        zipCode: ''
     })
 
     const [match, setMatch] = useState(true)
@@ -50,6 +54,8 @@ const RegisterUserPage = () => {
       if(registrationInfo.password !== registrationInfo.confirmPassword) {
         setMatch(false)
         return;
+      } else {
+        setMatch(true)
       }
         
     
@@ -114,7 +120,11 @@ const RegisterUserPage = () => {
           firstName: registrationInfo.firstName,
           lastName: registrationInfo.lastName,
           email: registrationInfo.email,
-          password: registrationInfo.password
+          password: registrationInfo.password,
+          address: registrationInfo.address,
+          state: registrationInfo.state,
+          city: registrationInfo.city,
+          zipCode: registrationInfo.zipCode
         }
     
         try {

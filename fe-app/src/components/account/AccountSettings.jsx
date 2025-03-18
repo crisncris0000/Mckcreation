@@ -5,11 +5,21 @@ import { ColorRing } from 'react-loader-spinner';
 import { useNavigate } from 'react-router-dom';
 
 const AccountSettings = () => {
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [oldPassword, setOldPassword] = useState('')
-  const [newPassword, setNewPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
+
+  const [userInfo, setUserInfo] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+    address: '',
+    city: '',
+    state: '',
+    zipCode: ''
+  })
+
+
   const [error, setError] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [message, setMessage] = useState('')
@@ -23,9 +33,12 @@ const AccountSettings = () => {
       nav('/account/login')
     } else {
       const user = jwtDecode(jwt)
-      setFirstName(user.firstName)
-      setLastName(user.lastName)
+      setUserInfo({
+        firstName: user.firstName,
+        lastName: user.lastName,
+      })
     }
+
   },[jwt, nav])
 
   const handleSubmit = async (e) => {
@@ -83,14 +96,15 @@ const AccountSettings = () => {
 
       <h2 className="text-2xl font-bold mb-4 text-center">Update Account Information</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
+        
         {/* First Name */}
         <div>
           <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">First Name</label>
           <input
             type="text"
             id="firstName"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            value={userInfo.firstName}
+            onChange={(e) => setUserInfo({firstName: e.target.value})}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="First Name"
             required
@@ -103,8 +117,8 @@ const AccountSettings = () => {
           <input
             type="text"
             id="lastName"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            value={userInfo.lastName}
+            onChange={(e) => setUserInfo({lastName: e.target.value})}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="Last Name"
             required
@@ -117,8 +131,8 @@ const AccountSettings = () => {
           <input
             type="password"
             id="oldPassword"
-            value={oldPassword}
-            onChange={(e) => setOldPassword(e.target.value)}
+            value={userInfo.oldPassword}
+            onChange={(e) => setUserInfo({oldPassword: e.target.value})}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="Current Password"
             required
@@ -131,8 +145,8 @@ const AccountSettings = () => {
           <input
             type="password"
             id="newPassword"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
+            value={userInfo.newPassword}
+            onChange={(e) => setUserInfo({newPassword: e.target.value})}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="New Password"
             required
@@ -145,10 +159,52 @@ const AccountSettings = () => {
           <input
             type="password"
             id="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={userInfo.confirmPassword}
+            onChange={(e) => setUserInfo({confirmPassword: e.target.value})}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="Confirm New Password"
+            required
+          />
+        </div>
+
+        {/* Address */}
+        <div>
+          <label htmlFor="address" className="block text-sm font-medium text-gray-700">Address</label>
+          <input
+            type="text"
+            id="address"
+            value={userInfo.address}
+            onChange={(e) => setUserInfo({address: e.target.value})}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="Address"
+            required
+          />
+        </div>
+
+        {/* City */}
+        <div>
+          <label htmlFor="city" className="block text-sm font-medium text-gray-700">City</label>
+          <input
+            type="text"
+            id="city"
+            value={userInfo.city}
+            onChange={(e) => setUserInfo({city: e.target.value})}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="City"
+            required
+          />
+        </div>
+
+        {/* zipcode */}
+        <div>
+          <label htmlFor="zipcode" className="block text-sm font-medium text-gray-700">Zipcode</label>
+          <input
+            type="text"
+            id="zipcode"
+            value={userInfo.zipCode}
+            onChange={(e) => setUserInfo({zipCode: e.target.value})}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="Zipcode"
             required
           />
         </div>

@@ -4,6 +4,7 @@ import com.mckcreation.be_app.dto.AuthenticationRequest;
 import com.mckcreation.be_app.dto.UserDTO;
 import com.mckcreation.be_app.model.User;
 import com.mckcreation.be_app.security.service.JwtService;
+import com.mckcreation.be_app.service.ShippingService;
 import com.mckcreation.be_app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,13 +24,16 @@ import java.util.Map;
 public class AuthController {
 
     UserService userService;
+    ShippingService shippingService;
     AuthenticationManager authenticationManager;
     JwtService jwtService;
 
+
     @Autowired
-    public AuthController(UserService userService, AuthenticationManager authenticationManager,
-                          JwtService jwtService) {
+    public AuthController(UserService userService, ShippingService shippingService,
+                          AuthenticationManager authenticationManager, JwtService jwtService) {
         this.userService = userService;
+        this.shippingService = shippingService;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
     }
@@ -41,7 +45,11 @@ public class AuthController {
             return new ResponseEntity<>(Map.of("message", "User already exists"), HttpStatus.NOT_ACCEPTABLE);
         }
 
-        userService.createUser(userDTO);
+        User user = userService.createUser(userDTO);
+
+        shippingService.createShipping(userDTO, user);
+
+
 
         return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
     }

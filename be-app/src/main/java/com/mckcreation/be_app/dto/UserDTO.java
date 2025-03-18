@@ -17,4 +17,12 @@ public class UserDTO {
     String oldPassword;
 
     String password;
+
+    String address;
+
+    String state;
+
+    String city;
+
+    int zipCode;
 }

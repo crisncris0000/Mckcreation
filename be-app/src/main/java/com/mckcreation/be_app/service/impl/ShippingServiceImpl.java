@@ -1,6 +1,7 @@
 package com.mckcreation.be_app.service.impl;
 
 import com.mckcreation.be_app.dto.ShippingDTO;
+import com.mckcreation.be_app.dto.UserDTO;
 import com.mckcreation.be_app.model.Shipping;
 import com.mckcreation.be_app.model.User;
 import com.mckcreation.be_app.repository.ShippingRepository;
@@ -22,6 +23,20 @@ public class ShippingServiceImpl implements ShippingService {
     public ShippingServiceImpl(ShippingRepository shippingRepository, UserRepository userRepository) {
         this.shippingRepository = shippingRepository;
         this.userRepository = userRepository;
+    }
+
+    @Override
+    public Shipping createShipping(UserDTO userDTO, User user) {
+
+        Shipping shipping = Shipping.builder()
+                .address(userDTO.getAddress())
+                .state(userDTO.getState())
+                .city(userDTO.getCity())
+                .zipCode(userDTO.getZipCode())
+                .user(user)
+                .build();
+
+        return shippingRepository.save(shipping);
     }
 
     @Override

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const CustomForm = ({ handleOnSubmit, customization, setCustomization }) => {
 
@@ -6,7 +7,7 @@ const CustomForm = ({ handleOnSubmit, customization, setCustomization }) => {
     <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md mt-32 mb-32">
       <h2 className="text-xl font-semibold mb-4">Customize Your Item</h2>
       <form onSubmit={handleOnSubmit}>
-        <label className="block text-gray-700 mb-2">Customization:</label>
+        <label className="block text-gray-700 mb-2">Personalization:</label>
         <textarea 
           type="text"
           required
@@ -21,6 +22,14 @@ const CustomForm = ({ handleOnSubmit, customization, setCustomization }) => {
         >
           Add to Cart
         </button>
+        <Link to="/shop">
+          <button 
+            type="submit"
+            className="mt-4 w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            Go back
+          </button>
+        </Link>
       </form>
     </div>
   );

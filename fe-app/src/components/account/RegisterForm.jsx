@@ -4,7 +4,7 @@ import { ColorRing } from 'react-loader-spinner';
 
 const RegisterForm = ({ registrationInfo, setRegistrationInfo, sendVerificationEmail, match, isLoading, error, errorMessage }) => {
   return (
-        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md m-10">
           <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
           <form className="space-y-4" onSubmit={sendVerificationEmail}>
             {/* First Name Field */}
@@ -73,6 +73,58 @@ const RegisterForm = ({ registrationInfo, setRegistrationInfo, sendVerificationE
                 required
               />
               {!match && <p className='text-red-500'>Passwords must match!</p>}
+            </div>
+            {/* Address Field */}
+            <div>
+              <label htmlFor="address" className="block text-sm font-medium text-gray-700">Address</label>
+              <input
+                type="text"
+                id="address"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Your Address"
+                onChange={(e) => setRegistrationInfo(prev => ({ ...prev, address: e.target.value }))}
+                value={registrationInfo.address}
+                required
+              />
+            </div>
+            {/* City Field */}
+            <div>
+              <label htmlFor="city" className="block text-sm font-medium text-gray-700">City</label>
+              <input
+                type="text"
+                id="city"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="City"
+                onChange={(e) => setRegistrationInfo(prev => ({ ...prev, city: e.target.value }))}
+                value={registrationInfo.city}
+                required
+              />
+            </div>
+            {/* State Field */}
+            <div>
+              <label htmlFor="state" className="block text-sm font-medium text-gray-700">State</label>
+              <input
+                type="text"
+                id="state"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="State"
+                onChange={(e) => setRegistrationInfo(prev => ({ ...prev, state: e.target.value }))}
+                value={registrationInfo.state}
+                required
+              />
+            </div>
+            {/* Zip Code Field */}
+            <div>
+              <label htmlFor="zip" className="block text-sm font-medium text-gray-700">Zip Code</label>
+              <input
+                type="text"
+                id="zip"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Zip Code"
+                onChange={(e) => setRegistrationInfo(prev => ({ ...prev, zipCode: e.target.value }))}
+                value={registrationInfo.zipCode}
+                required
+              />
             </div>
             {/* Submit Button */}
             <div className="flex justify-center">

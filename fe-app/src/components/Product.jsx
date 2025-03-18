@@ -23,6 +23,7 @@ const Product = ({ item }) => {
       .then((res) => {
         if (res.ok) {
           console.log(`Item with id ${id} deleted successfully`);
+          window.location.reload()
         } else {
           console.error('Failed to delete the item');
         }
@@ -53,7 +54,8 @@ const Product = ({ item }) => {
         <h1 className="text-xl font-bold">{item.title}</h1>
         <p className="text-gray-700 mt-2">${item.price}</p>
       </div>
-      <Link to="/shop/custom-form" state={item}>Add to Cart
+      
+      <Link to="/shop/custom-form" state={item}>
         <button
           className="mt-5 bg-pink-400 text-white px-4 py-2 rounded hover:bg-pink-500 transition-colors w-full"
         >
