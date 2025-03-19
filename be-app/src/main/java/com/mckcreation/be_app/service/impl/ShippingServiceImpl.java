@@ -42,7 +42,7 @@ public class ShippingServiceImpl implements ShippingService {
     @Override
     public Shipping getUserShipping(int userID) {
 
-        Optional<Shipping> optionalShipping = shippingRepository.findUserShipping(userID);
+        Optional<Shipping> optionalShipping = shippingRepository.getUserShipping(userID);
 
         return optionalShipping.orElseThrow(() ->
                 new EntityNotFoundException("Entity not found"));
@@ -51,7 +51,7 @@ public class ShippingServiceImpl implements ShippingService {
     @Override
     public Shipping saveOrUpdateUserShipping(ShippingDTO shippingDTO) {
 
-        Optional<Shipping> optionalShipping = shippingRepository.findUserShipping(shippingDTO.getUserID());
+        Optional<Shipping> optionalShipping = shippingRepository.getUserShipping(shippingDTO.getUserID());
 
         Shipping shipping;
 

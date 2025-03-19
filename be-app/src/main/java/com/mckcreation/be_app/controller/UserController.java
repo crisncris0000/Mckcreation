@@ -2,6 +2,7 @@ package com.mckcreation.be_app.controller;
 
 import com.mckcreation.be_app.dto.MailDTO;
 import com.mckcreation.be_app.dto.UserDTO;
+import com.mckcreation.be_app.dto.UserShippingDTO;
 import com.mckcreation.be_app.model.User;
 import com.mckcreation.be_app.service.EmailService;
 import com.mckcreation.be_app.service.UserService;
@@ -60,6 +61,13 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @GetMapping("/get-user-shipping/{id}")
+    public ResponseEntity<?> getUserAndShipping(@PathVariable int id) {
+        UserShippingDTO userShippingDTO = userService.getUserAndShipping(id);
+
+        return new ResponseEntity<>(userShippingDTO, HttpStatus.OK);
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateUser(@PathVariable int id, @RequestBody UserDTO userDTO) {
 
@@ -74,7 +82,8 @@ public class UserController {
         try{
             userService.updateUserPassword(id, userDTO);
         } catch (Exception e) {
-            return new ResponseEntity<>(Map.of("error", "Old password does not match"), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(Map.of("error", "Old password does not match"),
+                    HttpStatus.UNAUTHORIZED);
         }
 
         return new ResponseEntity<>(Map.of("message", "Updated successfully!"), HttpStatus.OK);

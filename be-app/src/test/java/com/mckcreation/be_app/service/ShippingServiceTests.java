@@ -66,7 +66,7 @@ public class ShippingServiceTests {
                 .user(user)
                 .build();
 
-        when(shippingRepository.findUserShipping(1)).thenReturn(Optional.ofNullable(shipping));
+        when(shippingRepository.getUserShipping(1)).thenReturn(Optional.ofNullable(shipping));
 
         Shipping returnedShipping = shippingService.getUserShipping(1);
 

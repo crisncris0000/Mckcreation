@@ -64,7 +64,7 @@ public class ShippingRepositoryTests {
         shippingRepository.save(shipping);
 
 
-        Optional<Shipping> optionalShipping = shippingRepository.findUserShipping((int) savedUser.getId());
+        Optional<Shipping> optionalShipping = shippingRepository.getUserShipping((int) savedUser.getId());
 
         Shipping savedShipping = optionalShipping.orElseThrow(() ->
                 new EntityNotFoundException("Not found"));

@@ -12,5 +12,5 @@ import java.util.Optional;
 public interface ShippingRepository extends JpaRepository<Shipping, Integer> {
 
     @Query("SELECT shipping FROM Shipping shipping WHERE shipping.user.id = :userID")
-    Optional<Shipping> findUserShipping(@Param("userID") int userID);
+    Optional<Shipping> getUserShipping(@Param("userID") long userID);
 }

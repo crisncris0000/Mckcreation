@@ -1,8 +1,11 @@
 package com.mckcreation.be_app.service.impl;
 
 import com.mckcreation.be_app.dto.UserDTO;
+import com.mckcreation.be_app.dto.UserShippingDTO;
 import com.mckcreation.be_app.exception.PasswordsNotMachException;
+import com.mckcreation.be_app.model.Shipping;
 import com.mckcreation.be_app.model.User;
+import com.mckcreation.be_app.repository.ShippingRepository;
 import com.mckcreation.be_app.repository.UserRepository;
 import com.mckcreation.be_app.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,10 +22,12 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     UserRepository userRepository;
+    ShippingRepository shippingRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, ShippingRepository shippingRepository) {
         this.userRepository = userRepository;
+        this.shippingRepository = shippingRepository;
     }
 
     public User createUser(UserDTO userDTO) {
@@ -79,6 +84,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserShippingDTO getUserAndShipping(int userID) {
+        return userRepository.getUserAndShipping(userID).orElseThrow(() ->
+                new EntityNotFoundException("Cannot find required information"));
+    }
+
+    @Override
     public User updateUser(long id, UserDTO userDTO) {
         Optional<User> optionalUser = userRepository.findById((int) id);
 
@@ -97,16 +108,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUserPassword(long id, UserDTO userDTO) throws Exception {
+    public User updateUserPassword(long id, UserDTO userDTO) {
         Optional<User> optionalUser = userRepository.findById((int) id);
 
-        User user = optionalUser.orElseThrow(() -> new EntityNotFoundException("User not found"));
+        User user = optionalUser.orElseThrow(() ->
+                new EntityNotFoundException("User not found"));
 
-        boolean matches = BCrypt.checkpw(userDTO.getOldPassword(), user.getPassword());
+        String oldPassword = userDTO.getOldPassword();
 
-        if(!matches) {
-            throw new PasswordsNotMachException("User password does not match");
+        try{
+            boolean matches = BCrypt.checkpw(oldPassword, user.getPassword());
+
+            if (!matches) {
+                throw new PasswordsNotMachException("User password does not match");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
+
+
 
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
@@ -115,6 +136,19 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(hashedPassword);
         user.setUpdatedAt(timestamp);
+
+
+        Optional<Shipping> optionalShipping = shippingRepository.getUserShipping(user.getId());
+
+        Shipping shipping = optionalShipping.orElseThrow(() ->
+                new EntityNotFoundException("Shipping info not found"));
+
+        shipping.setAddress(userDTO.getAddress());
+        shipping.setState(userDTO.getState());
+        shipping.setCity(userDTO.getCity());
+        shipping.setZipCode(userDTO.getZipCode());
+
+        shippingRepository.save(shipping);
 
         return userRepository.save(user);
     }

@@ -9,7 +9,6 @@ const AccountSettings = () => {
   const [userInfo, setUserInfo] = useState({
     firstName: '',
     lastName: '',
-    email: '',
     oldPassword: '',
     newPassword: '',
     confirmPassword: '',
@@ -33,9 +32,20 @@ const AccountSettings = () => {
       nav('/account/login')
     } else {
       const user = jwtDecode(jwt)
-      setUserInfo({
-        firstName: user.firstName,
-        lastName: user.lastName,
+      
+      fetch(`http://localhost:8080/api/user/get-user-shipping/${user.id}`).then((response) => {
+        return response.json()
+      }).then((data) => {
+        setUserInfo({
+          firstName: data.firstName,
+          lastName: data.lastName,
+          address: data.address,
+          state: data.state,
+          city: data.city,
+          zipCode: data.zipCode
+        })
+      }).catch((error) => {
+        console.log(error)
       })
     }
 
@@ -46,12 +56,19 @@ const AccountSettings = () => {
 
     const user = jwtDecode(jwt) 
 
-    const updateUser = {
-      firstName,
-      lastName,
-      oldPassword,
-      password: newPassword
+    const updatedUser = {
+      firstName: userInfo.firstName,
+      lastName: userInfo.lastName,
+      oldPassword: userInfo.oldPassword,
+      password: userInfo.newPassword,
+      confirmPassword: userInfo.confirmPassword,
+      address: userInfo.address,
+      city: userInfo.city,
+      state: userInfo.state,
+      zipCode: userInfo.zipCode
     }
+    
+    console.log(updatedUser)
 
     try {
       setIsLoading(true)
@@ -62,7 +79,7 @@ const AccountSettings = () => {
           'Authorization': `Bearer ${jwt}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updateUser)
+        body: JSON.stringify(updatedUser)
       })
 
       const jsonRes = await res.json()
@@ -77,7 +94,7 @@ const AccountSettings = () => {
         setMessage(jsonRes.message)
       }
 
-      if(res.status == 401) console.log('JWT expired')
+      if(res.status == 401) console.log('Unauthorized')
 
     } catch (error) {
       setMessage('An error has occured please try again later')
@@ -104,7 +121,7 @@ const AccountSettings = () => {
             type="text"
             id="firstName"
             value={userInfo.firstName}
-            onChange={(e) => setUserInfo({firstName: e.target.value})}
+            onChange={(e) => setUserInfo(prev => ({...prev, firstName: e.target.value}))}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="First Name"
             required
@@ -118,7 +135,7 @@ const AccountSettings = () => {
             type="text"
             id="lastName"
             value={userInfo.lastName}
-            onChange={(e) => setUserInfo({lastName: e.target.value})}
+            onChange={(e) => setUserInfo(prev => ({...prev, lastName: e.target.value}))}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="Last Name"
             required
@@ -132,7 +149,7 @@ const AccountSettings = () => {
             type="password"
             id="oldPassword"
             value={userInfo.oldPassword}
-            onChange={(e) => setUserInfo({oldPassword: e.target.value})}
+            onChange={(e) => setUserInfo(prev => ({...prev, oldPassword: e.target.value}))}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="Current Password"
             required
@@ -146,7 +163,7 @@ const AccountSettings = () => {
             type="password"
             id="newPassword"
             value={userInfo.newPassword}
-            onChange={(e) => setUserInfo({newPassword: e.target.value})}
+            onChange={(e) => setUserInfo(prev => ({...prev, newPassword: e.target.value}))}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="New Password"
             required
@@ -160,7 +177,7 @@ const AccountSettings = () => {
             type="password"
             id="confirmPassword"
             value={userInfo.confirmPassword}
-            onChange={(e) => setUserInfo({confirmPassword: e.target.value})}
+            onChange={(e) => setUserInfo(prev => ({...prev, confirmPassword: e.target.value}))}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="Confirm New Password"
             required
@@ -174,7 +191,7 @@ const AccountSettings = () => {
             type="text"
             id="address"
             value={userInfo.address}
-            onChange={(e) => setUserInfo({address: e.target.value})}
+            onChange={(e) => setUserInfo(prev => ({...prev, address: e.target.value}))}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="Address"
             required
@@ -188,7 +205,7 @@ const AccountSettings = () => {
             type="text"
             id="city"
             value={userInfo.city}
-            onChange={(e) => setUserInfo({city: e.target.value})}
+            onChange={(e) => setUserInfo(prev => ({...prev, city: e.target.value}))}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="City"
             required
@@ -202,7 +219,7 @@ const AccountSettings = () => {
             type="text"
             id="zipcode"
             value={userInfo.zipCode}
-            onChange={(e) => setUserInfo({zipCode: e.target.value})}
+            onChange={(e) => setUserInfo(prev => ({...prev, zipCode: e.target.value}))}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="Zipcode"
             required
