@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUserPassword(long id, UserDTO userDTO) {
+    public User updateUserPassword(long id, UserDTO userDTO) throws Exception {
         Optional<User> optionalUser = userRepository.findById((int) id);
 
         User user = optionalUser.orElseThrow(() ->
@@ -116,15 +116,10 @@ public class UserServiceImpl implements UserService {
 
         String oldPassword = userDTO.getOldPassword();
 
-        try{
-            boolean matches = BCrypt.checkpw(oldPassword, user.getPassword());
+        boolean matches = BCrypt.checkpw(oldPassword, user.getPassword());
 
-            if (!matches) {
-                throw new PasswordsNotMachException("User password does not match");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        if (!matches) {
+            throw new Exception("Current password doesn't match");
         }
 
 

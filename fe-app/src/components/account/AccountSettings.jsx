@@ -18,7 +18,6 @@ const AccountSettings = () => {
     zipCode: ''
   })
 
-
   const [error, setError] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [message, setMessage] = useState('')
@@ -68,7 +67,15 @@ const AccountSettings = () => {
       zipCode: userInfo.zipCode
     }
     
-    console.log(updatedUser)
+    if(updatedUser.password !== userInfo.confirmPassword) {
+      setError(true)
+      setMessage('Passwords do not match')
+      setIsVisible(true)
+      return
+    } else {
+      setError(false)
+      setMessage('')
+    }
 
     try {
       setIsLoading(true)
@@ -85,7 +92,7 @@ const AccountSettings = () => {
       const jsonRes = await res.json()
 
       if(res.status != 200) {
-        setMessage(jsonRes.error)
+        setMessage(jsonRes.message)
         setError(true)
         setIsVisible(true)
       } else {

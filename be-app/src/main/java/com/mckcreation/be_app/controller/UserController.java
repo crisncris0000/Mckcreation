@@ -77,14 +77,8 @@ public class UserController {
     }
 
     @PutMapping("/update-password/{id}")
-    public ResponseEntity<?> updateUserPassword(@PathVariable int id, @RequestBody UserDTO userDTO) {
-
-        try{
-            userService.updateUserPassword(id, userDTO);
-        } catch (Exception e) {
-            return new ResponseEntity<>(Map.of("error", "Old password does not match"),
-                    HttpStatus.UNAUTHORIZED);
-        }
+    public ResponseEntity<?> updateUserPassword(@PathVariable int id, @RequestBody UserDTO userDTO) throws Exception {
+        userService.updateUserPassword(id, userDTO);
 
         return new ResponseEntity<>(Map.of("message", "Updated successfully!"), HttpStatus.OK);
     }
