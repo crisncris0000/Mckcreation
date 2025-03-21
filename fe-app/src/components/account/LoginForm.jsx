@@ -16,7 +16,7 @@ const LoginForm = () => {
   
   const jwt = localStorage.getItem('jwt')
 
-  const navigate = new useNavigate()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if(jwt) {

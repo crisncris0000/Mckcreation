@@ -24,10 +24,14 @@ import RegisterUserPage from './pages/RegisterUserPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import AdminDashboard from './components/admin/AdminDashboard'
 import CustomItemFormPage from './pages/CustomItemFormPage'
+import CheckoutPage from './pages/CheckoutPage'
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
 
 function App() {
 
   const jwt = localStorage.getItem('jwt')
+  const stripeKey = loadStripe("pk_test_51NcYrsEiypvGVayro5rvWMvgPNeOEAOIvxYRx5hfksFXJeV2pPUcDZtlrCeHT6Ds4CW5bDc5azrj8CCvPF2yxHd600ETzXz5Oh")
 
   useEffect(() => {
     if(!jwt) {
@@ -58,20 +62,22 @@ function App() {
         <Route path='/account/register' element={<RegisterUserPage />} />
         <Route path='/account/reset' element={<ResetPasswordPage /> } />
         <Route path='/account/cart' element={<ShoppingCartPage />} />
+        <Route path='/account/cart/checkout' element={<CheckoutPage />} />
         <Route path='/portfolio' element={<PortfolioPage />} />
-
-        <Route path='/dashboard' element={<AdminDashboard />} />
 
         <Route path="/account" element={<AccountLayout />}>
           <Route path='/account/settings' element={<AccountSettingsPage />} />
           <Route path='/account/payment-history' element={<PaymentHistoryPage />} />
+          <Route path='/account/dashboard' element={<AdminDashboard />} />
         </Route>
       </Route>
     )
   )
 
   return (
-    <RouterProvider router={router} />
+    <Elements stripe={stripeKey}>
+      <RouterProvider router={router} />
+    </Elements>
   )
 }
 

@@ -55,13 +55,23 @@ const Product = ({ item }) => {
         <p className="text-gray-700 mt-2">${item.price}</p>
       </div>
       
+      {jwt ?
       <Link to="/shop/custom-form" state={item}>
         <button
           className="mt-5 bg-pink-400 text-white px-4 py-2 rounded hover:bg-pink-500 transition-colors w-full"
         >
           Add to cart
         </button>
+      </Link> 
+      :
+      <Link to="/account/login">
+        <button
+          className="mt-5 bg-pink-400 text-white px-4 py-2 rounded hover:bg-pink-500 transition-colors w-full"
+        >
+        Add to cart
+        </button>
       </Link>
+      }
 
       {jwt && user.role === 'ADMIN' ?
         <button

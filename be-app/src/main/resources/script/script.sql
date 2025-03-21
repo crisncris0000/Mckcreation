@@ -40,6 +40,7 @@ CREATE TABLE "item" (
 
 CREATE TABLE "order" (
 	id SERIAL PRIMARY KEY,
+	item_title VARCHAR(100) NOT NULL,
 	customization TEXT NOT NULL,
 	price FLOAT NOT NULL,
 	category_id INT NOT NULL,
@@ -47,7 +48,7 @@ CREATE TABLE "order" (
 	created_at TIMESTAMP NOT NULL,
 	updated_at TIMESTAMP NOT NULL,
 
-	CONSTRAINT fk_user 
+	CONSTRAINT fk_user
 		FOREIGN KEY(user_id)
 			REFERENCES "user"(id),
 	CONSTRAINT fk_category

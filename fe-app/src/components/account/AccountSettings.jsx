@@ -159,7 +159,6 @@ const AccountSettings = () => {
             onChange={(e) => setUserInfo(prev => ({...prev, oldPassword: e.target.value}))}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="Current Password"
-            required
           />
         </div>
 
@@ -173,7 +172,6 @@ const AccountSettings = () => {
             onChange={(e) => setUserInfo(prev => ({...prev, newPassword: e.target.value}))}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="New Password"
-            required
           />
         </div>
 
@@ -187,7 +185,6 @@ const AccountSettings = () => {
             onChange={(e) => setUserInfo(prev => ({...prev, confirmPassword: e.target.value}))}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             placeholder="Confirm New Password"
-            required
           />
         </div>
 

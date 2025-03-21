@@ -47,6 +47,7 @@ public class OrderServiceImpl implements OrderService {
         Timestamp timestamp = new Timestamp(date.getTime());
 
         Order order = Order.builder()
+                .itemTitle(orderDTO.getItemTitle())
                 .customization(orderDTO.getCustomization())
                 .price(orderDTO.getPrice())
                 .category(category)

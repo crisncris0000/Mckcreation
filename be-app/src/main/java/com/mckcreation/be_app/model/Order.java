@@ -19,6 +19,9 @@ public class Order {
     @Column(name = "id")
     long id;
 
+    @Column(name = "item_title")
+    String itemTitle;
+
     @Column(name = "customization")
     String customization;
 

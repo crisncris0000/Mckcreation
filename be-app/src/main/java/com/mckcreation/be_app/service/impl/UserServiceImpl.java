@@ -114,29 +114,33 @@ public class UserServiceImpl implements UserService {
         User user = optionalUser.orElseThrow(() ->
                 new EntityNotFoundException("User not found"));
 
-        String oldPassword = userDTO.getOldPassword();
 
-        boolean matches = BCrypt.checkpw(oldPassword, user.getPassword());
+        if(userDTO.getOldPassword() != null && !userDTO.getOldPassword().isEmpty()) {
 
-        if (!matches) {
-            throw new Exception("Current password doesn't match");
+            String oldPassword = userDTO.getOldPassword();
+
+            boolean matches = BCrypt.checkpw(oldPassword, user.getPassword());
+
+            if (!matches) {
+                throw new Exception("Current password doesn't match");
+            }
+
+            String hashedPassword = BCrypt.hashpw(userDTO.getPassword(), BCrypt.gensalt());
+
+            user.setPassword(hashedPassword);
         }
-
 
 
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
 
-        String hashedPassword = BCrypt.hashpw(userDTO.getPassword(), BCrypt.gensalt());
-
-        user.setPassword(hashedPassword);
-        user.setUpdatedAt(timestamp);
-
-
         Optional<Shipping> optionalShipping = shippingRepository.getUserShipping(user.getId());
 
         Shipping shipping = optionalShipping.orElseThrow(() ->
                 new EntityNotFoundException("Shipping info not found"));
+
+
+        user.setUpdatedAt(timestamp);
 
         shipping.setAddress(userDTO.getAddress());
         shipping.setState(userDTO.getState());

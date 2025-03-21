@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import CustomForm from '../components/forms/CustomForm'
 import { jwtDecode } from 'jwt-decode'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const CustomItemFormPage = () => {
   const [customization, setCustomization] = useState('')
@@ -10,6 +10,7 @@ const CustomItemFormPage = () => {
 
   const location = useLocation()
   const data = location.state
+  const nav = useNavigate()
 
   useEffect(() => {
     if (jwt) {
@@ -23,6 +24,7 @@ const CustomItemFormPage = () => {
     e.preventDefault()
 
     const order = {
+      itemTitle: data.title,
       customization,
       price: data.price,
       userID: user.id,
@@ -30,7 +32,7 @@ const CustomItemFormPage = () => {
     }
 
     try {
-      const res = await fetch('http://localhost:8080/api/order/create', {
+      await fetch('http://localhost:8080/api/order/create', {
         method: 'POST',
         body: JSON.stringify(order),
         headers: {
@@ -38,7 +40,7 @@ const CustomItemFormPage = () => {
         }
       })
 
-      console.log(await res.json())
+      nav('/shop')
     } catch (error) {
       console.log(error)
     }
