@@ -10,11 +10,13 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PaymentIntentDTO {
 
-    String paymentID;
+    String paymentMethodID;
 
     long total;
 
-    ShippingDTO shippingDTO;
+    ShippingDTO shipping;
+
+    OrderDTO[] orders;
 
     String email;
 

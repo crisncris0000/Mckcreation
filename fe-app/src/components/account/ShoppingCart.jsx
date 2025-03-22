@@ -65,9 +65,6 @@ const ShoppingCart = ({ orders, user }) => {
                 <h1 className="text-xl border-b border-gray-200 pb-3 mb-4 text-gray-800">
                   Customization you've chosen
                 </h1>
-
-
-
                 <p className="text-gray-700">{order.customization}</p>
               </Modal>
             </div>
@@ -78,9 +75,14 @@ const ShoppingCart = ({ orders, user }) => {
         <div className="flex justify-around items-center mt-10">
 
           <p className='text-xl font-bold '>
-            Total: ${calculatePrice()}
+            Total: ${calculatePrice().toFixed(2)}
           </p>
-          <Link to="/account/cart/checkout" state={calculatePrice()}>
+          <Link to="/account/cart/checkout" state={
+            {
+              total: calculatePrice(),
+              orders
+            }
+            }>
             <button
               className="bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md 
               hover:bg-blue-700 transition duration-300 text-lg"

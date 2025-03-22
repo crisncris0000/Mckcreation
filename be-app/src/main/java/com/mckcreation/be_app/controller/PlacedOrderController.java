@@ -26,18 +26,6 @@ public class PlacedOrderController {
         this.shippingService = shippingService;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createPlacedOrder(@RequestBody PlacedOrderDTO placedOrderDTO) {
-
-        Shipping shipping = shippingService.saveOrUpdateUserShipping(placedOrderDTO.getShippingDTO());
-
-        placedOrderDTO.setShipping(shipping);
-
-        PlacedOrder placedOrder = placedOrderService.createPlacedOrder(placedOrderDTO);
-
-        return new ResponseEntity<>(placedOrder,HttpStatus.CREATED);
-    }
-
     @GetMapping("/get-all")
     public ResponseEntity<?> getPlacedOrders() {
         List<PlacedOrder> placedOrders = placedOrderService.getPlacedOrders();

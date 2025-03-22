@@ -38,7 +38,6 @@ const CheckoutForm = () => {
 
     if (!stripe || !elements) return;
 
-    // Create a Payment Method based on user input
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: elements.getElement(CardElement),
@@ -50,13 +49,12 @@ const CheckoutForm = () => {
       return;
     }
 
-    console.log("Payment Method Created:", paymentMethod);
-
 
     const paymentDetails = {
-      paymentMethodId: paymentMethod.id,
-      total: location.state,
-      shippingDTO: {
+      paymentMethodID: paymentMethod.id,
+      total: (location.state.total * 100).toFixed(0),
+      orders: location.state.orders,
+      shipping: {
         address, 
         state,
         city,
@@ -68,14 +66,11 @@ const CheckoutForm = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8080/api/payment/create-payment", {
+      await fetch("http://localhost:8080/api/payment/create-payment", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(paymentDetails),
     });
-
-    const data = await response.json();
-    console.log("Server Response:", data);
     } catch (error) {
       console.log(error)
     } finally {
@@ -85,7 +80,7 @@ const CheckoutForm = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-pink-100 to-purple-200">
-      <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md">
+      <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md m-10">
         <h2 className="text-2xl font-semibold text-pink-600 mb-6 text-center">Checkout</h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
