@@ -20,5 +20,5 @@ public class PlacedOrderDTO {
 
     ShippingDTO shippingDTO;
 
-    Shipping shipping;
+
 }

@@ -18,9 +18,13 @@ public class PaymentIntentDTO {
 
     OrderDTO[] orders;
 
+    int userID;
+
     String email;
 
     String firstName;
 
     String lastName;
+
+    boolean useDefaultAddress;
 }

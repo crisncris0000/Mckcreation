@@ -1,5 +1,7 @@
 package com.mckcreation.be_app.controller;
 import com.mckcreation.be_app.dto.PaymentIntentDTO;
+import com.mckcreation.be_app.dto.PlacedOrderDTO;
+import com.mckcreation.be_app.dto.ShippingDTO;
 import com.mckcreation.be_app.service.PlacedOrderService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
@@ -29,33 +31,52 @@ public class PaymentController {
     public ResponseEntity<?> createPayment(@RequestBody PaymentIntentDTO paymentIntentDTO) throws StripeException {
 
         PaymentIntentCreateParams.Shipping shipping = PaymentIntentCreateParams.Shipping.builder()
-                .setName(paymentIntentDTO.getFirstName() + " " + paymentIntentDTO.getLastName())  // Full name
+                .setName(paymentIntentDTO.getFirstName() + " " + paymentIntentDTO.getLastName())
                 .setAddress(PaymentIntentCreateParams.Shipping.Address.builder()
-                        .setLine1(paymentIntentDTO.getShipping().getAddress())  // Address line 1
-                        .setCity(paymentIntentDTO.getShipping().getCity())  // City
-                        .setPostalCode(String.valueOf(paymentIntentDTO.getShipping().getZipCode()))  // Postal code
+                        .setLine1(paymentIntentDTO.getShipping().getAddress())
+                        .setCity(paymentIntentDTO.getShipping().getCity())
+                        .setPostalCode(String.valueOf(paymentIntentDTO.getShipping().getZipCode()))
                         .setCountry("USA")
                         .build())
                 .build();
 
-        PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
+        PaymentIntentCreateParams.Builder paramsBuilder = PaymentIntentCreateParams.builder()
                 .setAmount(paymentIntentDTO.getTotal())
                 .setCurrency("usd")
                 .setShipping(shipping)
                 .setPaymentMethod(paymentIntentDTO.getPaymentMethodID())
                 .setReceiptEmail(paymentIntentDTO.getEmail())
-                .setConfirm(true)
                 .setAutomaticPaymentMethods(
                         PaymentIntentCreateParams.AutomaticPaymentMethods.builder()
-                                .setEnabled(true) // Enable automatic payment methods
-                                .setAllowRedirects(PaymentIntentCreateParams.AutomaticPaymentMethods.AllowRedirects.NEVER) // ✅ Disable redirects
+                                .setEnabled(true)
+                                .setAllowRedirects(PaymentIntentCreateParams.AutomaticPaymentMethods.AllowRedirects.NEVER)
                                 .build()
-                )
+                );
+
+        if (paymentIntentDTO.getPaymentMethodID() != null) {
+            paramsBuilder.setConfirm(true);
+        }
+
+        ShippingDTO shippingDTO = ShippingDTO.builder()
+                .address(paymentIntentDTO.getShipping().getAddress())
+                .state(paymentIntentDTO.getShipping().getState())
+                .city(paymentIntentDTO.getShipping().getCity())
+                .zipCode(paymentIntentDTO.getShipping().getZipCode())
                 .build();
 
-        PaymentIntent.create(params);
+        PlacedOrderDTO placedOrderDTO = PlacedOrderDTO.builder()
+                .userID(paymentIntentDTO.getUserID())  // ✅ Ensure userID is included
+                .details(Arrays.toString(paymentIntentDTO.getOrders()))
+                .total(paymentIntentDTO.getTotal())
+                .status("Order placed")
+                .shippingDTO(shippingDTO)
+                .build();
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        placedOrderService.createPlacedOrder(placedOrderDTO, paymentIntentDTO.isUseDefaultAddress());
+
+        PaymentIntent.create(paramsBuilder.build());
+
+        return ResponseEntity.ok().build();
     }
 
 

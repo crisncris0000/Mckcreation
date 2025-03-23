@@ -107,3 +107,4 @@ VALUES('123 Elmo Street', 'New York', 'New York', 10038, 1);
 
 SELECT first_name, last_name, address, city, state, zip_code
 FROM "user" INNER JOIN shipping ON "user".id = shipping.user_id;
+

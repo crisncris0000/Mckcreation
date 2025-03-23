@@ -11,6 +11,6 @@ public interface PlacedOrderService {
 
     List<PlacedOrder> getUserPlacedOrders(int id);
 
-    public PlacedOrder createPlacedOrder(PlacedOrderDTO placedOrderDTO);
+    PlacedOrder createPlacedOrder(PlacedOrderDTO placedOrderDTO, boolean useDefaultAddress);
 
 }
