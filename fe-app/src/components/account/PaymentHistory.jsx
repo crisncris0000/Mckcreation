@@ -27,7 +27,7 @@ const PaymentHistory = () => {
       .then((data) => setPayments(data));
   }, [jwt, nav]);
 
-  const handleRefund = (id) => {
+  const handleRefundRequest = (id) => {
     alert(`Refund initiated for Order #${id}`);
   };
 
@@ -62,7 +62,6 @@ const PaymentHistory = () => {
               <th className="py-2 px-4 bg-gray-100 text-left">Date</th>
               <th className="py-2 px-4 bg-gray-100 text-left">Status</th>
               <th className="py-2 px-4 bg-gray-100 text-left">Order Details</th>
-              <th className="py-2 px-4 bg-gray-100 text-left">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -104,19 +103,6 @@ const PaymentHistory = () => {
                         </div>
                       </div>
                     </Modal>
-                  </td>
-                  <td className="py-2 px-4">
-                    <button
-                      className={`${
-                        payment.status === 'Refunded' 
-                          ? 'bg-gray-500 cursor-not-allowed' 
-                          : 'bg-red-500 hover:bg-red-700'
-                      } text-white px-4 py-2 rounded transition-colors`}
-                      onClick={() => handleRefund(payment.id)}
-                      disabled={payment.status === 'Refunded'}
-                    >
-                      {payment.status === 'Refunded' ? 'Refunded' : 'Refund'}
-                    </button>
                   </td>
                 </tr>
               )}

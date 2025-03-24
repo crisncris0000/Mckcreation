@@ -20,4 +20,9 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Modifying
     @Query("DELETE FROM Order order WHERE order.id = :orderID AND order.user.id = :userID")
     void deleteOrder(@Param("orderID") int orderID, @Param("userID") int userID);
+
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Order order WHERE order.user.id = :userID")
+    void deleteUserOrders(@Param("userID") long userID);
 }

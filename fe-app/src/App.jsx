@@ -22,7 +22,6 @@ import UpdateItemForm from './components/forms/UpdateItemForm'
 import PortfolioPage from './pages/PortfolioPage'
 import RegisterUserPage from './pages/RegisterUserPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
-import AdminDashboard from './components/admin/AdminDashboard'
 import CustomItemFormPage from './pages/CustomItemFormPage'
 import CheckoutPage from './pages/CheckoutPage'
 import { Elements } from '@stripe/react-stripe-js'
@@ -68,7 +67,6 @@ function App() {
         <Route path="/account" element={<AccountLayout />}>
           <Route path='/account/settings' element={<AccountSettingsPage />} />
           <Route path='/account/payment-history' element={<PaymentHistoryPage />} />
-          <Route path='/account/dashboard' element={<AdminDashboard />} />
         </Route>
       </Route>
     )

@@ -1,10 +1,10 @@
 package com.mckcreation.be_app.service.impl;
 
 import com.mckcreation.be_app.dto.PlacedOrderDTO;
-import com.mckcreation.be_app.dto.ShippingDTO;
 import com.mckcreation.be_app.model.PlacedOrder;
 import com.mckcreation.be_app.model.Shipping;
 import com.mckcreation.be_app.model.User;
+import com.mckcreation.be_app.repository.OrderRepository;
 import com.mckcreation.be_app.repository.PlacedOrderRepository;
 import com.mckcreation.be_app.repository.ShippingRepository;
 import com.mckcreation.be_app.repository.UserRepository;
@@ -16,21 +16,22 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PlacedOrderServiceImpl implements PlacedOrderService {
 
     PlacedOrderRepository placedOrderRepository;
+    OrderRepository orderRepository;
     ShippingRepository shippingRepository;
     UserRepository userRepository;
 
     @Autowired
-    public PlacedOrderServiceImpl(PlacedOrderRepository placedOrderRepository,
-                                  ShippingRepository shippingRepository, UserRepository userRepository) {
+    public PlacedOrderServiceImpl(PlacedOrderRepository placedOrderRepository, ShippingRepository shippingRepository,
+                                  UserRepository userRepository, OrderRepository orderRepository) {
        this.placedOrderRepository = placedOrderRepository;
        this.shippingRepository = shippingRepository;
        this.userRepository = userRepository;
+       this.orderRepository = orderRepository;
     }
 
     public PlacedOrder createPlacedOrder(PlacedOrderDTO placedOrderDTO, boolean useDefaultAddress) {
@@ -61,7 +62,11 @@ public class PlacedOrderServiceImpl implements PlacedOrderService {
                 .updatedAt(timestamp)
                 .build();
 
-        return placedOrderRepository.save(placedOrder);
+        PlacedOrder savedPlacedOrder = placedOrderRepository.save(placedOrder);
+
+        orderRepository.deleteUserOrders(user.getId());
+
+        return savedPlacedOrder;
     }
 
 

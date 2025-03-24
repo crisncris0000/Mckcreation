@@ -29,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
     public Category createCategory(CategoryDTO categoryDTO) {
         Category category = new Category();
 
-        categoryDTO.setName(categoryDTO.getName().toLowerCase());
+        categoryDTO.setName(categoryDTO.getName());
 
         boolean exists = categoryExists(categoryDTO.getName());
 
