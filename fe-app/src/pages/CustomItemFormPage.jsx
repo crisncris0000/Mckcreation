@@ -13,11 +13,10 @@ const CustomItemFormPage = () => {
   const nav = useNavigate()
 
   useEffect(() => {
-    if (jwt) {
-      setUser(jwtDecode(jwt))
-    } else {
-      setUser(jwt)
+    if (!jwt) {
+      nav('/account/login')
     }
+    setUser(jwtDecode(jwt))
   }, [])
 
   const handleOnSubmit = async (e) => {
@@ -51,7 +50,7 @@ const CustomItemFormPage = () => {
       {/* Image Section */}
       <div className="w-full md:w-1/2 flex justify-center">
         <img
-        src={`data:${data.mimeType};base64,${data.imageData}`}
+        src={`data:${data?.mimeType};base64,${data?.imageData}`}
           alt="Item Preview"
           className="max-w-full h-auto rounded-lg shadow-lg"
         />

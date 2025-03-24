@@ -5,15 +5,15 @@ import { jwtDecode } from 'jwt-decode';
 
 const UpdateItemForm = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const data = location.state || null; // Ensure `data` is not null
+  const nav = useNavigate();
+  const data = location.state || null;
 
   // Redirect if accessed directly
   useEffect(() => {
     if (!data) {
-      navigate('/shop'); // Redirect to shop if no data
+      nav('/shop');
     }
-  }, [data, navigate]);
+  }, [data, nav]);
 
   const [title, setTitle] = useState(data?.title || '');
   const [price, setPrice] = useState(data?.price || '');
@@ -29,25 +29,41 @@ const UpdateItemForm = () => {
 
   useEffect(() => {
     if (!jwt) {
-      navigate('account/login');
+      nav('/account/login');
       return;
     }
+
+    const checkUserRole = async () => {
+      if (!jwt) {
+        nav('/account/login');
+        return;
+      }
+
+      const decodedUser = jwtDecode(jwt);
+      setUser(decodedUser);
+
+      if (decodedUser.role !== 'ADMIN') {
+        nav('/forbidden');
+      }
+    };
+
+    checkUserRole()
 
     try {
       const user = jwtDecode(jwt);
       if (user.role !== 'ADMIN') {
-        navigate('/unauthorized');
+        nav('/unauthorized');
       }
     } catch (error) {
       console.error('Invalid JWT:', error);
-      navigate('/login');
+      nav('/login');
     }
 
     fetch('http://localhost:8080/api/category/get-all')
       .then((res) => res.json())
       .then((data) => setCategories(data))
       .catch((error) => console.error('Error fetching categories:', error));
-  }, [jwt, navigate]);
+  }, [jwt, nav]);
 
   const handleFileChange = (e) => {
     setImageData(e.target.files[0]);

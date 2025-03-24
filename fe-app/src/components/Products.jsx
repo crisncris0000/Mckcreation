@@ -10,8 +10,6 @@ const Products = () => {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("All");
 
-    console.log(items)
-
     const jwt = localStorage.getItem('jwt');
 
     useEffect(() => {

@@ -26,6 +26,7 @@ import CustomItemFormPage from './pages/CustomItemFormPage'
 import CheckoutPage from './pages/CheckoutPage'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
+import ForbiddenPage from './pages/ForbiddenPage'
 
 function App() {
 
@@ -51,11 +52,12 @@ function App() {
     createRoutesFromElements(
       <Route path='/' element={<MainLayout />}>
         <Route path='*' element={<NotFoundPage />} />
+        <Route path='/forbidden' element={<ForbiddenPage />} />
         <Route index element={<HomePage />} />
         <Route path='/shop' element={<ShoppingPage />} />
-        <Route path='/shop/item/form' element={<ItemFormPage />} />
+        <Route path='/shop/item/form' element={<ItemFormPage />} /> {/* ADMIN */ }
         <Route path='/shop/custom-form' element={<CustomItemFormPage />} />
-        <Route path='/shop/item/update-form' element={<UpdateItemForm />} />
+        <Route path='/shop/item/update-form' element={<UpdateItemForm />} /> {/* ADMIN */ }
         <Route path='/contact' element={<ContactPage />} />
         <Route path='/account/login' element={<AccountPage />} />
         <Route path='/account/register' element={<RegisterUserPage />} />
