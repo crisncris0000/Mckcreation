@@ -1,3 +1,5 @@
+\connect mydb
+
 DROP TABLE IF EXISTS "placed_order";
 DROP TABLE IF EXISTS "shipping";
 DROP TABLE IF EXISTS "order";

@@ -2,15 +2,14 @@ package com.mckcreation.be_app.service.impl;
 
 import com.mckcreation.be_app.dto.UserDTO;
 import com.mckcreation.be_app.dto.UserShippingDTO;
-import com.mckcreation.be_app.exception.PasswordsNotMachException;
 import com.mckcreation.be_app.model.Shipping;
 import com.mckcreation.be_app.model.User;
 import com.mckcreation.be_app.repository.ShippingRepository;
 import com.mckcreation.be_app.repository.UserRepository;
 import com.mckcreation.be_app.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.PageRequest;
 import java.sql.Timestamp;
