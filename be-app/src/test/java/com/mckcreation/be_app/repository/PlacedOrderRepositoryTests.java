@@ -1,6 +1,4 @@
 package com.mckcreation.be_app.repository;
-
-import com.mckcreation.be_app.dto.PlacedOrderDTO;
 import com.mckcreation.be_app.model.PlacedOrder;
 import com.mckcreation.be_app.model.Shipping;
 import com.mckcreation.be_app.model.User;

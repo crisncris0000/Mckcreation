@@ -19,6 +19,4 @@ public class PlacedOrderDTO {
     int userID;
 
     ShippingDTO shippingDTO;
-
-
 }

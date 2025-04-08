@@ -43,9 +43,6 @@ public class ShippingControllerTests {
     @MockBean
     ShippingService shippingService;
 
-    @MockBean
-    JwtService jwtService;
-
     Shipping shipping;
 
     ShippingDTO shippingDTO;
