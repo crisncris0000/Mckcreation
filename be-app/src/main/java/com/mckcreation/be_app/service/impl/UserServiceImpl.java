@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
                 .lastName(userDTO.getLastName())
                 .email(email)
                 .password(hashed)
-                .role("USER")
+                .role("ROLE_USER")
                 .createdAt(timestamp)
                 .updatedAt(timestamp)
                 .build();
