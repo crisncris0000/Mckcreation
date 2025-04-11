@@ -80,7 +80,7 @@ const AccountSettings = () => {
     try {
       setIsLoading(true)
 
-      const res = await fetch(`http://localhost:8080/api/user/update-password/${user.id}`, {
+      const res = await fetch(`http://localhost:8080/api/user/update/${user.id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${jwt}`,

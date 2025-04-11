@@ -69,16 +69,8 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable int id, @RequestBody UserDTO userDTO) {
-
-        userService.updateUser(id, userDTO);
-
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
-    }
-
-    @PutMapping("/update-password/{id}")
-    public ResponseEntity<?> updateUserPassword(@PathVariable int id, @RequestBody UserDTO userDTO) throws Exception {
-        userService.updateUserPassword(id, userDTO);
+    public ResponseEntity<?> updateUserInfo(@PathVariable int id, @RequestBody UserDTO userDTO) throws Exception {
+        userService.updateUserInfo(id, userDTO);
 
         return new ResponseEntity<>(Map.of("message", "Updated successfully!"), HttpStatus.OK);
     }

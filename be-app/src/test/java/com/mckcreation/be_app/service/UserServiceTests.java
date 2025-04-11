@@ -1,7 +1,9 @@
 package com.mckcreation.be_app.service;
 
 import com.mckcreation.be_app.dto.UserDTO;
+import com.mckcreation.be_app.model.Shipping;
 import com.mckcreation.be_app.model.User;
+import com.mckcreation.be_app.repository.ShippingRepository;
 import com.mckcreation.be_app.repository.UserRepository;
 import com.mckcreation.be_app.service.impl.UserServiceImpl;
 import org.assertj.core.api.Assertions;
@@ -25,6 +27,9 @@ public class UserServiceTests {
     @Mock
     UserRepository userRepository;
 
+    @Mock
+    ShippingRepository shippingRepository;
+
     @InjectMocks
     UserServiceImpl userService;
 
@@ -46,6 +51,7 @@ public class UserServiceTests {
                 .build();
 
         when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
+
 
         User savedUser = userService.createUser(userDTO);
 
@@ -98,32 +104,7 @@ public class UserServiceTests {
     }
 
     @Test
-    public void UserService_UpdateUser_ReturnUser() {
-        User user = User.builder()
-                .email("sanchez@gmail.com")
-                .firstName("Sanchez")
-                .lastName("Santiago")
-                .password("123")
-                .build();
-
-        UserDTO userDTO = UserDTO.builder()
-                .email("sanchez@gmail.com")
-                .firstName("Sanchez")
-                .lastName("Santiago")
-                .password("123")
-                .build();
-
-        when(userRepository.findById(1)).thenReturn(Optional.ofNullable(user));
-        when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
-
-        User savedUser = userService.updateUser(1, userDTO);
-
-        Assertions.assertThat(savedUser).isNotNull();
-        Assertions.assertThat(savedUser.getEmail()).isEqualTo("sanchez@gmail.com");
-    }
-
-    @Test
-    public void UserService_UpdateUserPassword_ReturnUser() throws Exception {
+    public void UserService_UpdateUserInfo_ReturnUser() throws Exception {
         User user = User.builder()
                 .email("sanchez@gmail.com")
                 .firstName("Sanchez")
@@ -139,10 +120,20 @@ public class UserServiceTests {
                 .password("password")
                 .build();
 
+        Shipping shipping = Shipping.builder()
+                .address("123 elmo street")
+                .city("Brooklyn")
+                .state("NY")
+                .zipCode(11111)
+                .user(user)
+                .build();
+
         when(userRepository.findById(1)).thenReturn(Optional.ofNullable(user));
         when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
+        when(shippingRepository.getUserShipping(Mockito.anyLong())).thenReturn(Optional.ofNullable(shipping));
+        when(shippingRepository.save(Mockito.any(Shipping.class))).thenReturn(shipping);
 
-        User savedUser = userService.updateUserPassword(1, userDTO);
+        User savedUser = userService.updateUserInfo(1, userDTO);
 
         System.out.println();
         Assertions.assertThat(savedUser).isNotNull();

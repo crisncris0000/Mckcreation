@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mckcreation.be_app.dto.UserDTO;
 import com.mckcreation.be_app.model.User;
 import com.mckcreation.be_app.security.service.JwtService;
+import com.mckcreation.be_app.service.EmailService;
 import com.mckcreation.be_app.service.UserService;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,6 +42,9 @@ public class UserControllerTests {
 
     @MockBean
     JwtService jwtService;
+
+    @MockBean
+    EmailService emailService;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -107,22 +111,6 @@ public class UserControllerTests {
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value(user.getFirstName()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value(user.getLastName()));
-    }
-
-    @Test
-    public void UserController_UpdateUser_ReturnUpdatedUser() throws Exception {
-        int userID = 1;
-
-        when(userService.updateUser(userID, userDTO)).thenReturn(user);
-
-        ResultActions response = mockMvc.perform(put("/api/user/update/" + userID)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(userDTO)));
-
-        response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value(user.getFirstName()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value(user.getLastName()));
     }

@@ -89,25 +89,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(long id, UserDTO userDTO) {
-        Optional<User> optionalUser = userRepository.findById((int) id);
-
-        User user = optionalUser.orElseThrow(() -> new EntityNotFoundException("User not found"));
-
-        Date date = new Date();
-        Timestamp timestamp = new Timestamp(date.getTime());
-
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        user.setEmail(userDTO.getEmail());
-        user.setRole("USER");
-        user.setUpdatedAt(timestamp);
-
-        return userRepository.save(user);
-    }
-
-    @Override
-    public User updateUserPassword(long id, UserDTO userDTO) throws Exception {
+    public User updateUserInfo(long id, UserDTO userDTO) throws Exception {
         Optional<User> optionalUser = userRepository.findById((int) id);
 
         User user = optionalUser.orElseThrow(() ->

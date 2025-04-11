@@ -21,9 +21,7 @@ public interface UserService {
 
     User createUser(UserDTO userDTO);
 
-    User updateUser(long id, UserDTO userDTO);
-
-    User updateUserPassword(long id, UserDTO userDTO) throws Exception;
+    User updateUserInfo(long id, UserDTO userDTO) throws Exception;
 
     void updateUserPassword(UserDTO userDTO);
 
