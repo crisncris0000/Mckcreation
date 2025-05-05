@@ -20,7 +20,7 @@ public class PostController {
         this.postService = postService;
     }
 
-    @PostMapping("/new")
+    @PostMapping("/create")
     public ResponseEntity<?> createPost(@ModelAttribute PostDTO postDTO) {
         Post post = postService.createPost(postDTO);
 

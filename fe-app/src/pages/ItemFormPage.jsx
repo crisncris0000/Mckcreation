@@ -18,7 +18,7 @@ const ItemFormPage = () => {
       const decodedUser = jwtDecode(jwt);
       setUser(decodedUser);
 
-      if (decodedUser.role !== 'ADMIN') {
+      if (decodedUser.role !== 'ROLE_ADMIN') {
         nav('/forbidden');
       }
     };

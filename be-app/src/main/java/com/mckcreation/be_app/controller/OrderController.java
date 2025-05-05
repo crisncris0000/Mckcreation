@@ -31,16 +31,13 @@ public class OrderController {
 
     @GetMapping("/get-orders/{id}")
     public ResponseEntity<?> getUserOrders(@PathVariable int id) {
-
         List<Order> orderList = orderService.getUserOrders(id);
-
         return new ResponseEntity<>(orderList, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{orderID}/{userID}")
     public ResponseEntity<?> deleteUserOrder(@PathVariable int orderID, @PathVariable int userID) {
         orderService.deleteOrder(orderID, userID);
-
         return new ResponseEntity<>("Deleted order", HttpStatus.OK);
     }
 

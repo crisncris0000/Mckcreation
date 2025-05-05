@@ -42,7 +42,7 @@ const UpdateItemForm = () => {
       const decodedUser = jwtDecode(jwt);
       setUser(decodedUser);
 
-      if (decodedUser.role !== 'ADMIN') {
+      if (decodedUser.role !== 'ROLE_ADMIN') {
         nav('/forbidden');
       }
     };
@@ -51,7 +51,7 @@ const UpdateItemForm = () => {
 
     try {
       const user = jwtDecode(jwt);
-      if (user.role !== 'ADMIN') {
+      if (user.role !== 'ROLE_ADMIN') {
         nav('/unauthorized');
       }
     } catch (error) {
@@ -87,6 +87,9 @@ const UpdateItemForm = () => {
     try {
       const res = await fetch(`http://localhost:8080/api/item/update/${data.id}`, {
         method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${jwt}`,
+        },
         body: formData
       });
 

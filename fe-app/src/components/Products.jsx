@@ -58,7 +58,7 @@ const Products = () => {
             </div>
             
             {/* Add Product Button (Admin Only) */}
-            {jwt && user.role === 'ADMIN' && (
+            {jwt && user.role === 'ROLE_ADMIN' && (
                 <Link to={"/shop/item/form"}>
                     <button
                         className="fixed bottom-8 right-8 bg-pink-500 text-white p-5 rounded-full shadow-lg hover:bg-pink-700 transition transform hover:scale-110"

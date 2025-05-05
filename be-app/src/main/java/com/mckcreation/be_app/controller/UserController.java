@@ -77,7 +77,6 @@ public class UserController {
 
     @PutMapping("/reset-password")
     public ResponseEntity<?> updateUserPassword(@RequestBody UserDTO userDTO) {
-
         userService.updateUserPassword(userDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }

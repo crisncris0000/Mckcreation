@@ -14,16 +14,21 @@ const ItemForm = () => {
   const [categories, setCategories] = useState([]);
 
   const [isError, setIsError] = useState(true);
+  const [categoryError, setCategoryError] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [message, setMessage] = useState('');
 
-  useEffect(() => {
+  const jwt = localStorage.getItem('jwt')
 
+  useEffect(() => {
     fetch('http://localhost:8080/api/category/get-all')
       .then(res => {
         return res.json()
       }).then(data => {
-        setCategories(data)
+        const filteredData = data.filter((category)=> {
+          return category.name !== 'All'
+        })
+        setCategories(filteredData)
       })
       .catch(error => {
         console.log(error)
@@ -33,6 +38,11 @@ const ItemForm = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault()
+    
+    if(selectedCategory === '') {
+      setCategoryError(true);
+      return
+    }
 
     const formData = new FormData()
 
@@ -45,6 +55,9 @@ const ItemForm = () => {
     try{
       const res = await fetch("http://localhost:8080/api/item/create", {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${jwt}`
+        },
         body: formData
       })
 
@@ -75,6 +88,7 @@ const ItemForm = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwt}`
         },
         body: JSON.stringify({'name': categoryName})
       })
@@ -164,8 +178,9 @@ const ItemForm = () => {
             )) : ''}
           </select>
           <MdKeyboardArrowDown className='absolute top-11 left-52'/>
-
         </div>
+        
+        {categoryError ? <p className='text-sm text-red-600'>Please select a category</p> : null }
 
         <div>
           <label htmlFor="new-category" className="block text-gray-700 font-medium mb-2">

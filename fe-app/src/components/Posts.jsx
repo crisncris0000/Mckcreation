@@ -22,7 +22,13 @@ const Posts = () => {
     }, []);
 
     const handleDelete = (id) => {
-        fetch(`http://localhost:8080/api/post/delete/${id}`, { method: 'DELETE' })
+        fetch(`http://localhost:8080/api/post/delete/${id}`, 
+        { 
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${jwt}`,
+            },
+        })
             .then(() => setPosts(posts.filter(post => post.id !== id)))
             .catch(error => console.error("Error deleting post:", error));
     };
@@ -35,9 +41,12 @@ const Posts = () => {
         formData.append("imageData", file);
         formData.append("mimeType", file.type);
     
-        fetch('http://localhost:8080/api/post/new', {
+        fetch('http://localhost:8080/api/post/create', {
             method: 'POST',
-            body: formData // No headers needed for FormData
+            headers: {
+                'Authorization': `Bearer ${jwt}`,
+            },
+            body: formData
         })
         .then(response => response.json())
         .then(data => {
@@ -77,7 +86,7 @@ const Posts = () => {
                 onChange={handleFileChange}
             />
 
-        {jwt && user.role === 'ADMIN' ? 
+        {jwt && user.role === 'ROLE_ADMIN' ? 
             <button 
                 onClick={() => document.getElementById('fileInput').click()}
                 className="fixed bottom-8 right-8 bg-pink-500 text-white p-5 rounded-full shadow-lg hover:bg-pink-700 transition transform hover:scale-110"

@@ -19,6 +19,9 @@ const Product = ({ item }) => {
   const handleDelete = (id) => {
     fetch(`http://localhost:8080/api/item/delete/${id}`, {
       method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${jwt}`,
+      },
     })
       .then((res) => {
         if (res.ok) {
@@ -73,7 +76,7 @@ const Product = ({ item }) => {
       </Link>
       }
 
-      {jwt && user.role === 'ADMIN' ?
+      {jwt && user.role === 'ROLE_ADMIN' ?
         <button
           className="mt-5 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors w-full"
           onClick={handleEdit}
@@ -84,7 +87,7 @@ const Product = ({ item }) => {
         null
       }
 
-      {jwt && user.role === 'ADMIN' ?
+      {jwt && user.role === 'ROLE_ADMIN' ?
         <button
           className="mt-5 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors w-full"
           onClick={() => handleDelete(item.id)}

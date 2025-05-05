@@ -38,8 +38,6 @@ const ContactForm = () => {
         }
       })
 
-      console.log(res)
-
       if(res.status == 200) {
         setMessage("Email sent successfully")
         setIsVisible(true)
