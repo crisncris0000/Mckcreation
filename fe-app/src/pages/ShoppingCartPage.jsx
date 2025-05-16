@@ -17,7 +17,11 @@ const ShoppingCartPage = () => {
 
     setUser(jwtDecode(jwt))
 
-    fetch(`http://localhost:8080/api/order/get-orders/${1}`)
+    fetch(`http://localhost:8080/api/order/get-orders`, {
+      headers: {
+        'Authorization': `Bearer ${jwt}`
+      }
+    })
       .then((response) => response.json())
       .then((data) => setOrders(data))
       .catch((error) => console.log(error));

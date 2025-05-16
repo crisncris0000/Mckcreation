@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -34,10 +36,11 @@ public class UserController {
         this.emailService = emailService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getUserByID(@PathVariable int id) {
+    @GetMapping("/get")
+    public ResponseEntity<?> getUser(@AuthenticationPrincipal UserDetails userDetails) {
+        String email = userDetails.getUsername();
 
-        User user = userService.getUserByID(id);
+        User user = userService.getUserByEmail(email);
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -54,23 +57,34 @@ public class UserController {
         return new ResponseEntity<>(userService.getRecentUsers(count), HttpStatus.OK);
     }
 
-    @GetMapping("/email/{email}")
-    public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
+    @GetMapping("/get-user-shipping")
+    public ResponseEntity<?> getUserAndShipping(@AuthenticationPrincipal UserDetails userDetails) {
+
+        String email = userDetails.getUsername();
+
         User user = userService.getUserByEmail(email);
 
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
+        if(user == null) {
+            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        }
 
-    @GetMapping("/get-user-shipping/{id}")
-    public ResponseEntity<?> getUserAndShipping(@PathVariable int id) {
-        UserShippingDTO userShippingDTO = userService.getUserAndShipping(id);
+        UserShippingDTO userShippingDTO = userService.getUserAndShipping((int) user.getId());
 
         return new ResponseEntity<>(userShippingDTO, HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateUserInfo(@PathVariable int id, @RequestBody UserDTO userDTO) throws Exception {
-        userService.updateUserInfo(id, userDTO);
+    @PutMapping("/update")
+    public ResponseEntity<?> updateUserInfo(@AuthenticationPrincipal UserDetails userDetails,
+                                            @RequestBody UserDTO userDTO) throws Exception {
+        String email = userDetails.getUsername();
+
+        User user = userService.getUserByEmail(email);
+
+        if(user == null) {
+            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        }
+
+        userService.updateUserInfo(user.getId(), userDTO);
 
         return new ResponseEntity<>(Map.of("message", "Updated successfully!"), HttpStatus.OK);
     }

@@ -30,14 +30,16 @@ const AccountSettings = () => {
     if(!jwt) {
       nav('/account/login')
     } else {
-      const user = jwtDecode(jwt)
-      
-      fetch(`http://localhost:8080/api/user/get-user-shipping/${user.id}`).then((response) => {
+      fetch(`http://localhost:8080/api/shipping/get-user-shipping`, {
+        headers: {
+          'Authorization': `Bearer ${jwt}`
+        }
+      }).then((response) => {
         return response.json()
       }).then((data) => {
         setUserInfo({
-          firstName: data.firstName,
-          lastName: data.lastName,
+          firstName: data.user.firstName,
+          lastName: data.user.lastName,
           address: data.address,
           state: data.state,
           city: data.city,
@@ -52,8 +54,6 @@ const AccountSettings = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const user = jwtDecode(jwt) 
 
     const updatedUser = {
       firstName: userInfo.firstName,
@@ -80,7 +80,7 @@ const AccountSettings = () => {
     try {
       setIsLoading(true)
 
-      const res = await fetch(`http://localhost:8080/api/user/update/${user.id}`, {
+      const res = await fetch(`http://localhost:8080/api/user/update`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${jwt}`,

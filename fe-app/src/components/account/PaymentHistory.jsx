@@ -22,7 +22,11 @@ const PaymentHistory = () => {
     setFirstName(user.firstName);
     setLastName(user.lastName);
 
-    fetch(`http://localhost:8080/api/placed-order/get-user-orders/${user.id}`)
+    fetch(`http://localhost:8080/api/placed-order/get-user-orders`, {
+      headers: {
+        'Authorization': `Bearer ${jwt}`
+      }
+    })
       .then((res) => res.json())
       .then((data) => setPayments(data));
   }, [jwt, nav]);
