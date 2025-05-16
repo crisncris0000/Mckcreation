@@ -1,39 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
+import React, { useState } from 'react';
 import Modal from '../Modal';
 
-const PaymentHistory = () => {
-  const [payments, setPayments] = useState([]);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+const PaymentHistory = ({payments, firstName, lastName}) => {
   const [openModalId, setOpenModalId] = useState(null);
-  
-  const jwt = localStorage.getItem('jwt');
-  const nav = useNavigate();
-
-  useEffect(() => {
-    if (!jwt) {
-      nav('/account/login');
-      return;
-    }
-    
-    const user = jwtDecode(jwt);
-    setFirstName(user.firstName);
-    setLastName(user.lastName);
-
-    fetch(`http://localhost:8080/api/placed-order/get-user-orders`, {
-      headers: {
-        'Authorization': `Bearer ${jwt}`
-      }
-    })
-      .then((res) => res.json())
-      .then((data) => setPayments(data));
-  }, [jwt, nav]);
-
-  const handleRefundRequest = (id) => {
-    alert(`Refund initiated for Order #${id}`);
-  };
 
   const parseOrderDetails = (orderDetails) => {
     try {

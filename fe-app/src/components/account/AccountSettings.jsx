@@ -5,52 +5,10 @@ import { ColorRing } from 'react-loader-spinner';
 import { useNavigate } from 'react-router-dom';
 
 const AccountSettings = () => {
-
-  const [userInfo, setUserInfo] = useState({
-    firstName: '',
-    lastName: '',
-    oldPassword: '',
-    newPassword: '',
-    confirmPassword: '',
-    address: '',
-    city: '',
-    state: '',
-    zipCode: ''
-  })
-
   const [error, setError] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-
-  const jwt = localStorage.getItem('jwt')
-  const nav = useNavigate()
-
-  useEffect(() => {
-    if(!jwt) {
-      nav('/account/login')
-    } else {
-      fetch(`http://localhost:8080/api/shipping/get-user-shipping`, {
-        headers: {
-          'Authorization': `Bearer ${jwt}`
-        }
-      }).then((response) => {
-        return response.json()
-      }).then((data) => {
-        setUserInfo({
-          firstName: data.user.firstName,
-          lastName: data.user.lastName,
-          address: data.address,
-          state: data.state,
-          city: data.city,
-          zipCode: data.zipCode
-        })
-      }).catch((error) => {
-        console.log(error)
-      })
-    }
-
-  },[jwt, nav])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
