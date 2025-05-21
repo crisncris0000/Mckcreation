@@ -1,5 +1,7 @@
 import React from 'react'
 import AccountSettings from '../components/account/AccountSettings'
+import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 
 const AccountSettingsPage = () => {
   const jwt = localStorage.getItem('jwt')
@@ -43,7 +45,7 @@ const AccountSettingsPage = () => {
 
   },[jwt, nav])
   return (
-    <AccountSettings userInfo={userInfo}/>
+    <AccountSettings userInfo={userInfo} jwt={jwt}/>
   )
 }
 

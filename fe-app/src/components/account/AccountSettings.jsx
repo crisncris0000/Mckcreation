@@ -1,10 +1,8 @@
-import { jwtDecode } from 'jwt-decode';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Message from '../message/Message';
 import { ColorRing } from 'react-loader-spinner';
-import { useNavigate } from 'react-router-dom';
 
-const AccountSettings = () => {
+const AccountSettings = ( { userInfo, jwt } ) => {
   const [error, setError] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [message, setMessage] = useState('')

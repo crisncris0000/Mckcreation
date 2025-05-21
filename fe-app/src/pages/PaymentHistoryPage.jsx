@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PaymentHistory from '../components/account/PaymentHistory'
+import { jwtDecode } from 'jwt-decode'
+import { useNavigate } from 'react-router-dom';
 
 const PaymentHistoryPage = () => {
   const [payments, setPayments] = useState([]);
@@ -25,11 +27,13 @@ const PaymentHistoryPage = () => {
       }
     })
       .then((res) => res.json())
-      .then((data) => setPayments(data));
-  }, [jwt, nav]);
+      .then((data) => {
+        setPayments(data) 
+      });
+  }, []);
 
   return (
-    <PaymentHistory paymensts={payments} firstName={firstName} lastName={lastName}/>
+    <PaymentHistory payments={payments} firstName={firstName} lastName={lastName}/>
   )
 }
 

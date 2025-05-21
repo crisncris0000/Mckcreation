@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import { Link, useLocation } from "react-router-dom";
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ user }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
@@ -15,36 +14,7 @@ const CheckoutForm = () => {
   const [city, setCity] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [useDefaultAddress, setUseDefaultAddress] = useState(true);
-
-  const jwt = localStorage.getItem('jwt');
-  const [user, setUser] = useState();
-  const nav = useNavigate();
   const location = useLocation();
-
-  useEffect(() => {
-    if (!jwt) {
-      nav('/account/login');
-    }
-    if (location.state == null) {
-      nav('/');
-    }
-
-    setUser(jwtDecode(jwt));
-
-    fetch(`http://localhost:8080/api/shipping/get-user-shipping/${jwtDecode(jwt).id}`)
-      .then(res => res.json())
-      .then(data => {
-        setAddress(data.address);
-        setCity(data.city);
-        setState(data.state);
-        setZipCode(data.zipCode);
-      }).catch((error) => {
-        console.log(error)
-      }).finally(() => {
-        console.log(user)
-      })
-
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

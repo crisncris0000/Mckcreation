@@ -19,7 +19,7 @@ const UpdateItemForm = () => {
   const [price, setPrice] = useState(data?.price || '');
   const [imageData, setImageData] = useState(data?.imageData || '');
   const [mimeType, setMimeType] = useState(data?.mimeType || '');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(location.state.category.name);
   const [categories, setCategories] = useState([]);
   const [isError, setIsError] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -59,6 +59,8 @@ const UpdateItemForm = () => {
       nav('/login');
     }
 
+    console.log(location.state)
+
     fetch('http://localhost:8080/api/category/get-all')
       .then((res) => res.json())
       .then((data) => setCategories(data))
@@ -97,7 +99,7 @@ const UpdateItemForm = () => {
         setIsError(false);
         setMessage('Item updated successfully');
         setIsVisible(true);
-        setTimeout(() => navigate('/shop'), 1000);
+        setTimeout(() => nav('/shop'), 1000);
       } else {
         setIsError(true);
         setMessage('Error updating item');
@@ -126,7 +128,7 @@ const UpdateItemForm = () => {
         
         <label className="block text-gray-700 font-medium mb-2 mt-4">Select Category</label>
         <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} className="w-full p-2 border rounded-md">
-          <option value="">Choose category</option>
+          <option value={selectedCategory}>Choose category</option>
           {categories.map(category => (
             <option key={category.id} value={category.name}>{category.name}</option>
           ))}
