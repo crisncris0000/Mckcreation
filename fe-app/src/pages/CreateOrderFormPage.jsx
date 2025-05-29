@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import CustomForm from '../components/forms/CustomForm'
+import CustomForm from '../components/forms/CreateOrderForm'
 import { jwtDecode } from 'jwt-decode'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-const CustomItemFormPage = () => {
+const CreateOrderFormPage = () => {
   const [customization, setCustomization] = useState('')
   const [user, setUser] = useState('')
   const jwt = localStorage.getItem('jwt')
@@ -36,6 +36,7 @@ const CustomItemFormPage = () => {
         body: JSON.stringify(order),
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwt}`
         }
       })
 
@@ -68,4 +69,4 @@ const CustomItemFormPage = () => {
   )
 }
 
-export default CustomItemFormPage
+export default CreateOrderFormPage

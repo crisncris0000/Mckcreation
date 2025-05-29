@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import Modal from '../Modal';
 import { Link } from 'react-router-dom';
 
-const ShoppingCart = ({ orders, user }) => {
+const ShoppingCart = ({ orders, jwt }) => {
   const [open, setOpen] = useState(false);
 
   const handleDelete = async (e, orderID) => {
     e.preventDefault();
 
     try {
-      await fetch(`http://localhost:8080/api/order/delete/${orderID}/${user.id}`, {
+      await fetch(`http://localhost:8080/api/order/delete/${orderID}`, {
         method: 'DELETE',
+        'Authorization': `Bearer ${jwt}`
       });
 
       window.location.reload()

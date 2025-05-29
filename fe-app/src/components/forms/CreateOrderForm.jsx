@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const CustomForm = ({ handleOnSubmit, customization, setCustomization }) => {
+const CreateOrderForm = ({ handleOnSubmit, customization, setCustomization }) => {
 
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md mt-32 mb-32">
@@ -35,4 +35,4 @@ const CustomForm = ({ handleOnSubmit, customization, setCustomization }) => {
   );
 };
 
-export default CustomForm;
+export default CreateOrderForm;

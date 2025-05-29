@@ -22,7 +22,7 @@ import UpdateItemForm from './components/forms/UpdateItemForm'
 import PortfolioPage from './pages/PortfolioPage'
 import RegisterUserPage from './pages/RegisterUserPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
-import CustomItemFormPage from './pages/CustomItemFormPage'
+import CreateOrderFormPage from './pages/CreateOrderFormPage'
 import CheckoutPage from './pages/CheckoutPage'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
@@ -56,7 +56,7 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path='/shop' element={<ShoppingPage />} />
         <Route path='/shop/item/form' element={<ItemFormPage />} /> {/* ADMIN */ }
-        <Route path='/shop/custom-form' element={<CustomItemFormPage />} />
+        <Route path='/shop/custom-form' element={<CreateOrderFormPage />} />
         <Route path='/shop/item/update-form' element={<UpdateItemForm />} /> {/* ADMIN */ }
         <Route path='/contact' element={<ContactPage />} />
         <Route path='/account/login' element={<AccountPage />} />

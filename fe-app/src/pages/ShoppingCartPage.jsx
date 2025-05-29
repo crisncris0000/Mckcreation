@@ -28,7 +28,7 @@ const ShoppingCartPage = () => {
   }, [jwt, nav]);
 
   return (
-    <ShoppingCart orders={orders} user={user}/>
+    <ShoppingCart orders={orders} jwt={jwt} />
   )
 }
 
