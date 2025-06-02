@@ -79,39 +79,6 @@ const ItemForm = () => {
     }
   }
 
-  const addNewCategory = async (e) => {
-    
-    e.preventDefault()
-
-    try {
-      const res = await fetch("http://localhost:8080/api/category/create", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${jwt}`
-        },
-        body: JSON.stringify({'name': categoryName})
-      })
-
-      const jsonRes = await res.json()
-
-      if(res.status != 200) {
-        setIsVisible(true)
-        setMessage(jsonRes.message)
-        setIsError(true)
-      }
-
-    } catch (error) {
-      console.log(error)
-      setIsVisible(true)
-      setMessage('Internal Server Error')
-      setIsError(true)
-    } finally {
-      setCategoryName('')
-    }
-
-  }
-
   const handleFileChange = (e) => {
     setImageData(e.target.files[0])
     setMimeType(e.target.files[0].type)
@@ -181,30 +148,8 @@ const ItemForm = () => {
         </div>
         
         {categoryError ? <p className='text-sm text-red-600'>Please select a category</p> : null }
-
-        <div>
-          <label htmlFor="new-category" className="block text-gray-700 font-medium mb-2">
-            Add New Category
-          </label>
-          <input
-            type="text"
-            id="new-category"
-            name="new-category"
-            value={categoryName}
-            onChange={(e) => setCategoryName(e.target.value)}
-            placeholder="Enter category name"
-            className="w-full sm:w-48 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
         
         <Message isError={isError} isVisible={isVisible} setIsVisible={setIsVisible} message={message}/>
-
-        <button
-          className="block w-full sm:w-auto px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1 mt-4"
-          onClick={addNewCategory}
-        >
-          Add Category
-        </button>
       </div>
 
 

@@ -45,7 +45,7 @@ const AccountSettingsPage = () => {
 
   },[jwt, nav])
   return (
-    <AccountSettings userInfo={userInfo} jwt={jwt}/>
+    <AccountSettings userInfo={userInfo} setUserInfo={setUserInfo} jwt={jwt}/>
   )
 }
 

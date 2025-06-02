@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Message from '../message/Message';
 import { ColorRing } from 'react-loader-spinner';
 
-const AccountSettings = ( { userInfo, jwt } ) => {
+const AccountSettings = ( { userInfo, setUserInfo, jwt } ) => {
   const [error, setError] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [message, setMessage] = useState('')

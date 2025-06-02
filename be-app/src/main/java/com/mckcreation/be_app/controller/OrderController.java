@@ -48,7 +48,6 @@ public class OrderController {
     @DeleteMapping("/delete/{orderID}")
     public ResponseEntity<?> deleteUserOrder(@PathVariable int orderID,
                                              @AuthenticationPrincipal UserDetails userDetails) {
-
         String email = userDetails.getUsername();
 
         User user = userService.getUserByEmail(email);

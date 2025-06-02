@@ -11,7 +11,9 @@ const ShoppingCart = ({ orders, jwt }) => {
     try {
       await fetch(`http://localhost:8080/api/order/delete/${orderID}`, {
         method: 'DELETE',
-        'Authorization': `Bearer ${jwt}`
+        headers: {
+          'Authorization': `Bearer ${jwt}`
+        }
       });
 
       window.location.reload()

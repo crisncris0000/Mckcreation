@@ -1,42 +1,51 @@
-import React from 'react'
-import CheckoutForm from '../components/forms/CheckoutForm'
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import CheckoutForm from '../components/forms/CheckoutForm';
+import { jwtDecode } from 'jwt-decode';
 
 const CheckoutPage = () => {
   const jwt = localStorage.getItem('jwt');
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
+  const [shipping, setShipping] = useState(null);
   const nav = useNavigate();
 
   useEffect(() => {
     if (!jwt) {
       nav('/account/login');
-    }
-    if (location.state == null) {
-      nav('/');
+      return;
     }
 
-    setUser(jwtDecode(jwt));
+    try {
+      const decodedUser = jwtDecode(jwt);
+      setUser(decodedUser);
 
-    fetch(`http://localhost:8080/api/shipping/get-user-shipping`, {
-      headers: {
-        'Authorization': `Bearer ${jwt}`,
-      }
-    })
-      .then(res => res.json())
-      .then(data => {
-        setAddress(data.address);
-        setCity(data.city);
-        setState(data.state);
-        setZipCode(data.zipCode);
-      }).catch((error) => {
-        console.log(error)
-      }).finally(() => {
-        console.log(user)
+      fetch(`http://localhost:8080/api/shipping/get-user-shipping`, {
+        headers: {
+          'Authorization': `Bearer ${jwt}`,
+        },
       })
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to fetch shipping info.");
+          return res.json();
+        })
+        .then((data) => {
+          setShipping({
+            address: data.address,
+            city: data.city,
+            state: data.state,
+            zipCode: data.zipCode,
+          });
+        })
+        .catch((error) => console.log("Shipping fetch error:", error));
+    } catch (err) {
+      console.error("JWT Decode Error:", err);
+      nav('/account/login');
+    }
+  }, [jwt, nav]);
 
-  }, []);
-  return (
-    <CheckoutForm user={user}/>
-  )
-}
+  if (!user) return null; // or loading spinner
 
-export default CheckoutPage
+  return <CheckoutForm user={user} shipping={shipping} />;
+};
+
+export default CheckoutPage;

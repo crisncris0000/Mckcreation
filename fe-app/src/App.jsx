@@ -27,6 +27,7 @@ import CheckoutPage from './pages/CheckoutPage'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import ForbiddenPage from './pages/ForbiddenPage'
+import AdminPage from './pages/AdminPage'
 
 function App() {
 
@@ -45,7 +46,6 @@ function App() {
       localStorage.removeItem('jwt')
       window.location.reload()
     }
-
   }, [])
 
   const router = createBrowserRouter(
@@ -69,6 +69,7 @@ function App() {
         <Route path="/account" element={<AccountLayout />}>
           <Route path='/account/settings' element={<AccountSettingsPage />} />
           <Route path='/account/payment-history' element={<PaymentHistoryPage />} />
+          <Route path='/account/admin' element={<AdminPage />} />
         </Route>
       </Route>
     )

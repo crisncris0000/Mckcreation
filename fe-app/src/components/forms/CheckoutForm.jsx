@@ -1,20 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const CheckoutForm = ({ user }) => {
+const CheckoutForm = ({ user, shipping }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const location = useLocation();
+  const nav = useNavigate();
+
   const [loading, setLoading] = useState(false);
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [firstName, setFirstName] = useState(user?.firstName || "");
+  const [lastName, setLastName] = useState(user?.lastName || "");
   const [address, setAddress] = useState("");
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [useDefaultAddress, setUseDefaultAddress] = useState(true);
-  const location = useLocation();
+
+  useEffect(() => {
+    if (shipping && useDefaultAddress) {
+      setAddress(shipping.address || "");
+      setCity(shipping.city || "");
+      setState(shipping.state || "");
+      setZipCode(shipping.zipCode || "");
+    }
+  }, [shipping, useDefaultAddress]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +39,7 @@ const CheckoutForm = ({ user }) => {
     });
 
     if (error) {
-      console.error(error);
+      console.error("Stripe Error:", error);
       setLoading(false);
       return;
     }
@@ -38,15 +49,15 @@ const CheckoutForm = ({ user }) => {
       total: (location.state.total * 100).toFixed(0),
       orders: location.state.orders,
       shipping: {
-        address, 
+        address,
         state,
         city,
         zipCode
       },
       userID: user.id,
       email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName
+      firstName,
+      lastName
     };
 
     try {
@@ -55,8 +66,10 @@ const CheckoutForm = ({ user }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(paymentDetails),
       });
+
+      nav('/')
     } catch (error) {
-      console.log(error);
+      console.log("Payment error:", error);
     } finally {
       setLoading(false);
     }
