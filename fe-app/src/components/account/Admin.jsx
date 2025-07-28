@@ -40,10 +40,10 @@ const Admin = ({ jwt} ) => {
     if (!selectedCategory) return;
 
     try {
-      await fetch(`http://localhost:8080/api/categories/${selectedCategory}`, {
+      await fetch(`http://localhost:8080/api/category/delete/${selectedCategory}`, {
         method: 'DELETE',
         headers: {
-            'Authorization': `Bearer ${jwt}`,
+          'Authorization': `Bearer ${jwt}`,
         }
       });
       setSelectedCategory('');
