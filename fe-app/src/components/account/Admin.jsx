@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Admin = ({ jwt} ) => {
   const [categories, setCategories] = useState([]);
@@ -102,6 +103,7 @@ const Admin = ({ jwt} ) => {
             Delete
           </button>
         </div>
+        <Link className='mt-10 text-blue-300' to='https://dashboard.stripe.com/' target='_blank'>View Dashboard</Link>
       </div>
     </div>
   );

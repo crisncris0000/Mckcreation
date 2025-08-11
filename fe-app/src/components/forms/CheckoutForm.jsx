@@ -61,7 +61,7 @@ const CheckoutForm = ({ user, shipping }) => {
     };
 
     try {
-      await fetch("http://localhost:8080/api/payment/create-payment", {
+      const res = await fetch("http://localhost:8080/api/payment/create-payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(paymentDetails),

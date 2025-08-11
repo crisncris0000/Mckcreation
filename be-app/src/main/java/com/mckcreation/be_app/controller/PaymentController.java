@@ -7,6 +7,7 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 import com.stripe.param.PaymentIntentCreateParams;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,6 +57,9 @@ public class PaymentController {
             paramsBuilder.setConfirm(true);
         }
 
+
+        PaymentIntent paymentIntent = PaymentIntent.create(paramsBuilder.build());
+
         ShippingDTO shippingDTO = ShippingDTO.builder()
                 .address(paymentIntentDTO.getShipping().getAddress())
                 .state(paymentIntentDTO.getShipping().getState())
@@ -67,18 +71,12 @@ public class PaymentController {
                 .userID(paymentIntentDTO.getUserID())  // ✅ Ensure userID is included
                 .details(Arrays.toString(paymentIntentDTO.getOrders()))
                 .total(paymentIntentDTO.getTotal())
-                .status("Order placed")
+                .status(paymentIntent.getStatus())
                 .shippingDTO(shippingDTO)
                 .build();
 
         placedOrderService.createPlacedOrder(placedOrderDTO, paymentIntentDTO.isUseDefaultAddress());
 
-        PaymentIntent.create(paramsBuilder.build());
-
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
-
-
 }

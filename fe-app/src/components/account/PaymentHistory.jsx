@@ -4,6 +4,8 @@ import Modal from '../Modal';
 const PaymentHistory = ({payments, firstName, lastName}) => {
   const [openModalId, setOpenModalId] = useState(null);
 
+  console.log(payments)
+
   const parseOrderDetails = (orderDetails) => {
     try {
       if (!orderDetails) return [];
@@ -57,7 +59,7 @@ const PaymentHistory = ({payments, firstName, lastName}) => {
                     </button>
                     <Modal open={openModalId === payment.id} onClose={() => setOpenModalId(null)}>
                       <div className="max-w-md">
-                        <h1 className="text-xl border-b border-gray-200 pb-3 mb-4">Order Details</h1>
+                        <h1 className="text-xl border-b border-gray-200 pb-3 mb-4">Order ID {payment.id} Details</h1>
                         <ul className="space-y-3 mb-4">
                           {parsedItems.map((item, index) => (
                             <li key={index} className="pb-2 border-b border-gray-200">
