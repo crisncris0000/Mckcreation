@@ -7,7 +7,11 @@ const PaymentHistory = ({ payments, firstName, lastName }) => {
   const [openModalId, setOpenModalId] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [isFiltering, setIsFiltering] = useState(false); // ✅ Track filter state
+  const [isFiltering, setIsFiltering] = useState(false);
+
+  // ✅ Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const parseOrderDetails = (orderDetails) => {
     try {
@@ -30,13 +34,30 @@ const PaymentHistory = ({ payments, firstName, lastName }) => {
     }
   };
 
-  // ✅ Apply filter only if `isFiltering` is true
-  const displayedPayments = isFiltering
+  // ✅ Filtered or full payments
+  const filteredPayments = isFiltering
     ? payments.filter(payment => {
         const paymentDate = new Date(payment.createdAt);
         return paymentDate >= startDate && paymentDate <= endDate;
       })
     : payments;
+
+  // ✅ Paginate payments
+  const totalPages = Math.ceil(filteredPayments.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const displayedPayments = filteredPayments.slice(startIndex, startIndex + itemsPerPage);
+
+  // ✅ Handle page change
+  const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  // Reset to first page whenever filter toggles or dates change
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [isFiltering, startDate, endDate]);
 
   return (
     <div className="container mx-auto mt-10">
@@ -66,7 +87,7 @@ const PaymentHistory = ({ payments, firstName, lastName }) => {
           />
         </div>
 
-        {/* ✅ Buttons for filtering */}
+        {/* Filter & Show All */}
         <div className="flex gap-2 mt-6">
           <button
             onClick={() => setIsFiltering(true)}
@@ -144,6 +165,39 @@ const PaymentHistory = ({ payments, firstName, lastName }) => {
           </tbody>
         </table>
       </div>
+
+      {/* ✅ Pagination controls */}
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-6 gap-2">
+          <button
+            onClick={() => goToPage(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+          >
+            Prev
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => goToPage(i + 1)}
+              className={`px-3 py-1 rounded ${
+                currentPage === i + 1
+                  ? 'bg-pink-500 text-white'
+                  : 'bg-gray-200 hover:bg-gray-300'
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => goToPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };
