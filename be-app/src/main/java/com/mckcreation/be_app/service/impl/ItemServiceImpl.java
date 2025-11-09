@@ -5,6 +5,7 @@ import com.mckcreation.be_app.model.Category;
 import com.mckcreation.be_app.model.Item;
 import com.mckcreation.be_app.repository.CategoryRepository;
 import com.mckcreation.be_app.repository.ItemRepository;
+import com.mckcreation.be_app.repository.OrderRepository;
 import com.mckcreation.be_app.service.ItemService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,14 @@ public class ItemServiceImpl implements ItemService {
 
     CategoryRepository categoryRepository;
 
+    OrderRepository orderRepository;
+
     @Autowired
-    public ItemServiceImpl(ItemRepository itemRepository, CategoryRepository categoryRepository) {
+    public ItemServiceImpl(ItemRepository itemRepository, CategoryRepository categoryRepository,
+                           OrderRepository orderRepository) {
         this.itemRepository = itemRepository;
         this.categoryRepository = categoryRepository;
+        this.orderRepository = orderRepository;
     }
 
     @Override
@@ -120,6 +125,8 @@ public class ItemServiceImpl implements ItemService {
 
         Item item = optionalItem.orElseThrow(() ->
                 new Exception("Item not found"));
+
+        orderRepository.deleteOrderByTitle(item.getTitle());
 
         itemRepository.delete(item);
     }
