@@ -26,7 +26,7 @@ CREATE TABLE "category" (
 
 CREATE TABLE "item" (
 	id SERIAL PRIMARY KEY,
-	title VARCHAR(255) NOT NULL,
+	title VARCHAR(255) NOT NULL UNIQUE,
 	image_data BYTEA NOT NULL,
 	price FLOAT NOT NULL,
 	sold INT NOT NULL,

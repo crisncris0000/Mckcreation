@@ -25,7 +25,7 @@ public class ItemController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createItem(@ModelAttribute ItemDTO itemDTO) {
+    public ResponseEntity<?> createItem(@ModelAttribute ItemDTO itemDTO) throws Exception {
         Item item = itemService.createItem(itemDTO);
 
         return new ResponseEntity<>(item, HttpStatus.OK);

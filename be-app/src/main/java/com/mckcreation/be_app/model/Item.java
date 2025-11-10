@@ -19,7 +19,7 @@ public class Item {
     @Column(name = "id")
     long id;
 
-    @Column(name = "title")
+    @Column(name = "title", unique = true)
     String title;
 
     @Column(name = "image_data")

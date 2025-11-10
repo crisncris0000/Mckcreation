@@ -7,6 +7,7 @@ import com.mckcreation.be_app.repository.CategoryRepository;
 import com.mckcreation.be_app.repository.ItemRepository;
 import com.mckcreation.be_app.repository.OrderRepository;
 import com.mckcreation.be_app.service.ItemService;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,10 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item createItem(ItemDTO itemDTO) {
+
+        if(itemRepository.existsByTitle(itemDTO.getTitle())) {
+            throw new EntityExistsException("Entity already exists");
+        }
 
         byte[] imageData = null;
 

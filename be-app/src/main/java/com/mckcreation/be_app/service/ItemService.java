@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ItemService {
 
-    Item createItem(ItemDTO itemDTO);
+    Item createItem(ItemDTO itemDTO) throws Exception;
 
     List<Item> getItems();
 
