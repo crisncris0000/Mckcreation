@@ -5,6 +5,8 @@ const Admin = ({ jwt} ) => {
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const fetchCategories = async () => {
     try {
@@ -22,7 +24,7 @@ const Admin = ({ jwt} ) => {
     if (!newCategory.trim()) return;
 
     try {
-      await fetch('http://localhost:8080/api/category/create', {
+      const res = await fetch('http://localhost:8080/api/category/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -32,6 +34,14 @@ const Admin = ({ jwt} ) => {
       });
       setNewCategory('');
       fetchCategories();
+      
+      const jsonRes = await res.json();
+
+      if(res.status == 500) {
+        setError(true);
+        setErrorMessage(jsonRes.message);
+      }
+
     } catch (error) {
       console.error('Error creating category:', error);
     }
@@ -79,6 +89,8 @@ const Admin = ({ jwt} ) => {
           >
             Create
           </button>
+
+          {Error ? <p className="text-red-600">{errorMessage}</p> : null}
         </form>
 
         {/* Delete Category */}

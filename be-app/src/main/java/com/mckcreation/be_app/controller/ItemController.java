@@ -38,7 +38,6 @@ public class ItemController {
         return new ResponseEntity<>(itemList, HttpStatus.OK);
     }
 
-
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateItem(@PathVariable int id, @ModelAttribute ItemDTO itemDTO) throws IOException {
 
