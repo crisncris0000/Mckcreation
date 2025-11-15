@@ -1,5 +1,6 @@
 package com.mckcreation.be_app.service.impl;
 
+import com.mckcreation.be_app.dto.OrderDTO;
 import com.mckcreation.be_app.dto.PlacedOrderDTO;
 import com.mckcreation.be_app.model.PlacedOrder;
 import com.mckcreation.be_app.model.Shipping;
@@ -91,19 +92,77 @@ public class PlacedOrderServiceImpl implements PlacedOrderService {
     }
 
     private String buildOrderConfirmationEmail(PlacedOrderDTO order) {
-        return "Thank you for your order!\n\n" +
-                "Order Details:\n" +
-                "-----------------------\n" +
-                "Items: " + order.getDetails() + "\n" +
-                "Total: $" + order.getTotal() / 100.0 + "\n" +
-                "Status: " + order.getStatus() + "\n\n" +
-                "Shipping Information:\n" +
-                "-----------------------\n" +
-                "Address: " + order.getShippingDTO().getAddress() + "\n" +
-                "City: " + order.getShippingDTO().getCity() + "\n" +
-                "State: " + order.getShippingDTO().getState() + "\n" +
-                "Zip Code: " + order.getShippingDTO().getZipCode() + "\n\n" +
-                "We appreciate your business.\n" +
-                "McKCreation Team";
+
+        String formattedItems = formatItems(order.getDetails());
+
+        return """
+        Thank you for your order!
+
+        Order Details:
+        -----------------------
+        %s
+        Total: $%.2f
+        Status: %s
+
+        Shipping Information:
+        -----------------------
+        Address: %s
+        City: %s
+        State: %s
+        Zip Code: %s
+
+        We appreciate your business.
+        McKCreation Team
+        """.formatted(
+                formattedItems,
+                order.getTotal() / 100.0,
+                order.getStatus(),
+                order.getShippingDTO().getAddress(),
+                order.getShippingDTO().getCity(),
+                order.getShippingDTO().getState(),
+                order.getShippingDTO().getZipCode()
+        );
     }
+
+    private String formatItems(String rawItems) {
+        // Remove the surrounding brackets [   ]
+        String cleaned = rawItems.substring(1, rawItems.length() - 1);
+
+        // Split by "OrderDTO(" occurrences
+        String[] itemBlocks = cleaned.split("OrderDTO\\(");
+
+        StringBuilder sb = new StringBuilder();
+        int index = 1;
+
+        for (String block : itemBlocks) {
+            if (block.trim().isEmpty()) continue;
+
+            // Remove ending ")" and any trailing commas
+            block = block.replace(")", "").trim();
+            if (block.endsWith(",")) block = block.substring(0, block.length() - 1);
+
+            // Split fields: itemTitle=..., customization=..., price=...
+            String[] fields = block.split(", ");
+
+            String title = "", customization = "", price = "";
+
+            for (String field : fields) {
+                if (field.startsWith("itemTitle=")) {
+                    title = field.replace("itemTitle=", "");
+                } else if (field.startsWith("customization=")) {
+                    customization = field.replace("customization=", "");
+                } else if (field.startsWith("price=")) {
+                    price = field.replace("price=", "");
+                }
+            }
+
+            sb.append(String.format(
+                    "Item %d:\n  - Title: %s\n  - Customization: %s\n  - Price: $%s\n\n",
+                    index++, title, customization, price
+            ));
+        }
+
+        return sb.toString();
+    }
+
 }
