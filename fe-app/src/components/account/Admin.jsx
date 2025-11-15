@@ -90,7 +90,7 @@ const Admin = ({ jwt} ) => {
             Create
           </button>
 
-          {Error ? <p className="text-red-600">{errorMessage}</p> : null}
+          {error ? <p className="text-red-600">{errorMessage}</p> : null}
         </form>
 
         {/* Delete Category */}
