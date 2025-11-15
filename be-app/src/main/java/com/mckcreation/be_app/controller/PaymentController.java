@@ -2,6 +2,7 @@ package com.mckcreation.be_app.controller;
 import com.mckcreation.be_app.dto.PaymentIntentDTO;
 import com.mckcreation.be_app.dto.PlacedOrderDTO;
 import com.mckcreation.be_app.dto.ShippingDTO;
+import com.mckcreation.be_app.service.EmailService;
 import com.mckcreation.be_app.service.PlacedOrderService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
@@ -21,10 +22,12 @@ import java.util.Arrays;
 public class PaymentController {
 
     PlacedOrderService placedOrderService;
+    EmailService emailService;
 
     @Autowired
-    public PaymentController(PlacedOrderService placedOrderService) {
+    public PaymentController(PlacedOrderService placedOrderService, EmailService emailService) {
         this.placedOrderService = placedOrderService;
+        this.emailService = emailService;
     }
 
     @PostMapping("/create-payment")
@@ -79,4 +82,22 @@ public class PaymentController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    private String buildOrderConfirmationEmail(PlacedOrderDTO order) {
+        return "Thank you for your order!\n\n" +
+                "Order Details:\n" +
+                "-----------------------\n" +
+                "Items: " + order.getDetails() + "\n" +
+                "Total: $" + order.getTotal() / 100.0 + "\n" +
+                "Status: " + order.getStatus() + "\n\n" +
+                "Shipping Information:\n" +
+                "-----------------------\n" +
+                "Address: " + order.getShippingDTO().getAddress() + "\n" +
+                "City: " + order.getShippingDTO().getCity() + "\n" +
+                "State: " + order.getShippingDTO().getState() + "\n" +
+                "Zip Code: " + order.getShippingDTO().getZipCode() + "\n\n" +
+                "We appreciate your business.\n" +
+                "McKCreation Team";
+    }
+
 }

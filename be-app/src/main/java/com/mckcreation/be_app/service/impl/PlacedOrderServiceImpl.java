@@ -8,6 +8,7 @@ import com.mckcreation.be_app.repository.OrderRepository;
 import com.mckcreation.be_app.repository.PlacedOrderRepository;
 import com.mckcreation.be_app.repository.ShippingRepository;
 import com.mckcreation.be_app.repository.UserRepository;
+import com.mckcreation.be_app.service.EmailService;
 import com.mckcreation.be_app.service.PlacedOrderService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,16 @@ public class PlacedOrderServiceImpl implements PlacedOrderService {
     ShippingRepository shippingRepository;
     UserRepository userRepository;
 
+    EmailService emailService;
+
     @Autowired
     public PlacedOrderServiceImpl(PlacedOrderRepository placedOrderRepository, ShippingRepository shippingRepository,
-                                  UserRepository userRepository, OrderRepository orderRepository) {
+                                  UserRepository userRepository, OrderRepository orderRepository, EmailService emailService) {
        this.placedOrderRepository = placedOrderRepository;
        this.shippingRepository = shippingRepository;
        this.userRepository = userRepository;
        this.orderRepository = orderRepository;
+       this.emailService = emailService;
     }
 
     public PlacedOrder createPlacedOrder(PlacedOrderDTO placedOrderDTO, boolean useDefaultAddress) {
@@ -66,6 +70,12 @@ public class PlacedOrderServiceImpl implements PlacedOrderService {
 
         orderRepository.deleteUserOrders(user.getId());
 
+        emailService.sendEmail(
+                savedPlacedOrder.getUser().getEmail(),
+                "Your Order Confirmation",
+                buildOrderConfirmationEmail(placedOrderDTO)
+        );
+
         return savedPlacedOrder;
     }
 
@@ -78,5 +88,22 @@ public class PlacedOrderServiceImpl implements PlacedOrderService {
     @Override
     public List<PlacedOrder> getUserPlacedOrders(int id) {
         return placedOrderRepository.getUserPlacedOrders(id);
+    }
+
+    private String buildOrderConfirmationEmail(PlacedOrderDTO order) {
+        return "Thank you for your order!\n\n" +
+                "Order Details:\n" +
+                "-----------------------\n" +
+                "Items: " + order.getDetails() + "\n" +
+                "Total: $" + order.getTotal() / 100.0 + "\n" +
+                "Status: " + order.getStatus() + "\n\n" +
+                "Shipping Information:\n" +
+                "-----------------------\n" +
+                "Address: " + order.getShippingDTO().getAddress() + "\n" +
+                "City: " + order.getShippingDTO().getCity() + "\n" +
+                "State: " + order.getShippingDTO().getState() + "\n" +
+                "Zip Code: " + order.getShippingDTO().getZipCode() + "\n\n" +
+                "We appreciate your business.\n" +
+                "McKCreation Team";
     }
 }
