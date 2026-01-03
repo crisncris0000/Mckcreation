@@ -1,1 +1,2 @@
 .env
+be-app/src/main/resources/application.properties

@@ -32,7 +32,7 @@ services:
       - '5432:5432'
     volumes:
       - ./be-app/src/main/resources/script/script.sql:/docker-entrypoint-initdb.d/script.sql
-      - pg_data:/var/lib/postgresql/data
+      - /var/lib/postgresql/MAJOR/docker
     container_name: db
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U user -d mydb"]

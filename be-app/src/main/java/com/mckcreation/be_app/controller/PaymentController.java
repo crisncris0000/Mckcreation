@@ -71,7 +71,7 @@ public class PaymentController {
                 .build();
 
         PlacedOrderDTO placedOrderDTO = PlacedOrderDTO.builder()
-                .userID(paymentIntentDTO.getUserID())  // ✅ Ensure userID is included
+                .userID(paymentIntentDTO.getUserID())
                 .details(Arrays.toString(paymentIntentDTO.getOrders()))
                 .total(paymentIntentDTO.getTotal())
                 .status(paymentIntent.getStatus())
@@ -99,5 +99,4 @@ public class PaymentController {
                 "We appreciate your business.\n" +
                 "McKCreation Team";
     }
-
 }
