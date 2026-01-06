@@ -16,6 +16,8 @@ const LoginForm = () => {
   
   const jwt = localStorage.getItem('jwt')
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -35,7 +37,7 @@ const LoginForm = () => {
     }
 
     try{
-      const res = await fetch(`http://localhost:8080/api/auth/login`, {
+      const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

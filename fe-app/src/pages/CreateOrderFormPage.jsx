@@ -12,6 +12,8 @@ const CreateOrderFormPage = () => {
   const data = location.state
   const nav = useNavigate()
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     if (!jwt) {
       nav('/account/login')
@@ -31,7 +33,7 @@ const CreateOrderFormPage = () => {
     }
 
     try {
-      await fetch('http://localhost:8080/api/order/create', {
+      await fetch(`${API_BASE_URL}/api/order/create`, {
         method: 'POST',
         body: JSON.stringify(order),
         headers: {

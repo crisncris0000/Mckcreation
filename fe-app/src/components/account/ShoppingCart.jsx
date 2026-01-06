@@ -4,12 +4,14 @@ import { Link } from 'react-router-dom';
 
 const ShoppingCart = ({ orders, jwt }) => {
   const [open, setOpen] = useState(false);
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 
   const handleDelete = async (e, orderID) => {
     e.preventDefault();
 
     try {
-      await fetch(`http://localhost:8080/api/order/delete/${orderID}`, {
+      await fetch(`${API_BASE_URL}/api/order/delete/${orderID}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${jwt}`

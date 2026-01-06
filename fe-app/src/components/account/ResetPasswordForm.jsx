@@ -14,6 +14,8 @@ const ResetPasswordForm = ({
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const nav = useNavigate()
 
 
@@ -29,7 +31,7 @@ const ResetPasswordForm = ({
     setIsLoading(true)
 
     try{
-      const res = await fetch(`http://localhost:8080/api/user/reset-password`, {
+      const res = await fetch(`${API_BASE_URL}/api/user/reset-password`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

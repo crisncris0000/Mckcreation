@@ -18,6 +18,8 @@ const CheckoutForm = ({ user, shipping }) => {
   const [zipCode, setZipCode] = useState("");
   const [useDefaultAddress, setUseDefaultAddress] = useState(true);
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     if (shipping && useDefaultAddress) {
       setAddress(shipping.address || "");
@@ -61,7 +63,7 @@ const CheckoutForm = ({ user, shipping }) => {
     };
 
     try {
-      const res = await fetch("http://localhost:8080/api/payment/create-payment", {
+      const res = await fetch(`${API_BASE_URL}/api/payment/create-payment`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(paymentDetails),

@@ -8,9 +8,11 @@ const Admin = ({ jwt} ) => {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const fetchCategories = async () => {
     try {
-      const res = await fetch('http://localhost:8080/api/category/get-all');
+      const res = await fetch(`${API_BASE_URL}/api/category/get-all`);
       const data = await res.json();
       const filtered = data.filter(cat => cat.name !== 'All');
       setCategories(filtered);
@@ -24,7 +26,7 @@ const Admin = ({ jwt} ) => {
     if (!newCategory.trim()) return;
 
     try {
-      const res = await fetch('http://localhost:8080/api/category/create', {
+      const res = await fetch(`${API_BASE_URL}/api/category/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +53,7 @@ const Admin = ({ jwt} ) => {
     if (!selectedCategory) return;
 
     try {
-      await fetch(`http://localhost:8080/api/category/delete/${selectedCategory}`, {
+      await fetch(`${API_BASE_URL}/api/category/delete/${selectedCategory}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${jwt}`,

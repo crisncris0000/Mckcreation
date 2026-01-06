@@ -8,12 +8,14 @@ const ShoppingCartPage = () => {
   const jwt = localStorage.getItem('jwt');
   const nav = useNavigate();
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     if (!jwt) {
       nav('/account/login');
     }
 
-    fetch(`http://localhost:8080/api/order/get-orders`, {
+    fetch(`${API_BASE_URL}/api/order/get-orders`, {
       headers: {
         'Authorization': `Bearer ${jwt}`
       }

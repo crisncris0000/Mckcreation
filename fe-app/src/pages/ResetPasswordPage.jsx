@@ -17,14 +17,15 @@ const ResetPasswordPage = () => {
 
     const [isLoading, setIsLoading] = useState(false)
     
-  
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
     const handleEmailSubmit = async (e) => {
       e.preventDefault();
 
       setIsLoading(true)
       
       try{
-        const res = await fetch(`http://localhost:8080/api/user/reset/${email}`, {
+        const res = await fetch(`${API_BASE_URL}/api/user/reset/${email}`, {
           method: 'POST',
         })
 

@@ -11,6 +11,8 @@ const PaymentHistoryPage = () => {
   const jwt = localStorage.getItem('jwt');
   const nav = useNavigate();
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     if (!jwt) {
       nav('/account/login');
@@ -21,7 +23,7 @@ const PaymentHistoryPage = () => {
     setFirstName(user.firstName);
     setLastName(user.lastName);
 
-    fetch(`http://localhost:8080/api/placed-order/get-user-orders`, {
+    fetch(`${API_BASE_URL}/api/placed-order/get-user-orders`, {
       headers: {
         'Authorization': `Bearer ${jwt}`
       }

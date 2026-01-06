@@ -8,6 +8,8 @@ const Product = ({ item }) => {
   const jwt = localStorage.getItem('jwt');
   const [user, setUser] = useState('');
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     if(jwt) {
       setUser(jwtDecode(jwt))
@@ -17,7 +19,7 @@ const Product = ({ item }) => {
   }, [])
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:8080/api/item/delete/${id}`, {
+    fetch(`${API_BASE_URL}/api/item/delete/${id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${jwt}`,

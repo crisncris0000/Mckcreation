@@ -14,7 +14,7 @@ const ContactForm = () => {
   const [subject, setSubject] = useState('')
   const [body, setBody] = useState('')
   
-
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handleOnSubmit = async (e) => {
     
@@ -30,7 +30,7 @@ const ContactForm = () => {
     }
     
     try {
-      const res = await fetch('http://localhost:8080/api/user/send-email', {
+      const res = await fetch(`${API_BASE_URL}/api/user/send-email`, {
         method: 'POST',
         body: JSON.stringify(newEmail),
         headers: {

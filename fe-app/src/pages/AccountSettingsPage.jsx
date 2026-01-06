@@ -7,6 +7,8 @@ const AccountSettingsPage = () => {
   const jwt = localStorage.getItem('jwt')
   const nav = useNavigate()
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const [userInfo, setUserInfo] = useState({
     firstName: '',
     lastName: '',
@@ -23,7 +25,7 @@ const AccountSettingsPage = () => {
     if(!jwt) {
       nav('/account/login')
     } else {
-      fetch(`http://localhost:8080/api/shipping/get-user-shipping`, {
+      fetch(`${API_BASE_URL}/api/shipping/get-user-shipping`, {
         headers: {
           'Authorization': `Bearer ${jwt}`
         }

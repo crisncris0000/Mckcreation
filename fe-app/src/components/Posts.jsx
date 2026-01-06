@@ -8,8 +8,10 @@ const Posts = () => {
     const jwt = localStorage.getItem('jwt')
     const [user, setUser] = useState('')
 
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
     useEffect(() => {
-        fetch('http://localhost:8080/api/post/get-all')
+        fetch(`${API_BASE_URL}/api/post/get-all`)
             .then((response) => response.json())
             .then((data) => {
                 setPosts(Array.isArray(data) ? data : []);
@@ -22,7 +24,7 @@ const Posts = () => {
     }, []);
 
     const handleDelete = (id) => {
-        fetch(`http://localhost:8080/api/post/delete/${id}`, 
+        fetch(`${API_BASE_URL}/api/post/delete/${id}`, 
         { 
             method: 'DELETE',
             headers: {
@@ -41,7 +43,7 @@ const Posts = () => {
         formData.append("imageData", file);
         formData.append("mimeType", file.type);
     
-        fetch('http://localhost:8080/api/post/create', {
+        fetch(`${API_BASE_URL}/api/post/create`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${jwt}`,

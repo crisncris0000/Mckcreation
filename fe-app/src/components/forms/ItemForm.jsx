@@ -18,10 +18,12 @@ const ItemForm = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [message, setMessage] = useState('');
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const jwt = localStorage.getItem('jwt')
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/category/get-all')
+    fetch(`${API_BASE_URL}/api/category/get-all`)
       .then(res => {
         return res.json()
       }).then(data => {

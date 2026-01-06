@@ -25,6 +25,8 @@ const UpdateItemForm = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [message, setMessage] = useState('');
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const jwt = localStorage.getItem('jwt');
 
   useEffect(() => {
@@ -59,9 +61,7 @@ const UpdateItemForm = () => {
       nav('/login');
     }
 
-    console.log(location.state)
-
-    fetch('http://localhost:8080/api/category/get-all')
+    fetch(`${API_BASE_URL}/api/category/get-all`)
       .then((res) => res.json())
       .then((data) => setCategories(data))
       .catch((error) => console.error('Error fetching categories:', error));
@@ -87,7 +87,7 @@ const UpdateItemForm = () => {
     formData.append('mimeType', mimeType);
     
     try {
-      const res = await fetch(`http://localhost:8080/api/item/update/${data.id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/item/update/${data.id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${jwt}`,
@@ -113,7 +113,7 @@ const UpdateItemForm = () => {
     }
   };
 
-  if (!data) return null; // Prevent rendering if no data
+  if (!data) return null;
 
   return (
     <div className="flex flex-row justify-center mt-20 mb-20">

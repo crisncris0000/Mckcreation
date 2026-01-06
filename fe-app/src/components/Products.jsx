@@ -13,13 +13,15 @@ const Products = () => {
 
   const jwt = localStorage.getItem('jwt');
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
-    fetch('http://localhost:8080/api/item/get-all')
+    fetch(`${API_BASE_URL}/api/item/get-all`)
       .then((res) => res.json())
       .then((data) => setItems(data))
       .catch((error) => console.log(error));
 
-    fetch('http://localhost:8080/api/category/get-all')
+    fetch(`${API_BASE_URL}/api/category/get-all`)
       .then((res) => res.json())
       .then((data) => setCategories(data))
       .catch((error) => console.log(error));

@@ -7,6 +7,9 @@ const AccountSettings = ( { userInfo, setUserInfo, jwt } ) => {
   const [isVisible, setIsVisible] = useState(false)
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +39,7 @@ const AccountSettings = ( { userInfo, setUserInfo, jwt } ) => {
     try {
       setIsLoading(true)
 
-      const res = await fetch(`http://localhost:8080/api/user/update`, {
+      const res = await fetch(`${API_BASE_URL}/api/user/update`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${jwt}`,

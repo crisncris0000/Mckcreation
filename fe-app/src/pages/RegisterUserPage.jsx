@@ -30,6 +30,7 @@ const RegisterUserPage = () => {
   
     const navigate = new useNavigate()
 
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
     const sendVerificationEmail = async (e) => {
 
@@ -37,7 +38,7 @@ const RegisterUserPage = () => {
 
 
       try {
-        const res = await fetch(`http://localhost:8080/api/user/email/${registrationInfo.email}`, {
+        const res = await fetch(`${API_BASE_URL}/api/user/email/${registrationInfo.email}`, {
           method: 'GET'
         })
 
