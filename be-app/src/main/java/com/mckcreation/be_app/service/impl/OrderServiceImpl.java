@@ -10,6 +10,8 @@ import com.mckcreation.be_app.repository.UserRepository;
 import com.mckcreation.be_app.service.OrderService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -60,8 +62,25 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getUserOrders(long id) {
+    public List<Order> getAllUserOrders(long id) {
         return orderRepository.findUserOrders((int) id);
+    }
+
+    @Override
+    public List<Order> getUserOrders(long id, int page, int count) {
+
+        Optional<User> optionalUser = userRepository.findById((int) id);
+
+        User user = optionalUser.orElseThrow(() ->
+                new EntityNotFoundException("User not found"));
+
+        return orderRepository.findAmountOfUserOrders(user.getId(),
+                PageRequest.of(page, count));
+    }
+
+    @Override
+    public int getNumberOfUserOrders(long id) {
+        return orderRepository.findNumberOfUserOrders(id);
     }
 
     @Override

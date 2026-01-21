@@ -1,5 +1,6 @@
 package com.mckcreation.be_app.controller;
 
+import com.mckcreation.be_app.dto.OrderAndCountDTO;
 import com.mckcreation.be_app.dto.OrderDTO;
 import com.mckcreation.be_app.model.Order;
 import com.mckcreation.be_app.model.User;
@@ -36,13 +37,29 @@ public class OrderController {
     }
 
     @GetMapping("/get-orders")
-    public ResponseEntity<?> getUserOrders(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<?> getUserOrders(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "false") boolean retrieveAll
+    ) {
         String email = userDetails.getUsername();
-
         User user = userService.getUserByEmail(email);
 
-        List<Order> orderList = orderService.getUserOrders(user.getId());
-        return new ResponseEntity<>(orderList, HttpStatus.OK);
+        if (retrieveAll) {
+            return ResponseEntity.ok(orderService.getAllUserOrders(user.getId()));
+        }
+
+        List<Order> orders = orderService.getUserOrders(user.getId(), page, size);
+
+        int count = orderService.getNumberOfUserOrders(user.getId());
+
+        OrderAndCountDTO orderAndCountDTO = OrderAndCountDTO.builder()
+                .orderList(orders)
+                .count(count)
+                .build();
+
+        return new ResponseEntity<>(orderAndCountDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{orderID}")

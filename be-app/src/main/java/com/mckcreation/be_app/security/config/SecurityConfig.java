@@ -35,6 +35,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/user/update").authenticated()
                         .requestMatchers("/api/user/get-user-shipping").authenticated()
                         .requestMatchers("/api/order/get-orders").authenticated()
+                        .requestMatchers("/api/order/get-orders").authenticated()
                         .requestMatchers("/api/placed-order/get-user-orders").authenticated()
                         .requestMatchers("/api/order/delete/{orderID}").authenticated()
                         .requestMatchers("/api/order/create").authenticated()

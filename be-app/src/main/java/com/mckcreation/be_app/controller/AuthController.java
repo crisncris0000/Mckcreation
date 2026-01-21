@@ -54,7 +54,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody AuthenticationRequest authRequest) {
 
-        String jwtToken = null;
+        String jwtToken;
         try {
 
             Authentication auth = authenticationManager.authenticate(

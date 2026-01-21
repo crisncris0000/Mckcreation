@@ -1,33 +1,63 @@
-import React, { useEffect, useState } from 'react'
-import ShoppingCart from '../components/account/ShoppingCart'
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import ShoppingCart from "../components/account/ShoppingCart";
+import PageCounter from "../components/PageCounter"; // adjust path
+import { useNavigate } from "react-router-dom";
+
+const PAGE_SIZE = 10;
 
 const ShoppingCartPage = () => {
+  const [orders, setOrders] = useState({ orderList: [], count: 0 }); // count = totalItems
+  const [page, setPage] = useState(0); // 0-based
+  const [totalPages, setTotalPages] = useState(0);
 
-  const [orders, setOrders] = useState([]);
-  const jwt = localStorage.getItem('jwt');
+  const jwt = localStorage.getItem("jwt");
   const nav = useNavigate();
-
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     if (!jwt) {
-      nav('/account/login');
+      nav("/account/login");
+      return;
     }
 
-    fetch(`${API_BASE_URL}/api/order/get-orders`, {
-      headers: {
-        'Authorization': `Bearer ${jwt}`
-      }
+    fetch(`${API_BASE_URL}/api/order/get-orders?page=${page}`, {
+      headers: { Authorization: `Bearer ${jwt}` },
     })
-      .then((response) => response.json())
-      .then((data) => setOrders(data))
-      .catch((error) => console.log(error));
-  }, [jwt, nav]);
+      .then((r) => r.json())
+      .then((data) => {
+        setOrders(data);
+
+        console.log(data)
+
+        const totalItems = data.count ?? 0;
+        const pages = Math.ceil(totalItems / PAGE_SIZE);
+
+        setTotalPages(pages);
+
+        // If you're on a page that no longer exists, jump back to last valid page
+        if (pages > 0 && page > pages - 1) {
+          setPage(pages - 1);
+        }
+
+        // If there are 0 items, force page back to 0
+        if (pages === 0 && page !== 0) {
+          setPage(0);
+        }
+      })
+      .catch(console.log);
+  }, [jwt, nav, page, API_BASE_URL]);
+
+  console.log(totalPages)
 
   return (
-    <ShoppingCart orders={orders} jwt={jwt} />
-  )
-}
+    <>
+      <ShoppingCart orders={orders.orderList} jwt={jwt} />
 
-export default ShoppingCartPage
+      <div className="mt-8">
+        <PageCounter page={page} totalPages={totalPages} onPageChange={setPage} />
+      </div>
+    </>
+  );
+};
+
+export default ShoppingCartPage;

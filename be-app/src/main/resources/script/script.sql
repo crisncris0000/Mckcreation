@@ -1,5 +1,3 @@
-\connect mydb
-
 DROP TABLE IF EXISTS "placed_order";
 DROP TABLE IF EXISTS "shipping";
 DROP TABLE IF EXISTS "order";
@@ -112,3 +110,17 @@ FROM "user" INNER JOIN shipping ON "user".id = shipping.user_id;
 
 INSERT INTO "category" (name)
 VALUES ('All'), ('Clothing'), ('Accessories'), ('Home Decor');
+
+INSERT INTO "order" (id, item_title, customization, price, category_id, user_id, created_at, updated_at)
+VALUES 
+(1, 'T-Shirt', 'Medium, White', 20.0, 2, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(2, 'Socks', 'Black, Size M', 10.0, 3, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(3, 'Hoodie', 'Large, Navy Blue', 30.0, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(4, 'Jeans', 'Black, Slim Fit', 40.0, 2, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(5, 'Pants', 'Khaki, Relaxed Fit', 35.0, 3, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(6, 'Dress Shirt', 'White, Long Sleeve', 25.0, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(7, 'Jacket', 'Brown, Leather', 50.0, 2, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(8, 'Shoes', 'Black, Size 10', 60.0, 3, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(9, 'Hat', 'Red, Fitted', 15.0, 4, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(10, 'Watch', 'Silver, Leather Strap', 70.0, 2, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(11, 'Phone Case', 'White, Slim Fit', 12.0, 2, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

@@ -9,7 +9,11 @@ public interface OrderService {
 
     Order createUserOrder(OrderDTO orderDTO);
 
-    List<Order> getUserOrders(long id);
+    List<Order> getAllUserOrders(long id);
+
+    List<Order> getUserOrders(long id, int page, int count);
+
+    int getNumberOfUserOrders(long id);
 
     void deleteOrder(long orderID, long userID);
 }
