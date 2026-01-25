@@ -1,6 +1,7 @@
 package com.mckcreation.be_app.service;
 
 import com.mckcreation.be_app.dto.ItemDTO;
+import com.mckcreation.be_app.dto.responses.ItemAndCountDTO;
 import com.mckcreation.be_app.model.Item;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ public interface ItemService {
 
     List<Item> getAllItems();
 
-    List<Item> getItems(int categoryID, int page, int size);
+    ItemAndCountDTO getItems(int categoryID, int page, int size);
 
     Item updateItem(int id, ItemDTO itemDTO) throws IOException;
 

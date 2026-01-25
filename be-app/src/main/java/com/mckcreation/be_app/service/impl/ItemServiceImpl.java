@@ -1,6 +1,7 @@
 package com.mckcreation.be_app.service.impl;
 
 import com.mckcreation.be_app.dto.ItemDTO;
+import com.mckcreation.be_app.dto.responses.ItemAndCountDTO;
 import com.mckcreation.be_app.model.Category;
 import com.mckcreation.be_app.model.Item;
 import com.mckcreation.be_app.repository.CategoryRepository;
@@ -82,8 +83,23 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> getItems(int categoryID, int page, int size) {
-        return itemRepository.findAmountOfItems(categoryID, PageRequest.of(page, size));
+    public ItemAndCountDTO getItems(int categoryID, int page, int size) {
+
+        ItemAndCountDTO itemAndCountDTO;
+
+        if (categoryID == 1) {
+            itemAndCountDTO = ItemAndCountDTO.builder()
+                    .itemList(itemRepository.findAmountOfItems(PageRequest.of(page, size)))
+                    .count(itemRepository.countAllItems())
+                    .build();
+        } else {
+            itemAndCountDTO = ItemAndCountDTO.builder()
+                    .itemList(itemRepository.findAmountOfItemsByCategory(categoryID, PageRequest.of(page, size)))
+                    .count(itemRepository.countItemsByCategory(categoryID))
+                    .build();
+        }
+
+        return itemAndCountDTO;
     }
 
     @Override

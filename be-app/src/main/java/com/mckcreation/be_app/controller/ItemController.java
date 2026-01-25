@@ -39,10 +39,7 @@ public class ItemController {
         if(retrieveAll){
             return new ResponseEntity<>(itemService.getAllItems(), HttpStatus.OK);
         }
-
-        List<Item> itemList = itemService.getItems(categoryId, page, size);
-
-        return new ResponseEntity<>(itemList, HttpStatus.OK);
+        return new ResponseEntity<>(itemService.getItems(categoryId, page, size), HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")

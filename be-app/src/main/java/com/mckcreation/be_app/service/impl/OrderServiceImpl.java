@@ -68,7 +68,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getUserOrders(long id, int page, int size) {
-
         Optional<User> optionalUser = userRepository.findById((int) id);
 
         User user = optionalUser.orElseThrow(() ->

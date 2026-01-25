@@ -13,5 +13,5 @@ import java.util.List;
 public class ItemAndCountDTO {
     List<Item> itemList;
 
-    int count;
+    long count;
 }
