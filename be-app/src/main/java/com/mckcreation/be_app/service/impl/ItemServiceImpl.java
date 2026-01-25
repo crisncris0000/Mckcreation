@@ -10,6 +10,7 @@ import com.mckcreation.be_app.service.ItemService;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -76,8 +77,13 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> getItems() {
+    public List<Item> getAllItems() {
         return itemRepository.findAll();
+    }
+
+    @Override
+    public List<Item> getItems(int categoryID, int page, int size) {
+        return itemRepository.findAmountOfItems(categoryID, PageRequest.of(page, size));
     }
 
     @Override

@@ -11,7 +11,7 @@ public interface OrderService {
 
     List<Order> getAllUserOrders(long id);
 
-    List<Order> getUserOrders(long id, int page, int count);
+    List<Order> getUserOrders(long id, int page, int size);
 
     int getNumberOfUserOrders(long id);
 

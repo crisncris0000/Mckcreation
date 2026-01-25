@@ -31,9 +31,16 @@ public class ItemController {
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
-    @GetMapping("/get-all")
-    public ResponseEntity<?> getItems() {
-        List<Item> itemList = itemService.getItems();
+    @GetMapping("/get-items")
+    public ResponseEntity<?> getItems(@RequestParam(defaultValue = "0") int page,
+                                      @RequestParam(defaultValue = "10") int size,
+                                      @RequestParam(defaultValue = "1") int categoryId,
+                                      @RequestParam(defaultValue = "false") boolean retrieveAll) {
+        if(retrieveAll){
+            return new ResponseEntity<>(itemService.getAllItems(), HttpStatus.OK);
+        }
+
+        List<Item> itemList = itemService.getItems(categoryId, page, size);
 
         return new ResponseEntity<>(itemList, HttpStatus.OK);
     }

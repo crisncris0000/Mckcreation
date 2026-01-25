@@ -9,8 +9,9 @@ public interface PlacedOrderService {
 
     List<PlacedOrder> getPlacedOrders();
 
-    List<PlacedOrder> getUserPlacedOrders(int id);
+    List<PlacedOrder> getAllUserPlacedOrders(int id);
+
+    List<PlacedOrder> getAmountOfUserPlacedOrders(long id, int page, int size);
 
     PlacedOrder createPlacedOrder(PlacedOrderDTO placedOrderDTO, boolean useDefaultAddress);
-
 }

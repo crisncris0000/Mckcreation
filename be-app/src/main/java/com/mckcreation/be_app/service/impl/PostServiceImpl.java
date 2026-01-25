@@ -6,6 +6,8 @@ import com.mckcreation.be_app.repository.PostRepository;
 import com.mckcreation.be_app.service.PostService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,9 +42,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getPosts() {
+    public List<Post> getAllPosts() {
         return postRepository.findAll();
     }
+
+    @Override
+    public List<Post> getAmountOfPosts(int page, int count) {
+        return postRepository.findAmountOfPosts(PageRequest.of(page, count));
+    }
+
 
     @Override
     public void deletePost(int id) {

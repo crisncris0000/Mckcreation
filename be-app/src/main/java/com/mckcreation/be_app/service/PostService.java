@@ -9,7 +9,9 @@ public interface PostService {
 
     Post createPost(PostDTO postDTO);
 
-    List<Post> getPosts();
+    List<Post> getAllPosts();
+
+    List<Post> getAmountOfPosts(int page, int count);
 
     void deletePost(int id);
 }

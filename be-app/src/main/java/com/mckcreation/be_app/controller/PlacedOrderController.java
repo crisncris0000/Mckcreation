@@ -6,14 +6,12 @@ import com.mckcreation.be_app.service.PlacedOrderService;
 import com.mckcreation.be_app.service.ShippingService;
 import com.mckcreation.be_app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,14 +38,24 @@ public class PlacedOrderController {
     }
 
     @GetMapping("/get-user-orders")
-    public ResponseEntity<?> getUserPlacedOrders(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<?> getUserPlacedOrders(@AuthenticationPrincipal UserDetails userDetails,
+                                                 @RequestParam(defaultValue = "0") int page,
+                                                 @RequestParam(defaultValue = "10") int size,
+                                                 @RequestParam(defaultValue = "false") boolean retrieveAll) {
 
         String email = userDetails.getUsername();
 
         User user = userService.getUserByEmail(email);
 
-        List<PlacedOrder> placedOrders = placedOrderService.getUserPlacedOrders((int) user.getId());
+        if(retrieveAll) {
+            return new ResponseEntity<>(
+                    placedOrderService.getAllUserPlacedOrders((int) user.getId()),
+                    HttpStatus.OK
+            );
+        }
 
-        return new ResponseEntity<>(placedOrders, HttpStatus.OK);
+        return new ResponseEntity<>(
+                placedOrderService.getAmountOfUserPlacedOrders(user.getId(), page, size),
+                HttpStatus.OK);
     }
 }

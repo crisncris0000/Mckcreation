@@ -10,7 +10,9 @@ public interface ItemService {
 
     Item createItem(ItemDTO itemDTO) throws Exception;
 
-    List<Item> getItems();
+    List<Item> getAllItems();
+
+    List<Item> getItems(int categoryID, int page, int size);
 
     Item updateItem(int id, ItemDTO itemDTO) throws IOException;
 

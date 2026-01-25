@@ -27,11 +27,14 @@ public class PostController {
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
-    @GetMapping("/get-all")
-    public ResponseEntity<?> getPosts() {
-        List<Post> postList = postService.getPosts();
-
-        return new ResponseEntity<>(postList, HttpStatus.OK);
+    @GetMapping("/get-posts")
+    public ResponseEntity<?> getPosts( @RequestParam(defaultValue = "0") int page,
+                                       @RequestParam(defaultValue = "10") int size,
+                                       @RequestParam(defaultValue = "false") boolean retrieveAll) {
+        if (retrieveAll) {
+            return new ResponseEntity<>(postService.getAllPosts(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(postService.getAmountOfPosts(page, size), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

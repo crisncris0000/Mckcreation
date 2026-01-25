@@ -1,6 +1,6 @@
 package com.mckcreation.be_app.controller;
 
-import com.mckcreation.be_app.dto.OrderAndCountDTO;
+import com.mckcreation.be_app.dto.responses.OrderAndCountDTO;
 import com.mckcreation.be_app.dto.OrderDTO;
 import com.mckcreation.be_app.model.Order;
 import com.mckcreation.be_app.model.User;

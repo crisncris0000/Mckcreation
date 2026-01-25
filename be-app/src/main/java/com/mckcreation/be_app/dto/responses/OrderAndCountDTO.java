@@ -1,4 +1,4 @@
-package com.mckcreation.be_app.dto;
+package com.mckcreation.be_app.dto.responses;
 
 import com.mckcreation.be_app.model.Order;
 import lombok.*;

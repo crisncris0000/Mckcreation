@@ -67,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getUserOrders(long id, int page, int count) {
+    public List<Order> getUserOrders(long id, int page, int size) {
 
         Optional<User> optionalUser = userRepository.findById((int) id);
 
@@ -75,7 +75,7 @@ public class OrderServiceImpl implements OrderService {
                 new EntityNotFoundException("User not found"));
 
         return orderRepository.findAmountOfUserOrders(user.getId(),
-                PageRequest.of(page, count));
+                PageRequest.of(page, size));
     }
 
     @Override

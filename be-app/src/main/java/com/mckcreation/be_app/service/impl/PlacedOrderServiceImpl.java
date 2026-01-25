@@ -87,8 +87,13 @@ public class PlacedOrderServiceImpl implements PlacedOrderService {
     }
 
     @Override
-    public List<PlacedOrder> getUserPlacedOrders(int id) {
-        return placedOrderRepository.getUserPlacedOrders(id);
+    public List<PlacedOrder> getAllUserPlacedOrders(int id) {
+        return placedOrderRepository.findAllUserPlacedOrders(id);
+    }
+
+    @Override
+    public List<PlacedOrder> getAmountOfUserPlacedOrders(long id, int page, int size) {
+        return List.of();
     }
 
     private String buildOrderConfirmationEmail(PlacedOrderDTO order) {
