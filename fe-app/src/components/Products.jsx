@@ -3,22 +3,31 @@ import { Link } from "react-router-dom";
 import { FaPlus, FaBars } from "react-icons/fa";
 import Product from "./Product";
 
-const Products = ({ items = [], categories = [], user, jwt }) => {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+const ALL_CATEGORY_ID = 1;
+
+const Products = ({
+  items = [],
+  categories = [],
+  user,
+  jwt,
+  categoryId = ALL_CATEGORY_ID,
+  onCategoryChange,
+  count = 0,
+  page = 0,
+  pageSize = 10,
+}) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const categoriesWithAll = useMemo(() => {
-    // Ensure "All" exists as a button
-    const hasAll = categories.some((c) => c.name === "All");
-    return hasAll ? categories : [{ id: "all", name: "All" }, ...categories];
+    // Ensure an "All" button exists with id=1
+    const hasAll = categories.some((c) => c.id === ALL_CATEGORY_ID);
+    return hasAll ? categories : [{ id: ALL_CATEGORY_ID, name: "All" }, ...categories];
   }, [categories]);
 
-  const filteredItems = useMemo(() => {
-    if (selectedCategory === "All") return items;
-    return items.filter((item) => item?.category?.name === selectedCategory);
-  }, [items, selectedCategory]);
-
   const isAdmin = !!jwt && user?.role === "ROLE_ADMIN";
+
+  const showingFrom = count === 0 ? 0 : page * pageSize + 1;
+  const showingTo = Math.min((page + 1) * pageSize, count);
 
   return (
     <div className="flex flex-col items-center px-4">
@@ -36,18 +45,18 @@ const Products = ({ items = [], categories = [], user, jwt }) => {
       <div
         className={`flex flex-wrap justify-center gap-3 md:flex ${
           menuOpen ? "flex" : "hidden"
-        } md:flex bg-pink-200 p-3 rounded-xl shadow-lg mb-6 transition-all duration-300`}
+        } md:flex bg-pink-200 p-3 rounded-xl shadow-lg mb-4 transition-all duration-300`}
       >
         {categoriesWithAll.map((category) => (
           <button
             key={category.id}
             className={`px-4 py-2 rounded-full text-sm md:text-base font-semibold transition-all ${
-              selectedCategory === category.name
+              categoryId === category.id
                 ? "bg-pink-500 text-white"
                 : "bg-white text-pink-500 hover:bg-pink-300"
             }`}
             onClick={() => {
-              setSelectedCategory(category.name);
+              onCategoryChange?.(category.id);
               setMenuOpen(false);
             }}
           >
@@ -56,10 +65,23 @@ const Products = ({ items = [], categories = [], user, jwt }) => {
         ))}
       </div>
 
+      {/* Count line */}
+      <div className="w-full max-w-6xl mb-6 text-sm text-gray-600">
+        {count > 0 ? (
+          <span>
+            Showing <span className="font-semibold">{showingFrom}</span>–{" "}
+            <span className="font-semibold">{showingTo}</span> of{" "}
+            <span className="font-semibold">{count}</span>
+          </span>
+        ) : (
+          <span>No products available</span>
+        )}
+      </div>
+
       {/* Products Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-        {filteredItems.length > 0 ? (
-          filteredItems.map((item) => <Product key={item.id} item={item} />)
+        {items.length > 0 ? (
+          items.map((item) => <Product key={item.id} item={item} />)
         ) : (
           <p className="text-center col-span-full">No products available</p>
         )}

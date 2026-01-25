@@ -22,7 +22,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     List<Order> findAmountOfUserOrders(@Param("userID") long userID, Pageable pageable);
 
     @Query("SELECT COUNT(*) FROM Order o WHERE o.user.id = :userID")
-    int findNumberOfUserOrders(@Param("userID") long userID);
+    int countUserOrders(@Param("userID") long userID);
 
     @Transactional
     @Modifying

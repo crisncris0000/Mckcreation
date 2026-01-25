@@ -1,6 +1,7 @@
 package com.mckcreation.be_app.service.impl;
 
 import com.mckcreation.be_app.dto.OrderDTO;
+import com.mckcreation.be_app.dto.responses.OrderAndCountDTO;
 import com.mckcreation.be_app.model.Category;
 import com.mckcreation.be_app.model.Order;
 import com.mckcreation.be_app.model.User;
@@ -67,19 +68,19 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getUserOrders(long id, int page, int size) {
+    public OrderAndCountDTO getUserOrders(long id, int page, int size) {
         Optional<User> optionalUser = userRepository.findById((int) id);
 
         User user = optionalUser.orElseThrow(() ->
                 new EntityNotFoundException("User not found"));
 
-        return orderRepository.findAmountOfUserOrders(user.getId(),
+        List<Order> orderList = orderRepository.findAmountOfUserOrders(user.getId(),
                 PageRequest.of(page, size));
-    }
 
-    @Override
-    public int getNumberOfUserOrders(long id) {
-        return orderRepository.findNumberOfUserOrders(id);
+        return OrderAndCountDTO.builder()
+                .orderList(orderList)
+                .count(orderRepository.countUserOrders(id))
+                .build();
     }
 
     @Override

@@ -15,7 +15,9 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query("SELECT COUNT(*) FROM Post post")
     int findNumberOfPosts();
 
-    @Query("SELECT post FROM Post post ORDER BY post.createdAt DESC")
+
+    // TODO
+    @Query("SELECT post FROM Post post")
     List<Post> findAmountOfPosts(Pageable pageable);
 
 }

@@ -50,16 +50,7 @@ public class OrderController {
             return ResponseEntity.ok(orderService.getAllUserOrders(user.getId()));
         }
 
-        List<Order> orders = orderService.getUserOrders(user.getId(), page, size);
-
-        int count = orderService.getNumberOfUserOrders(user.getId());
-
-        OrderAndCountDTO orderAndCountDTO = OrderAndCountDTO.builder()
-                .orderList(orders)
-                .count(count)
-                .build();
-
-        return new ResponseEntity<>(orderAndCountDTO, HttpStatus.OK);
+        return new ResponseEntity<>(orderService.getUserOrders(user.getId(), page, size), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{orderID}")
