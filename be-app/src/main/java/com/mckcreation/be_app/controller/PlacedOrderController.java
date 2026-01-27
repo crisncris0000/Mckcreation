@@ -6,7 +6,6 @@ import com.mckcreation.be_app.service.PlacedOrderService;
 import com.mckcreation.be_app.service.ShippingService;
 import com.mckcreation.be_app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -55,7 +54,7 @@ public class PlacedOrderController {
         }
 
         return new ResponseEntity<>(
-                placedOrderService.getAmountOfUserPlacedOrders(user.getId(), page, size),
+                placedOrderService.getUserPlacedOrders(user.getId(), page, size),
                 HttpStatus.OK);
     }
 }

@@ -34,7 +34,7 @@ public class PostController {
         if (retrieveAll) {
             return new ResponseEntity<>(postService.getAllPosts(), HttpStatus.OK);
         }
-        return new ResponseEntity<>(postService.getAmountOfPosts(page, size), HttpStatus.OK);
+        return new ResponseEntity<>(postService.getPosts(page, size), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

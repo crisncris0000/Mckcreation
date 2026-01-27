@@ -3,6 +3,8 @@ package com.mckcreation.be_app.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "post")
 @AllArgsConstructor
@@ -22,5 +24,11 @@ public class Post {
 
     @Column(name = "mime_type")
     String mimeType;
+
+    @Column(name = "created_at")
+    Date createdAt;
+
+    @Column(name = "updated_at")
+    Date updatedAt;
 
 }

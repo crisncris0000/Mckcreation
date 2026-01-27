@@ -1,7 +1,6 @@
 package com.mckcreation.be_app.service.impl;
-
-import com.mckcreation.be_app.dto.OrderDTO;
 import com.mckcreation.be_app.dto.PlacedOrderDTO;
+import com.mckcreation.be_app.dto.responses.PlacedOrdersAndCountDTO;
 import com.mckcreation.be_app.model.PlacedOrder;
 import com.mckcreation.be_app.model.Shipping;
 import com.mckcreation.be_app.model.User;
@@ -13,6 +12,7 @@ import com.mckcreation.be_app.service.EmailService;
 import com.mckcreation.be_app.service.PlacedOrderService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -92,8 +92,12 @@ public class PlacedOrderServiceImpl implements PlacedOrderService {
     }
 
     @Override
-    public List<PlacedOrder> getAmountOfUserPlacedOrders(long id, int page, int size) {
-        return List.of();
+    public PlacedOrdersAndCountDTO getUserPlacedOrders(long id, int page, int size) {
+
+        return PlacedOrdersAndCountDTO.builder()
+                .placedOrderList(placedOrderRepository.findUserPlacedOrders(id, PageRequest.of(page, size)))
+                .count(placedOrderRepository.countPlacedOrders())
+                .build();
     }
 
     private String buildOrderConfirmationEmail(PlacedOrderDTO order) {

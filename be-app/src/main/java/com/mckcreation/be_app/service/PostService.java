@@ -1,6 +1,7 @@
 package com.mckcreation.be_app.service;
 
 import com.mckcreation.be_app.dto.PostDTO;
+import com.mckcreation.be_app.dto.responses.PostAndCountDTO;
 import com.mckcreation.be_app.model.Post;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface PostService {
 
     List<Post> getAllPosts();
 
-    List<Post> getAmountOfPosts(int page, int count);
+    PostAndCountDTO getPosts(int page, int count);
 
     void deletePost(int id);
 }

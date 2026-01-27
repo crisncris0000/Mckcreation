@@ -17,9 +17,9 @@ public interface PlacedOrderRepository extends JpaRepository<PlacedOrder, Intege
     List<PlacedOrder> findAllUserPlacedOrders(@Param("userID") int userID);
 
     @Query("SELECT COUNT(*) FROM PlacedOrder placedOrder")
-    int countNumberOfUserPlacedOrders();
+    int countPlacedOrders();
 
     @Query("SELECT placedOrder FROM PlacedOrder placedOrder WHERE placedOrder.user.id = :userID " +
             "ORDER BY placedOrder.createdAt DESC")
-    List<PlacedOrder> findAmountOfUserPlacedOrders(@Param("userID") int userID, Pageable pageable);
+    List<PlacedOrder> findUserPlacedOrders(@Param("userID") long userID, Pageable pageable);
 }
